@@ -633,15 +633,18 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       <StartupElements />
       
       {/* Scene Title */}
-      <Text position={[0, 2, 0]} fontSize={0.5} color="#f39c12">
+      <Text position={[0, 4, 0]} fontSize={0.6} color="#f39c12" fontWeight="bold">
         Silicon Valley Entrepreneur
+      </Text>
+      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0066cc">
+        Javier Lim
       </Text>
       
       {/* Modern Business Floor */}
       <Floor />
       
       {/* Core Business Objects */}
-      <ManModel position={[0, 0, 0]} scale={1.75} />
+      <ManModel position={[0, 1.5, 0]} scale={1.75} />
       {showPyramid && <InnovationPyramid />}
       
       {/* Interactive Business Project Objects */}

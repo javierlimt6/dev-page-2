@@ -265,15 +265,18 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
       <hemisphereLight args={["#87CEEB", "#2F4F4F", 0.3]} />
 
       {/* Scene Title */}
-      <Text position={[0, 6, 0]} fontSize={isMobile ? 0.6 : 0.8} color="#FFD700" fontWeight="bold">
+      <Text position={[0, 4, 0]} fontSize={0.6} color="#FFD700" fontWeight="bold">
         Hobbies & Others
+      </Text>
+      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0a192f">
+        Javier Lim
       </Text>
       
       {/* Floor */}
       <Floor />
       
       {/* 3D Man Model - Central Position */}
-      <ManModel position={[0, 0, 0]} scale={1.75} />
+      <ManModel position={[0, 1.5, 0]} scale={1.75} />
       
       {/* Palm Trees - Positioned to Frame Content */}
       {!isMobile && (

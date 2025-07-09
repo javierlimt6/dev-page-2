@@ -472,7 +472,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       <Floor />
       
       {/* Core Tech Objects */}
-      <ManModel position={[0, 0, 0]} scale={1.75} />
+      <ManModel position={[0, 1.5, 0]} scale={1.75} />
       {showSphere && <Sphere />}
       
       {/* Interactive Developer Project Objects - Updated with your tech stack */}
