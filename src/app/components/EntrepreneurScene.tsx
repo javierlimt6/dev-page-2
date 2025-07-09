@@ -45,7 +45,14 @@ function Cone() {
     );
 }
 
-export default function EntrepreneurScene({ onProjectActivate }) {
+import { InteractiveObjectProps, Project } from '../../types';
+
+interface EntrepreneurSceneProps {
+  onProjectActivate: (project: Project) => void;
+  themeColors: { [key: string]: string };
+}
+
+export default function EntrepreneurScene({ onProjectActivate, themeColors }: EntrepreneurSceneProps) {
   const [showCone, setShowCone] = useState(false);
 
   useEffect(() => {
@@ -63,14 +70,14 @@ export default function EntrepreneurScene({ onProjectActivate }) {
         {showCone && <Cone />}
         <InteractiveObject
             position={[3, 1, 0]}
-            color="orange"
-            title="My Business Venture"
-            description="Details about my successful business venture."
-            onActivate={() => onProjectActivate({
+            project={{
+                id: "ent-project-1",
                 title: "My Business Venture",
-                description: "Details about my successful business venture.",
+                description: "Details about my successful business venture, including market analysis and growth strategies.",
                 imageUrl: "/vercel.svg",
-            })}
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
         />
     </>
   );

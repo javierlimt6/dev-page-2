@@ -47,7 +47,14 @@ function Sphere() {
     );
 }
 
-export default function DeveloperScene({ onProjectActivate }) {
+import { InteractiveObjectProps, Project } from '../../types';
+
+interface DeveloperSceneProps {
+  onProjectActivate: (project: Project) => void;
+  themeColors: { [key: string]: string };
+}
+
+export default function DeveloperScene({ onProjectActivate, themeColors }: DeveloperSceneProps) {
   const [showSphere, setShowSphere] = useState(false);
 
   useEffect(() => {
@@ -65,14 +72,14 @@ export default function DeveloperScene({ onProjectActivate }) {
         {showSphere && <Sphere />}
         <InteractiveObject
             position={[3, 1, 0]}
-            color="purple"
-            title="My Awesome Project"
-            description="This is a description of my awesome project."
-            onActivate={() => onProjectActivate({
+            project={{
+                id: "dev-project-1",
                 title: "My Awesome Project",
-                description: "This is a description of my awesome project.",
+                description: "This is a description of my awesome project. It involves cutting-edge web technologies and a sprinkle of AI.",
                 imageUrl: "/next.svg",
-            })}
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
         />
     </>
   );

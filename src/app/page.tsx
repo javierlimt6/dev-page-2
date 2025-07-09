@@ -8,8 +8,17 @@ import DeveloperScene from './components/DeveloperScene';
 import EntrepreneurScene from './components/EntrepreneurScene';
 import VideoCreatorScene from './components/VideoCreatorScene';
 import ProjectModal from './components/ProjectModal';
+import AIChatBox from '../components/AIChatBox';
+import { useAIChat } from '../hooks/useAIChat';
+import { Project } from '../types';
 
-function Scene({ persona, themeColors, onProjectActivate }) {
+interface SceneProps {
+  persona: string;
+  themeColors: { [key: string]: { [key: string]: string } };
+  onProjectActivate: (project: Project) => void;
+}
+
+function Scene({ persona, themeColors, onProjectActivate }: SceneProps) {
     const { gl } = useThree();
     useEffect(() => {
         gl.setClearColor(new Color(themeColors[persona].bg));
@@ -19,53 +28,29 @@ function Scene({ persona, themeColors, onProjectActivate }) {
         <>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
-            {persona === 'developer' && <DeveloperScene onProjectActivate={onProjectActivate} />}
-            {persona === 'entrepreneur' && <EntrepreneurScene onProjectActivate={onProjectActivate} />}
-            {persona === 'video-creator' && <VideoCreatorScene onProjectActivate={onProjectActivate} />}
+            {persona === 'developer' && <DeveloperScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
+            {persona === 'entrepreneur' && <EntrepreneurScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
+            {persona === 'video-creator' && <VideoCreatorScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
             <OrbitControls />
         </>
     );
 }
 
-function ChatBox({ onSendMessage, chatHistory, voiceEnabled }) {
-    const [message, setMessage] = useState('');
-
-    const handleSend = () => {
-        onSendMessage(message);
-        setMessage('');
-    }
-
-    useEffect(() => {
-        if (voiceEnabled) {
-            const lastBotMessage = chatHistory.findLast(chat => chat.sender === 'bot');
-            if (lastBotMessage) {
-                const utterance = new SpeechSynthesisUtterance(lastBotMessage.message);
-                speechSynthesis.speak(utterance);
-            }
-        }
-    }, [chatHistory, voiceEnabled]);
-
-    return (
-        <div style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 1, background: 'rgba(0,0,0,0.5)', padding: 10, borderRadius: 5, width: 300 }}>
-            <div style={{ height: 200, overflowY: 'scroll', border: '1px solid #fff', padding: 5, marginBottom: 10 }}>
-                {chatHistory.map((chat, i) => (
-                    <div key={i} style={{ color: chat.sender === 'user' ? '#fff' : '#add8e6' }}>
-                        <b>{chat.sender}:</b> {chat.message}
-                    </div>
-                ))}
-            </div>
-            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} style={{ background: '#333', color: '#fff', border: '1px solid #fff', padding: 5, width: 'calc(100% - 60px)' }} />
-            <button onClick={handleSend} style={{ background: '#555', color: '#fff', border: '1px solid #fff', padding: 5, marginLeft: 5, width: 50 }}>Send</button>
-        </div>
-    )
-}
-
 export default function Home() {
   const [persona, setPersona] = useState('developer');
-  const [chatHistory, setChatHistory] = useState([]);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
-  const [activeProject, setActiveProject] = useState(null);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
+
+  // Use AI Chat hook
+  const {
+    chatHistory,
+    isLoading,
+    isInitialized,
+    sendMessage,
+    addProjectToKnowledge,
+    initializationProgress
+  } = useAIChat({ persona });
 
   useEffect(() => {
     document.body.setAttribute('data-theme', persona);
@@ -76,15 +61,12 @@ export default function Home() {
     console.log('Switched to', newPersona, 'persona');
   };
 
-  const handleSendMessage = (message: string) => {
-    const newUserMessage = { sender: 'user', message };
-    const newBotMessage = { sender: 'bot', message: `Echo: ${message}` };
-    setChatHistory([...chatHistory, newUserMessage, newBotMessage]);
-  };
-
-  const handleProjectActivate = (project) => {
+  const handleProjectActivate = (project: Project) => {
     setActiveProject(project);
     setShowProjectModal(true);
+    
+    // Add project to knowledge base when activated
+    addProjectToKnowledge(project);
   };
 
   const handleCloseProjectModal = () => {
@@ -96,6 +78,10 @@ export default function Home() {
     developer: { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#1e1e1e' },
     entrepreneur: { one: '#0000ff', two: '#00ff00', three: '#ff0000', bg: '#ffffff' },
     'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#333333' },
+  } as const;
+
+  const getCurrentTheme = () => {
+    return themeColors[persona as keyof typeof themeColors];
   };
 
   return (
@@ -129,7 +115,15 @@ export default function Home() {
         </Suspense>
       </Canvas>
       <Loader />
-      <ChatBox onSendMessage={handleSendMessage} chatHistory={chatHistory} voiceEnabled={voiceEnabled} />
+      <AIChatBox 
+        onSendMessage={sendMessage} 
+        chatHistory={chatHistory} 
+        isLoading={isLoading}
+        isInitialized={isInitialized}
+        voiceEnabled={voiceEnabled}
+        initializationProgress={initializationProgress}
+        themeColors={getCurrentTheme()}
+      />
       {showProjectModal && activeProject && (
         <ProjectModal
           title={activeProject.title}

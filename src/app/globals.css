@@ -63,3 +63,8 @@ body {
     background-color: var(--btn-active-bg);
     color: var(--btn-active-text);
 }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

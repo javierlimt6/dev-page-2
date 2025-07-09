@@ -46,7 +46,14 @@ function Capsule() {
     );
 }
 
-export default function VideoCreatorScene({ onProjectActivate }) {
+import { InteractiveObjectProps, Project } from '../../types';
+
+interface VideoCreatorSceneProps {
+  onProjectActivate: (project: Project) => void;
+  themeColors: { [key: string]: string };
+}
+
+export default function VideoCreatorScene({ onProjectActivate, themeColors }: VideoCreatorSceneProps) {
   const [showCapsule, setShowCapsule] = useState(false);
 
   useEffect(() => {
@@ -64,14 +71,14 @@ export default function VideoCreatorScene({ onProjectActivate }) {
         {showCapsule && <Capsule />}
         <InteractiveObject
             position={[3, 1, 0]}
-            color="yellow"
-            title="My Latest Video"
-            description="This is my latest video project, showcasing my editing skills."
-            onActivate={() => onProjectActivate({
+            project={{
+                id: "vc-project-1",
                 title: "My Latest Video",
-                description: "This is my latest video project, showcasing my editing skills.",
+                description: "This is my latest video project, showcasing my editing skills and storytelling abilities.",
                 imageUrl: "/file.svg",
-            })}
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
         />
     </>
   );
