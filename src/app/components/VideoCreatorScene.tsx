@@ -76,6 +76,19 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
                 title: "My Latest Video",
                 description: "This is my latest video project, showcasing my editing skills and storytelling abilities.",
                 imageUrl: "/file.svg",
+                geometryType: "torus"
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
+        />
+        <InteractiveObject
+            position={[-3, 1, 0]}
+            project={{
+                id: "vc-project-2",
+                title: "YouTube Channel",
+                description: "Built a YouTube channel with 100K+ subscribers focused on creative coding tutorials and 3D visualization.",
+                imageUrl: "/next.svg",
+                geometryType: "cone"
             }}
             onProjectActivate={onProjectActivate}
             themeColors={themeColors}

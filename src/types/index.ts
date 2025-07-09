@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   imageUrl?: string;
   link?: string;
+  geometryType?: 'box' | 'sphere' | 'cylinder' | 'cone' | 'torus' | 'dodecahedron' | 'icosahedron' | 'octahedron' | 'tetrahedron' | 'torusKnot';
   // Add other project-specific data as needed
 }
 

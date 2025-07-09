@@ -77,6 +77,19 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
                 title: "My Awesome Project",
                 description: "This is a description of my awesome project. It involves cutting-edge web technologies and a sprinkle of AI.",
                 imageUrl: "/next.svg",
+                geometryType: "icosahedron"
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
+        />
+        <InteractiveObject
+            position={[3, 1, -3]}
+            project={{
+                id: "dev-project-2",
+                title: "3D Web App",
+                description: "An interactive 3D web application built with React Three Fiber and WebGL for immersive user experiences.",
+                imageUrl: "/globe.svg",
+                geometryType: "torusKnot"
             }}
             onProjectActivate={onProjectActivate}
             themeColors={themeColors}

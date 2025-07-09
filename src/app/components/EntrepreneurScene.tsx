@@ -63,7 +63,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
   return (
     <>
         <Text position={[0, 2, 0]} fontSize={0.5} color="black">
-            Entrepreneur Scene
+            Entrepreneur
         </Text>
         <Floor />
         <Cylinder />
@@ -75,6 +75,19 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
                 title: "My Business Venture",
                 description: "Details about my successful business venture, including market analysis and growth strategies.",
                 imageUrl: "/vercel.svg",
+                geometryType: "dodecahedron"
+            }}
+            onProjectActivate={onProjectActivate}
+            themeColors={themeColors}
+        />
+        <InteractiveObject
+            position={[-3, 1, 0]}
+            project={{
+                id: "ent-project-2",
+                title: "Startup Accelerator",
+                description: "Founded and led a startup accelerator program that helped 50+ companies raise over $10M in funding.",
+                imageUrl: "/window.svg",
+                geometryType: "sphere"
             }}
             onProjectActivate={onProjectActivate}
             themeColors={themeColors}
