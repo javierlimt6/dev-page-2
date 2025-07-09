@@ -1,5 +1,7 @@
 'use client';
 
+import 'antd/dist/reset.css'
+import { Button } from 'antd';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
 import { useRef, useState, useEffect, Suspense } from 'react';
@@ -41,6 +43,7 @@ export default function Home() {
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [showChat, setShowChat] = useState(true);
 
   // Use AI Chat hook
   const {
@@ -87,43 +90,57 @@ export default function Home() {
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}>
-        <button
+        <Button
+          type={persona === 'developer' ? "primary" : "default"}
           onClick={() => handlePersonaChange('developer')}
-          className={`persona-button ${persona === 'developer' ? 'active' : ''}`}>
+        >
           Developer
-        </button>
-        <button
+        </Button>
+        <Button
+          type={persona === 'entrepreneur' ? "primary" : 'default'}
           onClick={() => handlePersonaChange('entrepreneur')}
-          className={`persona-button ${persona === 'entrepreneur' ? 'active' : ''}`}>
+        >
           Entrepreneur
-        </button>
-        <button
+        </Button>
+        <Button
+          type={persona === 'video-creator' ? 'primary' : 'default'}
           onClick={() => handlePersonaChange('video-creator')}
-          className={`persona-button ${persona === 'video-creator' ? 'active' : ''}`}>
+        >
           Video Creator
-        </button>
-        <button
+        </Button>
+        <Button
+          type={voiceEnabled ? 'primary' : 'default'}
           onClick={() => setVoiceEnabled(!voiceEnabled)}
-          className="persona-button"
-          style={{ marginLeft: 10, background: voiceEnabled ? 'green' : 'red' }}>
+        >
           Voice {voiceEnabled ? 'On' : 'Off'}
-        </button>
+        </Button>
+        {showChat ? (
+          <Button onClick={() => setShowChat(false)} ghost>
+            Close Chat
+          </Button>
+        ) : (
+          <Button onClick={() => setShowChat(true)}>Open Chat</Button>
+        )}
       </div>
+
       <Canvas camera={{ position: [0, 2, 5], fov: 75 }}>
         <Suspense fallback={null}>
           <Scene persona={persona} themeColors={themeColors} onProjectActivate={handleProjectActivate} />
         </Suspense>
       </Canvas>
       <Loader />
-      <AIChatBox 
-        onSendMessage={sendMessage} 
-        chatHistory={chatHistory} 
-        isLoading={isLoading}
-        isInitialized={isInitialized}
-        voiceEnabled={voiceEnabled}
-        initializationProgress={initializationProgress}
-        themeColors={getCurrentTheme()}
-      />
+
+      {showChat && (
+        <AIChatBox 
+          onSendMessage={sendMessage} 
+          chatHistory={chatHistory} 
+          isLoading={isLoading}
+          isInitialized={isInitialized}
+          voiceEnabled={voiceEnabled}
+          initializationProgress={initializationProgress}
+          themeColors={getCurrentTheme()}
+        />
+      )}
       {showProjectModal && activeProject && (
         <ProjectModal
           title={activeProject.title}
