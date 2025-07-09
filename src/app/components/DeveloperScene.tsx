@@ -12,7 +12,7 @@
  * - Modern color palette: #0a192f, #64ffda, #a259f7, #39ff14
  */
 
-import { Text } from '@react-three/drei';
+import { Text, useGLTF } from '@react-three/drei';
 import { useState, useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Vector3, Color, ShaderMaterial, PlaneGeometry, DoubleSide, Group } from 'three';
@@ -472,7 +472,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       <Floor />
       
       {/* Core Tech Objects */}
-      <Cube />
+      <ManModel position={[0, 0, 0]} scale={1.75} />
       {showSphere && <Sphere />}
       
       {/* Interactive Developer Project Objects - Updated with your tech stack */}
@@ -537,7 +537,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       />
       
-      {/* ...rest of existing code... */}
+      {/* 3D Man Model Component for Developer Scene */}
     </>
   );
 }
@@ -907,9 +907,9 @@ function CodeParticles() {
     "=>", "&&", "||", "++", "--", "===",
     // Your stack specific symbols
     "import", "from", "const", "let", "var",
-    "def", "class", "func", "SELECT", "INSERT",
+    "def", "class", "function", "SELECT", "INSERT",
     "<?php", "?>", "npm", "pip", "docker",
-    "git", "AWS", "GCP", "SQL", "HTML"
+    "git", "AWS", "GCP", "SQL", "HTML", "useEffect", "env"
   ];
   
   return (
@@ -1081,3 +1081,53 @@ function MicrochipCluster({ position }: { position: [number, number, number] }) 
     </group>
   );
 }
+
+// 3D Man Model Component for Developer Scene
+function ManModel({ position = [0, 0, 0], scale = 1 }: { 
+  position?: [number, number, number]; 
+  scale?: number;
+}) {
+  const manRef = useRef<Group>(null);
+  const { scene } = useGLTF('/man.glb');
+  
+  useFrame(({ clock }) => {
+    if (manRef.current) {
+      // Intense coding pose animation - MORE EXAGGERATED TYPING MOTION
+      const time = clock.getElapsedTime();
+      manRef.current.position.y = position[1] + Math.sin(time * 2.5) * 0.08; // Faster, more intense bobbing
+      
+      // More pronounced head movements as if intensely reading code
+      manRef.current.rotation.y = Math.sin(time * 0.8) * 0.15; // Bigger head turns side to side
+      manRef.current.rotation.x = Math.sin(time * 1.2) * 0.08; // More head nodding up/down
+      
+      // Add shoulder/body movement as if typing intensely
+      manRef.current.rotation.z = Math.sin(time * 1.5) * 0.04; // Body lean from typing
+      
+      // Simulate typing rhythm with position changes
+      const typingRhythm = Math.sin(time * 3.0) * 0.02;
+      manRef.current.position.x = position[0] + typingRhythm;
+      manRef.current.position.z = position[2] + Math.cos(time * 2.8) * 0.015;
+    }
+  });
+  
+  // Enable shadows for the model
+  useEffect(() => {
+    if (scene) {
+      scene.traverse((child) => {
+        if ((child as any).isMesh) {
+          (child as any).castShadow = true;
+          (child as any).receiveShadow = true;
+        }
+      });
+    }
+  }, [scene]);
+  
+  return (
+    <group ref={manRef} position={position} scale={scale}>
+      <primitive object={scene} />
+    </group>
+  );
+}
+
+// Preload the GLTF model
+useGLTF.preload('/man.glb');
