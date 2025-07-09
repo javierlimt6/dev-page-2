@@ -124,7 +124,7 @@ export class LocalKnowledgeBase {
       {
         id: 'about-me',
         title: 'About Me',
-        content: 'I am a developer, entrepreneur, and video creator passionate about building innovative web applications with cutting-edge technologies like React, Three.js, and AI.',
+        content: 'I am a Computer Science student, software developer, entrepreneur, and generalist passionate about building innovative web applications with cutting-edge technologies like React, Three.js, and AI.',
         type: 'note',
         tags: ['personal', 'about', 'developer', 'entrepreneur', 'video-creator'],
         timestamp: Date.now(),

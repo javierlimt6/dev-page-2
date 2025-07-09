@@ -28,12 +28,16 @@ function Scene({ persona, themeColors, onProjectActivate }: SceneProps) {
 
     return (
         <>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} />
+            {persona !== 'video-creator' && (
+                <>
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[10, 10, 10]} />
+                </>
+            )}
             {persona === 'developer' && <DeveloperScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
             {persona === 'entrepreneur' && <EntrepreneurScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
             {persona === 'video-creator' && <VideoCreatorScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
-            <OrbitControls />
+            <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
         </>
     );
 }
@@ -78,9 +82,9 @@ export default function Home() {
   };
 
   const themeColors = {
-    developer: { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#1e1e1e' },
-    entrepreneur: { one: '#0000ff', two: '#00ff00', three: '#ff0000', bg: '#ffffff' },
-    'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#333333' },
+    developer: { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#0a192f' },
+    entrepreneur: { one: '#0066cc', two: '#f39c12', three: '#e74c3c', bg: '#2c3e50' },
+    'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#ff6b35' },
   } as const;
 
   const getCurrentTheme = () => {
@@ -94,19 +98,19 @@ export default function Home() {
           type={persona === 'developer' ? "primary" : "default"}
           onClick={() => handlePersonaChange('developer')}
         >
-          Developer
+          Computer Science
         </Button>
         <Button
           type={persona === 'entrepreneur' ? "primary" : 'default'}
           onClick={() => handlePersonaChange('entrepreneur')}
         >
-          Entrepreneur
+          Entrepreneurship
         </Button>
         <Button
           type={persona === 'video-creator' ? 'primary' : 'default'}
           onClick={() => handlePersonaChange('video-creator')}
         >
-          Video Creator
+         Hobbies & Others
         </Button>
         <Button
           type={voiceEnabled ? 'primary' : 'default'}

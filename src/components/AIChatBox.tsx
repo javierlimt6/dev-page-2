@@ -169,7 +169,7 @@ export default function AIChatBox({
               display: 'inline-block',
               animation: 'pulse 1.5s ease-in-out infinite'
             }}>
-              AI is thinking...
+              Javier AI is thinking...
             </div>
           </div>
         )}
