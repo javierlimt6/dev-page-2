@@ -88,7 +88,7 @@ export default function AIChatBox({
         textAlign: 'center',
         fontSize: '14px'
       }}>
-        AI Personal Assistant
+        AI Javier
         {initializationProgress && (
           <div style={{ 
             color: themeColors.two, 
@@ -120,7 +120,7 @@ export default function AIChatBox({
             textAlign: 'center',
             marginTop: 20
           }}>
-            Hello! I'm your personal AI assistant. Ask me about my projects, skills, or experiences!
+            Hello! I am a clone of Javier, built on Llama-3.2. Ask me about my projects, skills, or experiences!
           </div>
         )}
         
