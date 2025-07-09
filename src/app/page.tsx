@@ -1,103 +1,144 @@
-import Image from "next/image";
+'use client';
+
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Loader } from '@react-three/drei';
+import { useRef, useState, useEffect, Suspense } from 'react';
+import { Mesh, Color } from 'three';
+import DeveloperScene from './components/DeveloperScene';
+import EntrepreneurScene from './components/EntrepreneurScene';
+import VideoCreatorScene from './components/VideoCreatorScene';
+import ProjectModal from './components/ProjectModal';
+
+function Scene({ persona, themeColors, onProjectActivate }) {
+    const { gl } = useThree();
+    useEffect(() => {
+        gl.setClearColor(new Color(themeColors[persona].bg));
+    }, [persona, gl, themeColors]);
+
+    return (
+        <>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} />
+            {persona === 'developer' && <DeveloperScene onProjectActivate={onProjectActivate} />}
+            {persona === 'entrepreneur' && <EntrepreneurScene onProjectActivate={onProjectActivate} />}
+            {persona === 'video-creator' && <VideoCreatorScene onProjectActivate={onProjectActivate} />}
+            <OrbitControls />
+        </>
+    );
+}
+
+function ChatBox({ onSendMessage, chatHistory, voiceEnabled }) {
+    const [message, setMessage] = useState('');
+
+    const handleSend = () => {
+        onSendMessage(message);
+        setMessage('');
+    }
+
+    useEffect(() => {
+        if (voiceEnabled) {
+            const lastBotMessage = chatHistory.findLast(chat => chat.sender === 'bot');
+            if (lastBotMessage) {
+                const utterance = new SpeechSynthesisUtterance(lastBotMessage.message);
+                speechSynthesis.speak(utterance);
+            }
+        }
+    }, [chatHistory, voiceEnabled]);
+
+    return (
+        <div style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 1, background: 'rgba(0,0,0,0.5)', padding: 10, borderRadius: 5, width: 300 }}>
+            <div style={{ height: 200, overflowY: 'scroll', border: '1px solid #fff', padding: 5, marginBottom: 10 }}>
+                {chatHistory.map((chat, i) => (
+                    <div key={i} style={{ color: chat.sender === 'user' ? '#fff' : '#add8e6' }}>
+                        <b>{chat.sender}:</b> {chat.message}
+                    </div>
+                ))}
+            </div>
+            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} style={{ background: '#333', color: '#fff', border: '1px solid #fff', padding: 5, width: 'calc(100% - 60px)' }} />
+            <button onClick={handleSend} style={{ background: '#555', color: '#fff', border: '1px solid #fff', padding: 5, marginLeft: 5, width: 50 }}>Send</button>
+        </div>
+    )
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [persona, setPersona] = useState('developer');
+  const [chatHistory, setChatHistory] = useState([]);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [showProjectModal, setShowProjectModal] = useState(false);
+  const [activeProject, setActiveProject] = useState(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  useEffect(() => {
+    document.body.setAttribute('data-theme', persona);
+  }, [persona]);
+
+  const handlePersonaChange = (newPersona: string) => {
+    setPersona(newPersona);
+    console.log('Switched to', newPersona, 'persona');
+  };
+
+  const handleSendMessage = (message: string) => {
+    const newUserMessage = { sender: 'user', message };
+    const newBotMessage = { sender: 'bot', message: `Echo: ${message}` };
+    setChatHistory([...chatHistory, newUserMessage, newBotMessage]);
+  };
+
+  const handleProjectActivate = (project) => {
+    setActiveProject(project);
+    setShowProjectModal(true);
+  };
+
+  const handleCloseProjectModal = () => {
+    setShowProjectModal(false);
+    setActiveProject(null);
+  };
+
+  const themeColors = {
+    developer: { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#1e1e1e' },
+    entrepreneur: { one: '#0000ff', two: '#00ff00', three: '#ff0000', bg: '#ffffff' },
+    'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#333333' },
+  };
+
+  return (
+    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}>
+        <button
+          onClick={() => handlePersonaChange('developer')}
+          className={`persona-button ${persona === 'developer' ? 'active' : ''}`}>
+          Developer
+        </button>
+        <button
+          onClick={() => handlePersonaChange('entrepreneur')}
+          className={`persona-button ${persona === 'entrepreneur' ? 'active' : ''}`}>
+          Entrepreneur
+        </button>
+        <button
+          onClick={() => handlePersonaChange('video-creator')}
+          className={`persona-button ${persona === 'video-creator' ? 'active' : ''}`}>
+          Video Creator
+        </button>
+        <button
+          onClick={() => setVoiceEnabled(!voiceEnabled)}
+          className="persona-button"
+          style={{ marginLeft: 10, background: voiceEnabled ? 'green' : 'red' }}>
+          Voice {voiceEnabled ? 'On' : 'Off'}
+        </button>
+      </div>
+      <Canvas camera={{ position: [0, 2, 5], fov: 75 }}>
+        <Suspense fallback={null}>
+          <Scene persona={persona} themeColors={themeColors} onProjectActivate={handleProjectActivate} />
+        </Suspense>
+      </Canvas>
+      <Loader />
+      <ChatBox onSendMessage={handleSendMessage} chatHistory={chatHistory} voiceEnabled={voiceEnabled} />
+      {showProjectModal && activeProject && (
+        <ProjectModal
+          title={activeProject.title}
+          description={activeProject.description}
+          imageUrl={activeProject.imageUrl}
+          onClose={handleCloseProjectModal}
+        />
+      )}
     </div>
   );
 }
+
