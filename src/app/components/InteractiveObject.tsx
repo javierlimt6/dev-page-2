@@ -26,7 +26,7 @@ export default function InteractiveObject({
     }
     // GLB models don't spin - remove this section or add custom animations here
   });
-
+  
   // Choose geometry based on project type or ID for variety
   const getGeometry = () => {
     // If geometry type is specified in project, use that

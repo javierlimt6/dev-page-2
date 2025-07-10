@@ -110,7 +110,7 @@ export default function Home() {
         onChatToggle={handleChatToggle}
       />
 
-      <Canvas camera={{ position: [0, 5, 8], fov: 85 }}>
+      <Canvas camera={{ position: [0, 4, 8], fov: 90 }}>
         <Suspense fallback={null}>
           <Scene persona={persona} themeColors={themeColors} onProjectActivate={handleProjectActivate} />
         </Suspense>

@@ -17,19 +17,8 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const experiences = [
   {
-    id: 1,
-    title: "Co-Founder",
-    company: "Chimera",
-    period: "Jan 2025 - Present",
-    description: "Co-founded a productivity app startup to empowers youths to be consistent in their morning routine. Led product development, technology stack decisions, and managing a team of developers. Participated in RC4 Pitching Competition (awaiting results) and applying for accelerator programs like BLK71 and VIP@SoC.",
-    technologies: ["React Native", "Django", "TypeScript", "Python", "React", "Supabase"],
-    photoUrl: "/images/chimera-logo.png",
-    link: "https://chimeraapp.net",
-    linktext: "Landing Page"
-  },
-  {
     id: 2,
-    title: "Incoming Full Stack Software Engineering Intern",
+    title: "Full Stack Software Engineering Intern",
     company: "CloudJoi",
     period: "May 2025 - Aug 2025",
     description: "Under the NUS Overseas College Malaysia program, CloudJoi is the largest ticketing platform for performing arts in Malaysia dedicated to making shows accessible for all.",
@@ -72,17 +61,6 @@ const experiences = [
     linktext: "LinkedIn"
   },
   {
-    id: 6,
-    title: "Content Creation Intern",
-    company: "Indigo Education Group",
-    period: "Jan 2022 - Mar 2022",
-    description: "Produced engaging creative content for social media platforms, successfully garnering over 150,000+ views. Edited and produced educational videos explaining complex chemistry topics in a clear and concise manner. Enhanced professional video editing skills through hands-on experience with advanced editing tools and techniques.",
-    technologies: ["Video Editing", "Content Creation", "Premiere Pro", "TikTok"],
-    photoUrl: "/images/indigo-logo.png",
-    link: "https://www.youtube.com/watch?v=xSIMkIcUG88",
-    linktext: "Video"
-  },
-  {
     id: 7,
     title: "AI Researcher",
     company: "A*Star Institute for Infocomm Research",
@@ -102,7 +80,7 @@ const Experience = () => {
     <Box as="section" id="experience" py={20}>
       <Box maxW="5xl" mx="auto" px={{ base: 4, md: 8 }}>
         <Heading as="h2" size="2xl" textAlign="center" mb={4}>Experience</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>My Professional Journey.</Text>
+        <Text fontSize="lg" textAlign="center" mb={12}>My Technical Roles</Text>
         
         <Stack gap={8}>
           {experiences.map((exp) => (

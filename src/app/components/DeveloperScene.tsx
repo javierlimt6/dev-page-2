@@ -573,11 +573,11 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       
       {/* Interactive Developer Project Objects - Updated with page components */}
       <InteractiveObject
-        position={[3, 1, 0]}
-        scale={1}
+        position={[3, 1, 3]}
+        scale={1.5}
         project={{
           id: "dev-project-1",
-          title: "My Experience",
+          title: "Experience",
           description: "Explore my professional experience and technical background.",
           imageUrl: "/next.svg",
           geometryType: "icosahedron",
@@ -587,11 +587,11 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       />
       <InteractiveObject
-        position={[3, 1, -3]}
-        scale={1}
+        position={[-3, 1, 4]}
+        scale={1.5}
         project={{
           id: "dev-project-2",
-          title: "My Projects",
+          title: "Projects",
           description: "Discover the innovative projects I've built and contributed to.",
           imageUrl: "/globe.svg",
           geometryType: "torusKnot",
@@ -600,9 +600,9 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
-      <InteractiveObject
+      {/* <InteractiveObject
         position={[-3, 1, 0]}
-        scale={1}
+        scale={1.5}
         project={{
           id: "dev-project-3",
           title: "Leadership & Activities",
@@ -613,13 +613,13 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
-      />
+      /> */}
       <InteractiveObject
-        position={[-3, 1, -3]}
-        scale={1}
+        position={[-4, 4, 1]}
+        scale={1.5}
         project={{
-          id: "dev-project-4",
-          title: "Awards & Recognition",
+          id: "dev-project-3",
+          title: "Awards",
           description: "Check out my achievements and accolades.",
           imageUrl: "/vercel.svg",
           geometryType: "tetrahedron",
@@ -629,12 +629,12 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       />
       <InteractiveObject
-        position={[0, 1, 3]}
-        scale={1}
+        position={[5, 3, 1]}
+        scale={1.5}
         project={{
-          id: "dev-project-5",
-          title: "Life Beyond Code",
-          description: "Explore my hobbies, interests, and life outside of programming.",
+          id: "dev-project-4",
+          title: "Education",
+          description: "Understand my current education and interests in Computer Science.",
           imageUrl: "/window.svg",
           geometryType: "octahedron",
           componentType: "life" // This will render the Life component
