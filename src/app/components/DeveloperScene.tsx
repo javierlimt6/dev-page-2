@@ -2,6 +2,7 @@
  * Immersive Developer Tech Scene for Computer Science Section
  * 
  * Features:
+ * - Giant laptop environment with keyboard as floor and screen as background
  * - Futuristic developer workspace with monitors, keyboards, and laptops
  * - Floating code blocks with syntax highlighting and algorithm visualizations
  * - Programming language symbols and dev tool icons
@@ -10,80 +11,177 @@
  * - Professional lighting with navy, blue, purple, and neon green accents
  * - Mobile-optimized performance with adaptive detail levels
  * - Modern color palette: #0a192f, #64ffda, #a259f7, #39ff14
+ * - Responsive laptop scaling for desktop and mobile viewports
  */
 
 import { Text, useGLTF } from '@react-three/drei';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Vector3, Color, ShaderMaterial, PlaneGeometry, DoubleSide, Group } from 'three';
+import { Mesh, Vector3, Color, ShaderMaterial, PlaneGeometry, DoubleSide, Group, VideoTexture } from 'three';
 import InteractiveObject from './InteractiveObject';
 
-// Animated gradient background with circuit-like patterns
-function TechGradientBackground() {
-  const meshRef = useRef<Mesh>(null!);
+// Giant Laptop Environment - keyboard as floor, screen as background
+function LaptopEnvironment() {
+  const keyboardRef = useRef<Mesh>(null!);
+  const screenRef = useRef<Mesh>(null!);
+  const [isMobile, setIsMobile] = useState(false);
   
-  const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-  
-  const fragmentShader = `
-    uniform float time;
-    varying vec2 vUv;
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
     
-    void main() {
-      vec2 uv = vUv;
-      
-      // Enhanced developer gradient colors
-      vec3 deepNavy = vec3(0.04, 0.1, 0.18); // #0a192f
-      vec3 cyberPurple = vec3(0.64, 0.35, 0.97); // #a259f7
-      vec3 electricBlue = vec3(0.39, 1.0, 0.85); // #64ffda
-      vec3 neonGreen = vec3(0.22, 1.0, 0.08); // #39ff14
-      
-      // Create a sophisticated developer gradient
-      float gradient = smoothstep(0.0, 1.0, uv.y);
-      vec3 baseColor = mix(deepNavy, cyberPurple, gradient);
-      baseColor = mix(baseColor, electricBlue, sin(uv.x * 3.14159 + time * 0.5) * 0.2 + 0.2);
-      
-      // Add circuit-like grid patterns with neon accents
-      float grid1 = abs(sin(uv.x * 20.0 + time * 0.3)) * abs(sin(uv.y * 20.0 + time * 0.2));
-      float grid2 = abs(sin(uv.x * 40.0 - time * 0.4)) * abs(sin(uv.y * 40.0 + time * 0.3));
-      
-      // Create glowing lines with developer colors
-      float lines = smoothstep(0.95, 1.0, grid1) * 0.4 + smoothstep(0.98, 1.0, grid2) * 0.3;
-      
-      // Add pulsing effect
-      float pulse = sin(time * 2.0) * 0.1 + 0.1;
-      
-      // Combine colors with neon green accents
-      vec3 finalColor = baseColor + electricBlue * lines * (0.8 + pulse) + neonGreen * lines * pulse * 0.3;
-      
-      gl_FragColor = vec4(finalColor, 1.0);
-    }
-  `;
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
-  const [material] = useState(() => {
-    return new ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        time: { value: 0 }
-      },
-      side: DoubleSide
-    });
-  });
+  // Create a looping HTML5 video element + three.js VideoTexture
+  const videoTexture = useMemo(() => {
+    const vid = document.createElement('video');
+    vid.src = '/laptop.mp4';    // put your file in public/
+    vid.loop = true;
+    vid.muted = true;
+    vid.playsInline = true;
+    vid.autoplay = true;
+    vid.play();
+    return new VideoTexture(vid);
+  }, []);
+
+  // Scale laptop based on screen size
+  const laptopScale = isMobile ? 0.7 : 1.0;
+  const keyboardWidth = isMobile ? 12 : 18;
+  const keyboardHeight = isMobile ? 8 : 12;
+  const screenWidth = isMobile ? 10 : 16;
+  const screenHeight = isMobile ? 6 : 10;
+  
+  return (
+    <group scale={laptopScale}>
+      {/* Laptop Keyboard as Floor */}
+      <mesh 
+        ref={keyboardRef}
+        position={[0, -0.2, 0]} 
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+        castShadow
+      >
+        <planeGeometry args={[keyboardWidth, keyboardHeight]} />
+        <meshStandardMaterial 
+          color="#1a1a1a" 
+          emissive="#0a192f"
+          emissiveIntensity={0.1}
+          roughness={0.3}
+          metalness={0.7}
+        />
+      </mesh>
+      
+      {/* Laptop Screen as Background */}
+      <mesh 
+        ref={screenRef}
+        position={[0, 5, -6]} 
+        scale={[screenWidth, screenHeight, 1]}
+        receiveShadow
+        castShadow
+      >
+        <planeGeometry args={[1, 1]} />
+        <meshStandardMaterial
+          map={videoTexture}
+          toneMapped={false}
+          transparent={true}
+        />
+      </mesh>
+      
+      {/* Laptop Screen Bezel */}
+      <mesh position={[0, 5, -6.1]} scale={[screenWidth * 1.1, screenHeight * 1.1, 1]}>
+        <planeGeometry args={[1, 1]} />
+        <meshStandardMaterial 
+          color="#2c3e50" 
+          emissive="#0a192f"
+          emissiveIntensity={0.02}
+          roughness={0.1}
+          metalness={0.9}
+        />
+      </mesh>
+      
+      {/* Keyboard Keys */}
+      <KeyboardKeys isMobile={isMobile} />
+      
+      {/* Laptop Base/Hinge */}
+      <mesh position={[0, 0, -4]} rotation={[-Math.PI / 8, 0, 0]}>
+        <boxGeometry args={[keyboardWidth * 0.9, 0.3, 1]} />
+        <meshStandardMaterial 
+          color="#2c3e50" 
+          emissive="#0a192f"
+          emissiveIntensity={0.05}
+          roughness={0.1}
+          metalness={0.8}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+// Individual keyboard keys for realism
+function KeyboardKeys({ isMobile }: { isMobile: boolean }) {
+  const keyCount = isMobile ? 40 : 80;
+  const keyWidth = isMobile ? 0.4 : 0.6;
+  const keyHeight = isMobile ? 0.4 : 0.6;
+  const spacing = isMobile ? 0.5 : 0.7;
+  const rows = isMobile ? 4 : 6;
+  const cols = isMobile ? 10 : 14;
+  
+  return (
+    <group position={[0, 0.05, 0]}>
+      {Array.from({ length: keyCount }, (_, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = (col - cols / 2) * spacing;
+        const z = (row - rows / 2) * spacing;
+        
+        return (
+          <KeyboardKey
+            key={i}
+            position={[x, 0, z]}
+            scale={[keyWidth, 0.1, keyHeight]}
+            delay={i * 0.01}
+          />
+        );
+      })}
+    </group>
+  );
+}
+
+function KeyboardKey({ position, scale, delay }: {
+  position: [number, number, number];
+  scale: [number, number, number];
+  delay: number;
+}) {
+  const keyRef = useRef<Mesh>(null!);
   
   useFrame(({ clock }) => {
-    material.uniforms.time.value = clock.getElapsedTime();
+    if (keyRef.current) {
+      const time = clock.getElapsedTime() + delay;
+      // Subtle key glow animation
+      const intensity = 0.1 + Math.sin(time * 0.5) * 0.05;
+      if (keyRef.current.material) {
+        (keyRef.current.material as any).emissiveIntensity = intensity;
+      }
+    }
   });
   
   return (
-    <mesh ref={meshRef} position={[0, 0, -8]} scale={[20, 15, 1]}>
-      <planeGeometry args={[1, 1]} />
-      <primitive object={material} />
+    <mesh ref={keyRef} position={position} scale={scale}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial
+        color="#64ffda"
+        emissive="#64ffda"
+        emissiveIntensity={0.1}
+        roughness={0.2}
+        metalness={0.8}
+        transparent
+        opacity={0.8}
+      />
     </mesh>
   );
 }
@@ -348,20 +446,6 @@ function TechParticle({ position, delay }: { position: [number, number, number];
   );
 }
 
-function Floor() {
-    return (
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
-        <planeGeometry args={[15, 15]} />
-        <meshStandardMaterial 
-          color="#111122" 
-          emissive="#000011"
-          roughness={0.8}
-          metalness={0.2}
-        />
-      </mesh>
-    );
-  }
-
 function Cube() {
     const meshRef = useRef<Mesh>(null!);
     useFrame(({ clock }) => {
@@ -437,14 +521,16 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
   return (
     <>
       {/* Immersive Tech Background */}
-      <TechGradientBackground />
+      <LaptopEnvironment />
       
-      {/* Enhanced Developer Lighting */}
+      {/* Enhanced Developer Lighting with screen glow */}
       <ambientLight intensity={0.15} color="#0a192f" />
       <directionalLight position={[8, 8, 5]} intensity={0.7} color="#ffffff" />
       <pointLight position={[-6, 4, -3]} intensity={0.5} color="#64ffda" />
       <pointLight position={[6, 3, 4]} intensity={0.4} color="#a259f7" />
       <pointLight position={[0, 5, 0]} intensity={0.3} color="#39ff14" />
+      {/* Screen glow lighting from laptop display */}
+      <pointLight position={[0, 4, -7]} intensity={0.6} color="#64ffda" />
       <hemisphereLight args={["#64ffda", "#0a192f", 0.2]} />
       
       {/* Developer Workspace Elements */}
@@ -462,14 +548,11 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#64ffda" fontWeight="bold">
-        Software Engineer
+        Computer Science
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#a259f7">
         Javier Lim
       </Text>
-      
-      {/* Enhanced Floor */}
-      <Floor />
       
       {/* Core Tech Objects */}
       <ManModel position={[0, 1.5, 0]} scale={1.75} />

@@ -13,76 +13,39 @@
  */
 
 import { Text, useGLTF } from '@react-three/drei';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide } from 'three';
+import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide, VideoTexture } from 'three';
 import InteractiveObject from './InteractiveObject';
 
-// Silicon Valley Gradient Background with City Lights
-function SiliconValleyBackground() {
-  const meshRef = useRef<Mesh>(null!);
-  
-  const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-  
-  const fragmentShader = `
-    uniform float time;
-    varying vec2 vUv;
-    
-    void main() {
-      vec2 uv = vUv;
-      
-      // Business gradient colors
-      vec3 deepBlue = vec3(0.0, 0.4, 0.8); // #0066cc
-      vec3 corporateGray = vec3(0.17, 0.24, 0.31); // #2c3e50
-      vec3 darkBlue = vec3(0.02, 0.1, 0.2); // Dark business blue
-      
-      // Create sophisticated gradient
-      float gradient = smoothstep(0.0, 1.0, uv.y);
-      vec3 baseColor = mix(darkBlue, corporateGray, gradient);
-      baseColor = mix(baseColor, deepBlue, sin(uv.x * 2.0 + time * 0.3) * 0.2 + 0.2);
-      
-      // Add subtle city lights pattern
-      float cityLights = abs(sin(uv.x * 30.0 + time * 0.5)) * abs(sin(uv.y * 15.0 + time * 0.3));
-      float lights = smoothstep(0.92, 1.0, cityLights) * 0.4;
-      
-      // Add professional shimmer effect
-      float shimmer = sin(time + uv.x * 10.0) * sin(time * 0.7 + uv.y * 8.0) * 0.1;
-      
-      // Combine colors with golden accents
-      vec3 finalColor = baseColor + vec3(lights * 0.8, lights * 0.9, lights) + vec3(shimmer * 0.2, shimmer * 0.3, shimmer * 0.1);
-      
-      gl_FragColor = vec4(finalColor, 1.0);
-    }
-  `;
-  
-  const [material] = useState(() => {
-    return new ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        time: { value: 0 }
-      },
-      side: DoubleSide
-    });
-  });
-  
-  useFrame(({ clock }) => {
-    material.uniforms.time.value = clock.getElapsedTime();
-  });
-  
+// 1) Create a video‐backed background component
+function EntrepreneurVideoBackground() {
+  const videoTexture = useMemo(() => {
+    const vid = document.createElement('video')
+    vid.src = '/skyscraper.mp4'    // put your animation in public/
+    vid.loop = true
+    vid.muted = true
+    vid.autoplay = true
+    vid.play()
+    return new VideoTexture(vid)
+  }, [])
+
   return (
-    <mesh ref={meshRef} position={[0, 0, -10]} scale={[25, 20, 1]}>
-      <planeGeometry args={[1, 1]} />
-      <primitive object={material} />
+    <mesh 
+      position={[0, 8, -10]} 
+      scale = {2} // ← X increased from 25→35, Z set to 1
+    >
+      <planeGeometry args={[16, 9]} />
+      <meshStandardMaterial 
+        map={videoTexture} 
+        toneMapped={false} 
+        transparent={false} 
+      />
     </mesh>
-  );
+  )
 }
+
+// Silicon Valley Gradient Background with City Lights
 
 // Modern Tech Buildings Skyline
 function TechBuildings() {
@@ -613,9 +576,9 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
 
   return (
     <>
-      {/* Silicon Valley Background */}
-      <SiliconValleyBackground />
-      
+      {/* Replace your shader background: */}
++     <EntrepreneurVideoBackground />
+
       {/* Professional Business Lighting */}
       <ambientLight intensity={0.3} color="#0066cc" />
       <directionalLight position={[10, 10, 5]} intensity={0.7} color="#ffffff" />
@@ -634,7 +597,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#f39c12" fontWeight="bold">
-        Silicon Valley Entrepreneur
+        Entrepreneur
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0066cc">
         Javier Lim

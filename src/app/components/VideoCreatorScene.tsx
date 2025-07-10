@@ -1,7 +1,7 @@
-import { Text, useGLTF } from '@react-three/drei';
+import { Text, useGLTF, useTexture } from '@react-three/drei';
 import { useState, useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Group } from 'three';
+import { Mesh, Group, DoubleSide } from 'three';
 import InteractiveObject from './InteractiveObject';
 
 // Vibrant Sunset Gradient Background Component
@@ -218,12 +218,9 @@ interface VideoCreatorSceneProps {
 }
 
 export default function VideoCreatorScene({ onProjectActivate, themeColors }: VideoCreatorSceneProps) {
-  const [showCapsule, setShowCapsule] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowCapsule(true), 3000);
-    
     // Check for mobile device for performance optimization
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -232,7 +229,6 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
     window.addEventListener('resize', checkMobile);
     
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
@@ -241,11 +237,21 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
   const palmTreeCount = isMobile ? 4 : 8;
   const particleCount = isMobile ? 6 : 12;
 
+  // Instead of VideoTexture, load your GIF:
+  const gifTexture = useTexture('/sunset.gif')  // put background.gif in /public
+
   return (
     <>
-      {/* Sunset Gradient Background - Rendered First */}
-      <SunsetGradientBackground />
-      
+      {/* Replace your <SunsetGradientBackground/> or video‐plane */}
+      <mesh position={[0, 0, -25]} scale={[120, 80, 1]}>
+        <planeGeometry args={[1, 1]} />
+        <meshBasicMaterial
+          map={gifTexture}
+          toneMapped={false}
+          side={DoubleSide}
+        />
+      </mesh>
+
       {/* Optimized Lighting for Tropical Scene */}
       <ambientLight intensity={0.4} color="#FFE4B5" />
       <directionalLight 
@@ -266,7 +272,7 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
 
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#FFD700" fontWeight="bold">
-        Hobbies & Others
+        Enthusiast
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0a192f">
         Javier Lim
@@ -317,7 +323,6 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
       ))}
       
       {/* Original Scene Elements */}
-      {showCapsule && <Capsule />}
       
       {/* Interactive Project Objects */}
       <InteractiveObject
