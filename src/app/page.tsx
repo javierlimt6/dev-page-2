@@ -82,9 +82,9 @@ export default function Home() {
   };
 
   const themeColors = {
-    developer: { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#0d203d' },
-    entrepreneur: { one: '#0066cc', two: '#f39c12', three: '#e74c3c', bg: '#1a2530' },
-    'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#ff6b35' },
+    'developer': { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#0d203d' },
+    'entrepreneur': { one: '#0066cc', two: '#f39c12', three: '#e74c3c', bg: '#1a2530' },
+    'video-creator': { one: '#ff4500', two: '#1e90ff', three: '#ffd700', bg: '#84a0ba' },
   } as const;
 
   const getCurrentTheme = () => {

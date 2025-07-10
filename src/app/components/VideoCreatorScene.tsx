@@ -5,69 +5,7 @@ import { Mesh, Group, DoubleSide } from 'three';
 import InteractiveObject from './InteractiveObject';
 
 // Vibrant Sunset Gradient Background Component
-function SunsetGradientBackground() {
-  const meshRef = useRef<Mesh>(null);
-  
-  useFrame(({ clock }) => {
-    if (meshRef.current && meshRef.current.material) {
-      // Subtle color shifting for dynamic sunset effect
-      const time = clock.getElapsedTime() * 0.05;
-      const material = meshRef.current.material as any;
-      if (material.uniforms) {
-        material.uniforms.uTime.value = time;
-      }
-    }
-  });
 
-  const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    uniform float uTime;
-    varying vec2 vUv;
-    
-    void main() {
-      // Create a vibrant sunset gradient
-      vec3 topColor = vec3(1.0, 0.3, 0.1); // Deep orange-red
-      vec3 middleColor = vec3(1.0, 0.7, 0.2); // Golden orange
-      vec3 bottomColor = vec3(0.9, 0.4, 0.6); // Pink-purple
-      
-      // Add subtle time-based variation
-      float variation = sin(uTime) * 0.05;
-      topColor += variation;
-      middleColor += variation * 0.3;
-      
-      // Create gradient based on UV coordinates
-      float mixFactor1 = smoothstep(0.2, 0.6, vUv.y);
-      float mixFactor2 = smoothstep(0.5, 0.9, vUv.y);
-      
-      vec3 color = mix(bottomColor, middleColor, mixFactor1);
-      color = mix(color, topColor, mixFactor2);
-      
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  return (
-    <mesh ref={meshRef} position={[0, 0, -25]} scale={[120, 80, 1]}>
-      <planeGeometry args={[1, 1]} />
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={{
-          uTime: { value: 0 }
-        }}
-        depthWrite={false}
-        side={2}
-      />
-    </mesh>
-  );
-}
 
 // Stylized Palm Tree Component
 function PalmTree({ position, scale = 1, delay = 0 }: { 
@@ -243,7 +181,7 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
   return (
     <>
       {/* Replace your <SunsetGradientBackground/> or video‐plane */}
-      <mesh position={[0, 0, -25]} scale={[120, 80, 1]}>
+      <mesh position={[0, 10, -20]} scale={[40, 25, 1]}>
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial
           map={gifTexture}
