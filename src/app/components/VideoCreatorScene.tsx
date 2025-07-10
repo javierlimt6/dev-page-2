@@ -1,4 +1,4 @@
-import { Text, useGLTF, useTexture } from '@react-three/drei';
+import { Text, useTexture } from '@react-three/drei';
 import { useState, useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Group, DoubleSide } from 'three';
@@ -220,7 +220,18 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
       <Floor />
       
       {/* 3D Man Model - Central Position */}
-      <ManModel position={[0, 1.5, 0]} scale={1.75} />
+      <InteractiveObject
+        position={[0, 1.5, 0]}
+        project={{
+          id: "video-about-me",
+          title: "About Javier",
+          description: "Creative content creator specializing in cinematic storytelling, motion graphics, and immersive 3D experiences. Expert in Adobe Creative Suite and Three.js.",
+          imageUrl: "/man.glb",
+          geometryType: "torus"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
       
       {/* Palm Trees - Positioned to Frame Content */}
       {!isMobile && (
@@ -304,50 +315,3 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
     </>
   );
 }
-
-// 3D Man Model Component for Hobbies Scene
-function ManModel({ position = [0, 0, 0], scale = 1 }: { 
-  position?: [number, number, number]; 
-  scale?: number;
-}) {
-  const manRef = useRef<Group>(null);
-  const { scene } = useGLTF('/man.glb');
-  
-  useFrame(({ clock }) => {
-    if (manRef.current) {
-      // Relaxed, leisurely animation for hobbies - MORE EXAGGERATED
-      const time = clock.getElapsedTime();
-      manRef.current.position.y = position[1] + Math.sin(time * 0.5) * 0.15; // Bigger floating motion
-      
-      // Much more pronounced swaying as if really enjoying the tropical breeze
-      manRef.current.rotation.y = Math.sin(time * 0.25) * 0.25; // Wider head turns
-      manRef.current.rotation.z = Math.sin(time * 0.3) * 0.08; // More body lean
-      manRef.current.rotation.x = Math.sin(time * 0.4) * 0.05; // Slight head tilt for relaxation
-      
-      // Add arm-like swaying motion to the whole model
-      const swayIntensity = Math.sin(time * 0.2) * 0.1;
-      manRef.current.position.x = position[0] + swayIntensity;
-    }
-  });
-  
-  // Enable shadows for the model
-  useEffect(() => {
-    if (scene) {
-      scene.traverse((child) => {
-        if ((child as any).isMesh) {
-          (child as any).castShadow = true;
-          (child as any).receiveShadow = true;
-        }
-      });
-    }
-  }, [scene]);
-  
-  return (
-    <group ref={manRef} position={position} scale={scale}>
-      <primitive object={scene} />
-    </group>
-  );
-}
-
-// Preload the GLTF model
-useGLTF.preload('/man.glb');

@@ -14,7 +14,7 @@
  * - Responsive laptop scaling for desktop and mobile viewports
  */
 
-import { Text, useGLTF } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Vector3, Color, ShaderMaterial, PlaneGeometry, DoubleSide, Group, VideoTexture } from 'three';
@@ -555,7 +555,19 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       </Text>
       
       {/* Core Tech Objects */}
-      <ManModel position={[0, 1.5, 0]} scale={1.75} />
+      <InteractiveObject
+        position={[0, 1.5, 0]}
+        scale={1}
+        project={{
+          id: "dev-about-me",
+          title: "About Javier",
+          description: "Full-stack developer passionate about creating innovative solutions with modern technologies. Expert in Next.js, Python, Swift, and cloud architecture.",
+          imageUrl: "/man.glb",
+          geometryType: "sphere"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
       {showSphere && <Sphere />}
       
       {/* Interactive Developer Project Objects - Updated with your tech stack */}
@@ -1164,53 +1176,3 @@ function MicrochipCluster({ position }: { position: [number, number, number] }) 
     </group>
   );
 }
-
-// 3D Man Model Component for Developer Scene
-function ManModel({ position = [0, 0, 0], scale = 1 }: { 
-  position?: [number, number, number]; 
-  scale?: number;
-}) {
-  const manRef = useRef<Group>(null);
-  const { scene } = useGLTF('/man.glb');
-  
-  useFrame(({ clock }) => {
-    if (manRef.current) {
-      // Intense coding pose animation - MORE EXAGGERATED TYPING MOTION
-      const time = clock.getElapsedTime();
-      manRef.current.position.y = position[1] + Math.sin(time * 2.5) * 0.08; // Faster, more intense bobbing
-      
-      // More pronounced head movements as if intensely reading code
-      manRef.current.rotation.y = Math.sin(time * 0.8) * 0.15; // Bigger head turns side to side
-      manRef.current.rotation.x = Math.sin(time * 1.2) * 0.08; // More head nodding up/down
-      
-      // Add shoulder/body movement as if typing intensely
-      manRef.current.rotation.z = Math.sin(time * 1.5) * 0.04; // Body lean from typing
-      
-      // Simulate typing rhythm with position changes
-      const typingRhythm = Math.sin(time * 3.0) * 0.02;
-      manRef.current.position.x = position[0] + typingRhythm;
-      manRef.current.position.z = position[2] + Math.cos(time * 2.8) * 0.015;
-    }
-  });
-  
-  // Enable shadows for the model
-  useEffect(() => {
-    if (scene) {
-      scene.traverse((child) => {
-        if ((child as any).isMesh) {
-          (child as any).castShadow = true;
-          (child as any).receiveShadow = true;
-        }
-      });
-    }
-  }, [scene]);
-  
-  return (
-    <group ref={manRef} position={position} scale={scale}>
-      <primitive object={scene} />
-    </group>
-  );
-}
-
-// Preload the GLTF model
-useGLTF.preload('/man.glb');

@@ -12,7 +12,7 @@
  * - Modern color palette: #0066cc, #2c3e50, #f39c12, #e74c3c
  */
 
-import { Text, useGLTF } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide, VideoTexture } from 'three';
@@ -607,7 +607,18 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       <Floor />
       
       {/* Core Business Objects */}
-      <ManModel position={[0, 1.5, 0]} scale={1.75} />
+      <InteractiveObject
+        position={[0, 1.5, 0]}
+        project={{
+          id: "ent-about-me",
+          title: "About Javier",
+          description: "Silicon Valley entrepreneur with experience in building scalable SaaS platforms, fintech solutions, and AI-driven analytics that generate millions in revenue.",
+          imageUrl: "/man.glb",
+          geometryType: "dodecahedron"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
       {showPyramid && <InnovationPyramid />}
       
       {/* Interactive Business Project Objects */}
@@ -652,54 +663,4 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
     </>
   );
 }
-
-// 3D Man Model Component for Entrepreneur Scene
-function ManModel({ position = [0, 0, 0], scale = 1 }: { 
-  position?: [number, number, number]; 
-  scale?: number;
-}) {
-  const manRef = useRef<Group>(null);
-  const { scene } = useGLTF('/man.glb');
-  useFrame(({ clock }) => {
-    if (manRef.current) {
-      // Deep thinking/presenting pose - MORE EXAGGERATED BUSINESS GESTURES
-      const time = clock.getElapsedTime();
-      manRef.current.position.y = position[1] + Math.sin(time * 0.7) * 0.1; // Bigger confident stance
-      
-      // More dramatic gesturing motion as if passionately presenting
-      manRef.current.rotation.y = Math.sin(time * 0.4) * 0.2; // Bigger gesturing turns
-      manRef.current.rotation.z = Math.sin(time * 0.6) * 0.06; // More body language
-      manRef.current.rotation.x = Math.sin(time * 0.8) * 0.04; // Head movements while thinking
-      
-      // Add thinking/pacing motion
-      const thinkingPace = Math.sin(time * 0.3) * 0.08;
-      manRef.current.position.x = position[0] + thinkingPace;
-      
-      // Strategic pause motion (like deep thinking moments)
-      const pauseMotion = Math.cos(time * 0.2) * 0.03;
-      manRef.current.position.z = position[2] + pauseMotion;
-    }
-  });
-  
-  // Enable shadows for the model
-  useEffect(() => {
-    if (scene) {
-      scene.traverse((child) => {
-        if ((child as any).isMesh) {
-          (child as any).castShadow = true;
-          (child as any).receiveShadow = true;
-        }
-      });
-    }
-  }, [scene]);
-  
-  return (
-    <group ref={manRef} position={position} scale={scale}>
-      <primitive object={scene} />
-    </group>
-  );
-}
-
-// Preload the GLTF model
-useGLTF.preload('/man.glb');
 

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text, Html } from '@react-three/drei';
-import { Mesh } from 'three';
+import { Text, Html, useGLTF } from '@react-three/drei';
+import { Mesh, Group } from 'three';
 import { InteractiveObjectProps } from '../../types';
 
 export default function InteractiveObject({
@@ -9,15 +9,22 @@ export default function InteractiveObject({
   project,
   onProjectActivate,
   themeColors,
+  scale = 1, // ← Add scale parameter with default value of 1
 }: InteractiveObjectProps) {
   const meshRef = useRef<Mesh>(null);
+  const modelRef = useRef<Group>(null);
   const [hovered, setHovered] = useState(false);
 
+  // Load GLB model if the imageUrl is a .glb file
+  const isGLBFile = project.imageUrl?.endsWith('.glb');
+  const { scene: gltfScene } = useGLTF(isGLBFile ? project.imageUrl : '/man.glb');
+
   useFrame(() => {
-    if (meshRef.current) {
-      // Optional: Add a subtle animation or rotation
+    // Only spin geometric shapes, not GLB models
+    if (meshRef.current && !isGLBFile) {
       meshRef.current.rotation.y += 0.005;
     }
+    // GLB models don't spin - remove this section or add custom animations here
   });
 
   // Choose geometry based on project type or ID for variety
@@ -68,25 +75,46 @@ export default function InteractiveObject({
   };
 
   return (
-    <group position={position}>
-      <mesh
-        ref={meshRef}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-        onClick={() => onProjectActivate(project)}
-        scale={hovered ? 1.2 : 1}
-      >
-        {getGeometry()}
-        <meshStandardMaterial color={hovered ? themeColors.two : themeColors.one} />
-      </mesh>
+    <group position={position} scale={scale}> {/* ← Apply scale to the entire group */}
+      {/* Render GLB model if imageUrl is a .glb file */}
+      {isGLBFile ? (
+        <group
+          ref={modelRef}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          onClick={() => onProjectActivate(project)}
+          scale={hovered ? 1.2 : 1} // ← This is the hover scale effect
+        >
+          <primitive 
+            object={gltfScene.clone()} 
+            scale={1.5}  // ← This is the internal GLB model scale
+            position={[0, 0, 0]}
+            castShadow
+            receiveShadow
+          />
+        </group>
+      ) : (
+        /* Render geometric shape if not a GLB file */
+        <mesh
+          ref={meshRef}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          onClick={() => onProjectActivate(project)}
+          scale={hovered ? 1.2 : 1} // ← This is the hover scale effect
+        >
+          {getGeometry()}
+          <meshStandardMaterial color={hovered ? themeColors.two : themeColors.one} />
+        </mesh>
+      )}
+      
       <Text
-        position={[0, 0.7, 0]} // Position above the box
+        position={[0, 0.7, 0]} // Position above the object
         fontSize={0.2}
         color={themeColors.three}
         anchorX="center"
         anchorY="middle"
       >
-        {project.title}
+        {!isGLBFile && project.title}
       </Text>
       {hovered && (
         <Html position={[0, 1.2, 0]} center>
@@ -110,19 +138,11 @@ export default function InteractiveObject({
               {project.title}
             </div>
             <div style={{ 
-              lineHeight: 1.4,
-              marginBottom: '8px'
-            }}>
-              {project.description.length > 100 
-                ? `${project.description.substring(0, 100)}...` 
-                : project.description}
-            </div>
-            <div style={{ 
               fontSize: '11px',
               color: themeColors.three,
               fontStyle: 'italic'
             }}>
-              Click to view details & add to AI knowledge
+              Click Me!
             </div>
           </div>
         </Html>
@@ -130,3 +150,6 @@ export default function InteractiveObject({
     </group>
   );
 }
+
+// Preload the man.glb model for better performance
+useGLTF.preload('/man.glb');
