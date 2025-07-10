@@ -218,7 +218,7 @@ function FloatingCode() {
     "MongoDB.find({})",
     "import three.js",
     "pygame.init()",
-    "AWS EC2 instance"
+    "php artisan serve"
   ];
   
   const displayedSnippets = isMobile ? codeSnippets.slice(0, 8) : codeSnippets;
@@ -561,72 +561,83 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         project={{
           id: "dev-about-me",
           title: "About Javier",
-          description: "Full-stack developer passionate about creating innovative solutions with modern technologies. Expert in Next.js, Python, Swift, and cloud architecture.",
+          description: "Full-stack developer passionate about creating innovative solutions with modern technologies.",
           imageUrl: "/man.glb",
-          geometryType: "sphere"
+          geometryType: "sphere",
+          componentType: "about" // This will render the About component in the modal
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       {showSphere && <Sphere />}
       
-      {/* Interactive Developer Project Objects - Updated with your tech stack */}
+      {/* Interactive Developer Project Objects - Updated with page components */}
       <InteractiveObject
         position={[3, 1, 0]}
+        scale={1}
         project={{
           id: "dev-project-1",
-          title: "Full-Stack Web Application",
-          description: "Built with Next.js, TypeScript, and PostgreSQL. Features real-time collaboration, user authentication, and cloud deployment on AWS EC2.",
+          title: "My Experience",
+          description: "Explore my professional experience and technical background.",
           imageUrl: "/next.svg",
-          geometryType: "icosahedron"
+          geometryType: "icosahedron",
+          componentType: "experience" // This will render the Experience component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       <InteractiveObject
         position={[3, 1, -3]}
+        scale={1}
         project={{
           id: "dev-project-2",
-          title: "Data Analysis Platform",
-          description: "Python-based analytics dashboard using pandas, NumPy, and Matplotlib. Processes large datasets with Flask API and MySQL database integration.",
+          title: "My Projects",
+          description: "Discover the innovative projects I've built and contributed to.",
           imageUrl: "/globe.svg",
-          geometryType: "torusKnot"
+          geometryType: "torusKnot",
+          componentType: "projects" // This will render the Projects component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       <InteractiveObject
         position={[-3, 1, 0]}
+        scale={1}
         project={{
           id: "dev-project-3",
-          title: "Mobile App Development",
-          description: "iOS app developed with Swift and SwiftUI. Includes React Native cross-platform version with MongoDB backend and Docker containerization.",
+          title: "Leadership & Activities",
+          description: "Learn about my leadership roles and community involvement.",
           imageUrl: "/file.svg",
-          geometryType: "dodecahedron"
+          geometryType: "dodecahedron",
+          componentType: "leadership" // This will render the Leadership component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       <InteractiveObject
         position={[-3, 1, -3]}
+        scale={1}
         project={{
           id: "dev-project-4",
-          title: "Game Development",
-          description: "2D game engine built with Python and Pygame. Features physics simulation, AI pathfinding, and custom graphics rendering pipeline.",
+          title: "Awards & Recognition",
+          description: "Check out my achievements and accolades.",
           imageUrl: "/vercel.svg",
-          geometryType: "tetrahedron"
+          geometryType: "tetrahedron",
+          componentType: "awards" // This will render the Awards component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       <InteractiveObject
         position={[0, 1, 3]}
+        scale={1}
         project={{
           id: "dev-project-5",
-          title: "Cloud Infrastructure",
-          description: "Microservices architecture deployed on AWS EC2 and GCP. Uses Docker containers, PostgreSQL clusters, and automated CI/CD pipelines.",
+          title: "Life Beyond Code",
+          description: "Explore my hobbies, interests, and life outside of programming.",
           imageUrl: "/window.svg",
-          geometryType: "octahedron"
+          geometryType: "octahedron",
+          componentType: "life" // This will render the Life component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}

@@ -150,6 +150,8 @@ export default function Home() {
           title={activeProject.title}
           description={activeProject.description}
           imageUrl={activeProject.imageUrl}
+          project={activeProject}
+          themeColors={getCurrentTheme()}
           onClose={handleCloseProjectModal}
         />
       )}

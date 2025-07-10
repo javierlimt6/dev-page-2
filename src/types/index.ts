@@ -5,6 +5,7 @@ export interface Project {
   imageUrl?: string;
   link?: string;
   geometryType?: 'box' | 'sphere' | 'cylinder' | 'cone' | 'torus' | 'dodecahedron' | 'icosahedron' | 'octahedron' | 'tetrahedron' | 'torusKnot';
+  componentType?: 'about' | 'awards' | 'leadership' | 'life' | 'experience' | 'projects' | 'contact' | 'hero' | 'name' | 'photo';
   // Add other project-specific data as needed
 }
 

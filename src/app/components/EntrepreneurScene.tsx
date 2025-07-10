@@ -609,6 +609,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       {/* Core Business Objects */}
       <InteractiveObject
         position={[0, 1.5, 0]}
+        scale={1}
         project={{
           id: "ent-about-me",
           title: "About Javier",
@@ -624,6 +625,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       {/* Interactive Business Project Objects */}
       <InteractiveObject
         position={[3, 1, 0]}
+        scale={1}
         project={{
           id: "ent-project-1",
           title: "SaaS Platform",
@@ -636,6 +638,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       />
       <InteractiveObject
         position={[-3, 1, 0]}
+        scale={1}
         project={{
           id: "ent-project-2",
           title: "Fintech Startup",
@@ -648,6 +651,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       />
       <InteractiveObject
         position={[0, 1, 3]}
+        scale={1}
         project={{
           id: "ent-project-3",
           title: "AI-Driven Analytics",
