@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Box, 
@@ -10,11 +9,30 @@ import {
   Link, 
   Text,
   Icon,
-  VisuallyHidden
+  VisuallyHidden,
+  ChakraProvider, createSystem, defaultConfig
 } from '@chakra-ui/react';
-import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedin, FaComments, FaTimes, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 
-const Header = () => {
+interface HeaderProps {
+  persona: string;
+  onPersonaChange: (persona: string) => void;
+  voiceEnabled: boolean;
+  onVoiceToggle: () => void;
+  showChat: boolean;
+  onChatToggle: () => void;
+}
+
+const system = createSystem(defaultConfig);
+
+const Header: React.FC<HeaderProps> = ({
+  persona,
+  onPersonaChange,
+  voiceEnabled,
+  onVoiceToggle,
+  showChat,
+  onChatToggle
+}) => {
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -23,89 +41,121 @@ const Header = () => {
   };
 
   return (
-    <Box 
-      as="header" 
-      w="full" 
-      py={6} 
-      position="fixed" 
-      top={0} 
-      zIndex={50} 
-      backdropFilter="blur(12px)" 
-      bg="rgba(0, 0, 0, 0.8)" 
-      borderBottom="1px solid rgba(255, 255, 255, 0.1)"
-    >
-      <Container maxW="7xl">
-        <Flex align="center" justify="space-between">
-          <Link href="#" textDecoration="none" _hover={{ textDecoration: 'none' }}>
-            <Heading 
-              as="h1" 
-              size="lg" 
-              bgGradient="linear(to-r, blue.400, purple.400)"
-              bgClip="text"
-            >
-              Javier Lim Jun Yi
-            </Heading>
-          </Link>
-          
-          <Flex align="center" gap={8}>
-            <HStack gap={6} display={{ base: 'none', md: 'flex' }}>
-              <Link href="#about" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                About
-              </Link>
-              <Link href="#experience" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                Experience
-              </Link>
-              <Link href="#projects" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                Projects
-              </Link>
-              <Link href="#leadership" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                Leadership
-              </Link>
-              <Link href="#awards" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                Awards
-              </Link>
-              <Link href="#life" color="gray.300" _hover={{ color: 'white' }} transition="colors 0.2s">
-                Life
-              </Link>
-            </HStack>
+    <ChakraProvider value={system}>
+      <Box 
+        as="header" 
+        w="full" 
+        py={4} 
+        position="fixed" 
+        top={0} 
+        zIndex={50} 
+        backdropFilter="blur(10px)" 
+        bg="rgba(0, 0, 0, 0.8)" 
+        borderBottom="1px solid rgba(255, 255, 255, 0.1)"
+      >
+        <Container maxW="10xl">
+          <Flex align="center" justify="space-between" wrap="wrap" gap={4} h="35px">
+            <Link colorPalette='teal' href="#" textDecoration="none" _hover={{ textDecoration: 'none' }}>
+              <Heading 
+                fontWeight="bold"
+                size="2xl" 
+                colorPalette='cyan'
+              >
+                Javier Lim Jun Yi
+              </Heading>
+            </Link>
             
-            <HStack gap={4}>
-              <Link 
-                href="https://linkedin.com/in/jav-lim" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                color="gray.300" 
-                _hover={{ color: 'white' }} 
-                transition="colors 0.2s"
-              >
-                <Icon as={FaLinkedin} boxSize={5} />
-                <VisuallyHidden>LinkedIn</VisuallyHidden>
-              </Link>
-              <Link 
-                href="https://github.com/javierlimt6" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                color="gray.300" 
-                _hover={{ color: 'white' }} 
-                transition="colors 0.2s"
-              >
-                <Icon as={FaGithub} boxSize={5} />
-                <VisuallyHidden>GitHub</VisuallyHidden>
-              </Link>
+            <Flex align="center" gap={4} wrap="wrap">
+              {/* Persona Switching Buttons */}
+              <HStack gap={2} wrap="wrap">
+                <Button
+                  size="sm"
+                  variant={persona === 'developer' ? 'solid' : 'outline'}
+                  colorScheme="blue"
+                  onClick={() => onPersonaChange('developer')}
+                >
+                  Computer Science
+                </Button>
+                <Button
+                  size="sm"
+                  variant={persona === 'entrepreneur' ? 'solid' : 'outline'}
+                  colorScheme="orange"
+                  onClick={() => onPersonaChange('entrepreneur')}
+                >
+                  Entrepreneurship
+                </Button>
+                <Button
+                  size="sm"
+                  variant={persona === 'video-creator' ? 'solid' : 'outline'}
+                  colorScheme="purple"
+                  onClick={() => onPersonaChange('video-creator')}
+                >
+                  Hobbies & Others
+                </Button>
+              </HStack>
+
+              {/* Voice and Chat Controls */}
+              <HStack gap={2}>
+                <Button
+                  size="sm"
+                  variant={voiceEnabled ? 'solid' : 'outline'}
+                  colorScheme="green"
+                  onClick={onVoiceToggle}
+                  leftIcon={<Icon as={voiceEnabled ? FaMicrophone : FaMicrophoneSlash} />}
+                >
+                  Voice {voiceEnabled ? 'On' : 'Off'}
+                </Button>
+                
+                <Button
+                  size="sm"
+                  variant={showChat ? 'solid' : 'outline'}
+                  colorScheme="cyan"
+                  onClick={onChatToggle}
+                  leftIcon={<Icon as={showChat ? FaTimes : FaComments} />}
+                >
+                  {showChat ? 'Close Chat' : 'Open Chat'}
+                </Button>
+              </HStack>
               
-              <Button 
-                onClick={scrollToContact} 
-                variant="outline" 
-                colorScheme="blue"
-                ml={4}
-              >
-                Contact Me
-              </Button>
-            </HStack>
+              {/* Social Links */}
+              <HStack gap={3} display={{ base: 'none', md: 'flex' }}>
+                <Link 
+                  href="https://linkedin.com/in/jav-lim" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  color="gray.300" 
+                  _hover={{ color: 'white' }} 
+                  transition="colors 0.2s"
+                >
+                  <Icon as={FaLinkedin} boxSize={5} />
+                  <VisuallyHidden>LinkedIn</VisuallyHidden>
+                </Link>
+                <Link 
+                  href="https://github.com/javierlimt6" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  color="gray.300" 
+                  _hover={{ color: 'white' }} 
+                  transition="colors 0.2s"
+                >
+                  <Icon as={FaGithub} boxSize={5} />
+                  <VisuallyHidden>GitHub</VisuallyHidden>
+                </Link>
+                
+                <Button 
+                  onClick={scrollToContact} 
+                  variant="outline" 
+                  colorScheme="blue"
+                  size="sm"
+                >
+                  Contact Me
+                </Button>
+              </HStack>
+            </Flex>
           </Flex>
-        </Flex>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </ChakraProvider>
   );
 };
 

@@ -1,7 +1,6 @@
 'use client';
 
 import 'antd/dist/reset.css'
-import { Button } from 'antd';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
 import { useRef, useState, useEffect, Suspense } from 'react';
@@ -10,6 +9,7 @@ import DeveloperScene from './components/DeveloperScene';
 import EntrepreneurScene from './components/EntrepreneurScene';
 import VideoCreatorScene from './components/VideoCreatorScene';
 import ProjectModal from './components/ProjectModal';
+import Header from './pages/Header';
 import AIChatBox from '../components/AIChatBox';
 import { useAIChat } from '../hooks/useAIChat';
 import { Project } from '../types';
@@ -47,7 +47,7 @@ export default function Home() {
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [showChat, setShowChat] = useState(true);
+  const [showChat, setShowChat] = useState(false);
 
   // Use AI Chat hook
   const {
@@ -66,6 +66,14 @@ export default function Home() {
   const handlePersonaChange = (newPersona: string) => {
     setPersona(newPersona);
     console.log('Switched to', newPersona, 'persona');
+  };
+
+  const handleVoiceToggle = () => {
+    setVoiceEnabled(!voiceEnabled);
+  };
+
+  const handleChatToggle = () => {
+    setShowChat(!showChat);
   };
 
   const handleProjectActivate = (project: Project) => {
@@ -93,41 +101,16 @@ export default function Home() {
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}>
-        <Button
-          type={persona === 'developer' ? "primary" : "default"}
-          onClick={() => handlePersonaChange('developer')}
-        >
-          Computer Science
-        </Button>
-        <Button
-          type={persona === 'entrepreneur' ? "primary" : 'default'}
-          onClick={() => handlePersonaChange('entrepreneur')}
-        >
-          Entrepreneurship
-        </Button>
-        <Button
-          type={persona === 'video-creator' ? 'primary' : 'default'}
-          onClick={() => handlePersonaChange('video-creator')}
-        >
-         Hobbies & Others
-        </Button>
-        <Button
-          type={voiceEnabled ? 'primary' : 'default'}
-          onClick={() => setVoiceEnabled(!voiceEnabled)}
-        >
-          Voice {voiceEnabled ? 'On' : 'Off'}
-        </Button>
-        {showChat ? (
-          <Button onClick={() => setShowChat(false)} ghost>
-            Close Chat
-          </Button>
-        ) : (
-          <Button onClick={() => setShowChat(true)}>Open Chat</Button>
-        )}
-      </div>
+      <Header
+        persona={persona}
+        onPersonaChange={handlePersonaChange}
+        voiceEnabled={voiceEnabled}
+        onVoiceToggle={handleVoiceToggle}
+        showChat={showChat}
+        onChatToggle={handleChatToggle}
+      />
 
-      <Canvas camera={{ position: [0, 2, 5], fov: 75 }}>
+      <Canvas camera={{ position: [0, 5, 8], fov: 85 }}>
         <Suspense fallback={null}>
           <Scene persona={persona} themeColors={themeColors} onProjectActivate={handleProjectActivate} />
         </Suspense>

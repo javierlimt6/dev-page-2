@@ -109,10 +109,11 @@ export default function InteractiveObject({
       
       <Text
         position={[0, 0.7, 0]} // Position above the object
-        fontSize={0.2}
         color={themeColors.three}
         anchorX="center"
         anchorY="middle"
+        fontSize={0.2}
+        fontWeight="bold"
       >
         {!isGLBFile && project.title}
       </Text>
