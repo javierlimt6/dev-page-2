@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import React from 'react';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
 import { FaTimes } from 'react-icons/fa';
 
 // Import page components
@@ -41,6 +41,9 @@ export default function ProjectModal({
   project,
   themeColors,
 }: ProjectModalProps) {
+  
+  // Create a theme system for the modal
+  const system = createSystem(defaultConfig);
   
   // Function to render the appropriate component based on project type
   const renderComponent = () => {
@@ -115,72 +118,74 @@ export default function ProjectModal({
   };
 
   return createPortal(
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(0, 0, 0, 0.9)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-        backdropFilter: 'blur(5px)',
-      }}
-      onClick={onClose} // Close when clicking backdrop
-    >
+    <ChakraProvider value={system}>
       <div
         style={{
-          background: project?.componentType 
-            ? 'rgba(0, 0, 0, 0.95)' // Dark background for full components
-            : `linear-gradient(135deg, ${themeColors?.one || '#64ffda'}20, ${themeColors?.two || '#a259f7'}20)`,
-          backdropFilter: 'blur(15px)',
-          border: project?.componentType 
-            ? '1px solid rgba(255, 255, 255, 0.1)'
-            : `2px solid ${themeColors?.one || '#64ffda'}`,
-          borderRadius: '15px',
-          maxWidth: project?.componentType ? '95vw' : '600px',
-          maxHeight: project?.componentType ? '95vh' : '80vh',
-          width: project?.componentType ? '95vw' : 'auto',
-          height: project?.componentType ? '95vh' : 'auto',
-          position: 'relative',
-          boxShadow: project?.componentType 
-            ? '0 0 50px rgba(0, 0, 0, 0.8)'
-            : `0 0 30px ${themeColors?.one || '#64ffda'}40`,
-          overflow: 'auto',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+          backdropFilter: 'blur(5px)',
         }}
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+        onClick={onClose} // Close when clicking backdrop
       >
-        {/* Close Button */}
-        <Box
-          position="absolute"
-          top={4}
-          right={4}
-          zIndex={1001}
+        <div
+          style={{
+            background: project?.componentType 
+              ? 'rgba(0, 0, 0, 0.95)' // Dark background for full components
+              : `linear-gradient(135deg, ${themeColors?.one || '#64ffda'}20, ${themeColors?.two || '#a259f7'}20)`,
+            backdropFilter: 'blur(15px)',
+            border: project?.componentType 
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : `2px solid ${themeColors?.one || '#64ffda'}`,
+            borderRadius: '15px',
+            maxWidth: project?.componentType ? '95vw' : '600px',
+            maxHeight: project?.componentType ? '95vh' : '80vh',
+            width: project?.componentType ? '95vw' : 'auto',
+            height: project?.componentType ? '95vh' : 'auto',
+            position: 'relative',
+            boxShadow: project?.componentType 
+              ? '0 0 50px rgba(0, 0, 0, 0.8)'
+              : `0 0 30px ${themeColors?.one || '#64ffda'}40`,
+            overflow: 'auto',
+          }}
+          onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
         >
-          <Button
-            onClick={onClose}
-            variant="ghost"
-            size="sm"
-            color={themeColors?.two || 'white'}
-            _hover={{ 
-              bg: 'rgba(255, 255, 255, 0.1)',
-              color: themeColors?.one || 'white'
-            }}
-            p={2}
-            minW="auto"
-            h="auto"
+          {/* Close Button */}
+          <Box
+            position="absolute"
+            top={4}
+            right={4}
+            zIndex={1001}
           >
-            <FaTimes size={20} />
-          </Button>
-        </Box>
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              size="sm"
+              color={themeColors?.two || 'white'}
+              _hover={{ 
+                bg: 'rgba(255, 255, 255, 0.1)',
+                color: themeColors?.one || 'white'
+              }}
+              p={2}
+              minW="auto"
+              h="auto"
+            >
+              <FaTimes size={20} />
+            </Button>
+          </Box>
 
-        {/* Render Component or Default Content */}
-        {renderComponent()}
+          {/* Render Component or Default Content */}
+          {renderComponent()}
+        </div>
       </div>
-    </div>,
+    </ChakraProvider>,
     document.body
   );
 }

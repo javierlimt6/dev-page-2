@@ -6,8 +6,8 @@ import {
   Grid,
   Card,
   CardBody,
-  Image,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 
 const lifeCategories = [
   {
@@ -41,7 +41,7 @@ const Life = () => {
         
         <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={8}>
           {lifeCategories.map((category) => (
-            <Card 
+            <Card.Root 
               key={category.id} 
               bg={cardBg} 
               backdropFilter="blur(10px)" 
@@ -51,15 +51,15 @@ const Life = () => {
               _hover={{ transform: 'translateY(-5px)', shadow: 'lg' }}
               transition="transform 0.2s, box-shadow 0.2s"
             >
-              <Box h="224px" overflow="hidden">
+              <Box h="224px" overflow="hidden" position="relative">
                 <Image 
                   src={category.image} 
                   alt={category.title} 
-                  objectFit="cover"
-                  w="full"
-                  h="full"
-                  transition="transform 0.5s"
-                  _hover={{ transform: 'scale(1.10)' }}
+                  fill
+                  style={{
+                    objectFit: 'cover',
+                    transition: 'transform 0.5s'
+                  }}
                 />
               </Box>
               
@@ -67,7 +67,7 @@ const Life = () => {
                 <Heading as="h3" size="lg" mb={3}>{category.title}</Heading>
                 <Text color="gray.400">{category.description}</Text>
               </CardBody>
-            </Card>
+            </Card.Root>
           ))}
         </Grid>
       </Box>
