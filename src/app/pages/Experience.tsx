@@ -31,7 +31,7 @@ const experiences = [
     id: 3,
     title: "Teaching Assistant for CS1010X: Programming Methodology",
     company: "NUS School Of Computing",
-    period: "Jan 2025 - Present",
+    period: "Jan 2025 - Jun 2025",
     description: "Given sole responsibility of rebuilding lesson materials and assignment files. Updated deprecated content from Python 3.7 to 3.13, improving GUI and translating code from Cocos to Pygame, utilising GIMPS to rectify faulty sRGB profiles, removing problematic metadata. 2D Runes Contest Head IC.",
     technologies: ["Python", "Pygame", "Cocos", "GIMPS", "PIM"],
     photoUrl: "/images/soc-logo.png",
