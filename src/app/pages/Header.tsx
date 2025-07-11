@@ -93,9 +93,11 @@ const Header: React.FC<HeaderProps> = ({
                   Hobbies & Others
                 </Button>
               </HStack>
+            </Flex>
 
               {/* Voice and Chat Controls */}
-              <HStack gap={2}>
+            <Flex align="right" gap={4} wrap="wrap">
+              {/* <HStack gap={2}>
                 <Button
                   size="sm"
                   variant={voiceEnabled ? 'solid' : 'outline'}
@@ -115,10 +117,18 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   {showChat ? 'Close Chat' : 'Open Chat'}
                 </Button>
-              </HStack>
+              </HStack> */}
               
               {/* Social Links */}
               <HStack gap={3} display={{ base: 'none', md: 'flex' }}>
+                <Button 
+                  onClick={scrollToContact} 
+                  variant="outline" 
+                  colorScheme="blue"
+                  size="sm"
+                >
+                  Resume
+                </Button>
                 <Link 
                   href="https://linkedin.com/in/jav-lim" 
                   target="_blank" 
@@ -141,17 +151,8 @@ const Header: React.FC<HeaderProps> = ({
                   <Icon as={FaGithub} boxSize={5} />
                   <VisuallyHidden>GitHub</VisuallyHidden>
                 </Link>
-                
-                <Button 
-                  onClick={scrollToContact} 
-                  variant="outline" 
-                  colorScheme="blue"
-                  size="sm"
-                >
-                  Contact Me
-                </Button>
               </HStack>
-            </Flex>
+              </Flex>
           </Flex>
         </Container>
       </Box>

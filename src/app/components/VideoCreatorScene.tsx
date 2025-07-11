@@ -278,7 +278,7 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
         position={[3, 1, 0]}
         project={{
           id: "vc-project-1",
-          title: "Travel Photography",
+          title: "Travelling",
           description: "Capturing beautiful moments from around the world, focusing on landscapes, cultures, and hidden gems discovered during my adventures.",
           imageUrl: "/file.svg",
           geometryType: "torus"
@@ -290,7 +290,7 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
         position={[-3, 1, 0]}
         project={{
           id: "vc-project-2",
-          title: "Cooking Adventures",
+          title: "Floorball",
           description: "Exploring diverse cuisines and creating fusion dishes that blend traditional techniques with modern creativity.",
           imageUrl: "/next.svg",
           geometryType: "cone"
@@ -302,7 +302,43 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
         position={[0, 1, 3]}
         project={{
           id: "vc-project-3",
-          title: "Music Production",
+          title: "Video Production",
+          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
+          imageUrl: "/globe.svg",
+          geometryType: "sphere"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
+      <InteractiveObject
+        position={[0, 3, 5]}
+        project={{
+          id: "vc-project-4",
+          title: "Chinese Chess",
+          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
+          imageUrl: "/globe.svg",
+          geometryType: "sphere"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
+      <InteractiveObject
+        position={[-3, 2, 6]}
+        project={{
+          id: "vc-project-5",
+          title: "Cycling",
+          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
+          imageUrl: "/globe.svg",
+          geometryType: "sphere"
+        }}
+        onProjectActivate={onProjectActivate}
+        themeColors={themeColors}
+      />
+      <InteractiveObject
+        position={[3, 2, 4]}
+        project={{
+          id: "vc-project-6",
+          title: "Guitar",
           description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
           imageUrl: "/globe.svg",
           geometryType: "sphere"

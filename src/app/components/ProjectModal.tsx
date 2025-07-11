@@ -15,6 +15,8 @@ import Contact from '../pages/Contact';
 import Hero from '../pages/Hero';
 import Name from '../pages/Name';
 import Photo from '../pages/Photo';
+import AboutEntre from '../pages/AboutEntre';
+import AboutHobby from '../pages/AboutHobby';
 
 interface ProjectModalProps {
   title: string;
@@ -89,6 +91,10 @@ export default function ProjectModal({
     switch (project.componentType.toLowerCase()) {
       case 'about':
         return <About />;
+      case 'about_entre':
+        return <AboutEntre />
+      case 'about_hobby':
+        return <AboutHobby />
       case 'awards':
         return <Awards />;
       case 'leadership':

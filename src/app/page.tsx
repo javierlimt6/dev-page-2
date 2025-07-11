@@ -1,6 +1,6 @@
 'use client';
 
-import 'antd/dist/reset.css'
+import 'antd/dist/reset.css';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
 import { useRef, useState, useEffect, Suspense } from 'react';
@@ -101,6 +101,23 @@ export default function Home() {
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      {/* Instruction prompt (must be above Header & Canvas, zIndex > header */}
+      <div style={{
+        position: 'absolute',
+        top: '5rem',
+        left: '1rem',
+        zIndex: 1000
+      }}>
+        <div style={{
+          fontSize: '0.875rem',
+          color: 'white',
+          padding: '0.25rem 0.5rem',
+          borderRadius: '0.375rem'
+        }}>
+          Drag and hold to move around!
+        </div>
+      </div>
+
       <Header
         persona={persona}
         onPersonaChange={handlePersonaChange}
@@ -112,7 +129,11 @@ export default function Home() {
 
       <Canvas camera={{ position: [0, 4, 8], fov: 90 }}>
         <Suspense fallback={null}>
-          <Scene persona={persona} themeColors={themeColors} onProjectActivate={handleProjectActivate} />
+          <Scene 
+            persona={persona} 
+            themeColors={themeColors} 
+            onProjectActivate={handleProjectActivate} 
+          />
         </Suspense>
       </Canvas>
       <Loader />

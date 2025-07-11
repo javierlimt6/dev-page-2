@@ -613,9 +613,10 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         project={{
           id: "ent-about-me",
           title: "About Javier",
-          description: "Silicon Valley entrepreneur with experience in building scalable SaaS platforms, fintech solutions, and AI-driven analytics that generate millions in revenue.",
+          description: "Aspiring Entrepreneur",
           imageUrl: "/man.glb",
-          geometryType: "dodecahedron"
+          geometryType: "dodecahedron",
+          componentType: "about_entre"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
@@ -625,10 +626,10 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       {/* Interactive Business Project Objects */}
       <InteractiveObject
         position={[3, 1, 0]}
-        scale={1}
+        scale={1.5}
         project={{
           id: "ent-project-1",
-          title: "SaaS Platform",
+          title: "NUS Overseas College",
           description: "Developed a scalable SaaS platform that serves 10,000+ businesses worldwide, generating $2M+ ARR through innovative cloud solutions.",
           imageUrl: "/vercel.svg",
           geometryType: "dodecahedron"
@@ -638,10 +639,10 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       />
       <InteractiveObject
         position={[-3, 1, 0]}
-        scale={1}
+        scale={1.5}
         project={{
           id: "ent-project-2",
-          title: "Fintech Startup",
+          title: "Leadership & Activities",
           description: "Founded a fintech startup that revolutionized digital payments, secured Series A funding, and processed $50M+ in transactions.",
           imageUrl: "/window.svg",
           geometryType: "sphere"
@@ -651,10 +652,10 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
       />
       <InteractiveObject
         position={[0, 1, 3]}
-        scale={1}
+        scale={1.5}
         project={{
           id: "ent-project-3",
-          title: "AI-Driven Analytics",
+          title: "Your Startup?",
           description: "Built an AI-powered business analytics platform that helps companies increase revenue by 30% through data-driven insights.",
           imageUrl: "/globe.svg",
           geometryType: "icosahedron"
