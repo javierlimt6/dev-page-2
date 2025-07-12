@@ -15,24 +15,25 @@ import { FaMedal, FaLaptopCode, FaChartLine, FaHandshake, FaExternalLinkAlt } fr
 
 const leadershipItems = [
   {
-    id: "floorball-ig-head",
-    title: "Head of RC4Floorball",
-    description: "Provides leadership for the floorball team, organising training sessions, fostering teamwork, and strategising for competitions. Organised a workshop introducing 30+ residents to pick up the sport. Won 2nd Runner-Up at Inter-College Games 2025 🏆",
-    icon: FaMedal,
-  },
-  {
-    id: "csc-swe",
-    title: "Lead Software Engineer of RC4 CSCTech",
-    description: "Leads software development projects, manages team tasks, and ensures the delivery of high-quality technical solutions in the RC. Now actively involved in 2 projects 💻",
-    icon: FaLaptopCode,
-  },
-  {
     id: "rc4-entre",
-    title: "Financial Executive for RC4 Entrepreneurship Club",
+    title: "President @ RC4 Entrepreneurship Club",
     description: "Promoting entrepreneurship in Resident College 4. Organised events like the Startup Carnival, connecting RC4 residents with startups based in NUS, and a Pitching Clinic where over 40 participants gained valuable insights on crafting compelling pitches, capturing investor interest, and scaling big ideas. 🚀🌱",
     icon: FaChartLine,
     link: "https://www.linkedin.com/company/rc4-entre/",
   },
+  {
+    id: "rc4-pitch",
+    title: "Top 4 @ RC4 Pitching Competition",
+    description: "Selected as one of the top 4 teams in the RC4 Pitching Competition, presenting an innovative startup idea to a panel of industry judges. Demonstrated strong communication, teamwork, and entrepreneurial skills while competing against talented peers from across the college.",
+    icon: FaMedal,
+  },
+  {
+    id: "csc-swe",
+    title: "Building a Startup",
+    description: "Mentored by Professors from NUS, UM, supported by RC4, NOC, NES. (see Startup?)",
+    icon: FaLaptopCode,
+  },
+
   {
     id: "startup-nes",
     title: "Startup Member at NUS Entrepreneurship Society",
@@ -49,8 +50,8 @@ const Leadership = () => {
   return (
     <Box as="section" id="leadership" py={20}>
       <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Leadership & Activities</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>Things I am passionate about</Text>
+        <Heading as="h1" size="5xl" textAlign="center" mb={4}>Entrepreneurial Activities</Heading>
+        <Text fontSize="lg" textAlign="center" mb={12}>Putting my skills to impact the world</Text>
         
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>
           {leadershipItems.map((item) => (

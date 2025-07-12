@@ -12,7 +12,7 @@ import {
   VisuallyHidden,
   ChakraProvider, createSystem, defaultConfig
 } from '@chakra-ui/react';
-import { FaGithub, FaInstagram, FaLinkedin, FaComments, FaTimes, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import { FaGithub, FaFileAlt, FaInstagram, FaLinkedin, FaComments, FaTimes, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 
 interface HeaderProps {
   persona: string;
@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Button
                   size="sm"
                   variant={persona === 'developer' ? 'solid' : 'outline'}
-                  colorScheme="blue"
+                  colorPalette="purple"
                   onClick={() => onPersonaChange('developer')}
                 >
                   Computer Science
@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Button
                   size="sm"
                   variant={persona === 'entrepreneur' ? 'solid' : 'outline'}
-                  colorScheme="orange"
+                  colorPalette="orange"
                   onClick={() => onPersonaChange('entrepreneur')}
                 >
                   Entrepreneurship
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Button
                   size="sm"
                   variant={persona === 'video-creator' ? 'solid' : 'outline'}
-                  colorScheme="purple"
+                  colorPalette="green"
                   onClick={() => onPersonaChange('video-creator')}
                 >
                   Hobbies & Others
@@ -121,14 +121,17 @@ const Header: React.FC<HeaderProps> = ({
               
               {/* Social Links */}
               <HStack gap={3} display={{ base: 'none', md: 'flex' }}>
-                <Button 
-                  onClick={scrollToContact} 
-                  variant="outline" 
-                  colorScheme="blue"
-                  size="sm"
-                >
-                  Resume
-                </Button>
+                <Link href="/resume.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
+                  <Button 
+                    variant="solid" 
+                    size="md"
+                    colorPalette="blue"
+                    color="white"
+                  >
+                    <Icon as={FaFileAlt} mr={2} />
+                    Resume
+                  </Button>
+                </Link>
                 <Link 
                   href="https://linkedin.com/in/jav-lim" 
                   target="_blank" 

@@ -652,7 +652,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
           description: "Understand my current education and interests in Computer Science.",
           imageUrl: "/window.svg",
           geometryType: "octahedron",
-          componentType: "life" // This will render the Life component
+          componentType: "education" // This will render the Life component
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}

@@ -13,13 +13,13 @@ const lifeCategories = [
   {
     id: "floorball",
     title: "Floorball",
-    description: "A passionate floorball player, participating in local leagues and tournaments since 2020.",
+    description: "I play floorball, and have been participating in local leagues and tournaments since 2020.",
     image: "/images/flb.jpg"
   },
   {
     id: "travel",
-    title: "Travel",
-    description: "An avid traveler who has visited over 20 countries, always seeking new cultures and experiences.",
+    title: "Travelling",
+    description: "An avid traveler! Visited over 20 countries, spent 6 months in the past 2 years overseas, always seeking new cultures and experiences",
     image: "/images/travel.png"
   },
   {
@@ -36,8 +36,8 @@ const Life = () => {
   return (
     <Box as="section" id="life" py={20}>
       <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Life Beyond Code</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>What I do in my free time (when I get any..)</Text>
+        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Personal Life</Heading>
+        <Text fontSize="lg" textAlign="center" mb={12}>i attempt touching grass</Text>
         
         <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={8}>
           {lifeCategories.map((category) => (
@@ -64,7 +64,7 @@ const Life = () => {
               </Box>
               
               <CardBody p={6}>
-                <Heading as="h3" size="lg" mb={3}>{category.title}</Heading>
+                <Heading as="h3" size="lg" mb={3} color="white">{category.title}</Heading>
                 <Text color="gray.400">{category.description}</Text>
               </CardBody>
             </Card.Root>

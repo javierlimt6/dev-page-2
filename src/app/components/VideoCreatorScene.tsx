@@ -6,7 +6,7 @@ import InteractiveObject from './InteractiveObject';
 
 // Vibrant Sunset Gradient Background Component
 function SkyboxSphere() {
-  const skyTexture = useLoader(TextureLoader, '/panoramic-beach.png'); // Put sky.jpg in your public folder
+  const skyTexture = useLoader(TextureLoader, '/panoramic-beach.png');
   
   return (
     <mesh>
@@ -19,7 +19,150 @@ function SkyboxSphere() {
   );
 }
 
-// Stylized Palm Tree Component
+// Beach Rock Component
+function BeachRock({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  return (
+    <mesh position={position} scale={scale} castShadow>
+      <dodecahedronGeometry args={[0.3, 0]} />
+      <meshStandardMaterial color="#8B7355" roughness={0.9} />
+    </mesh>
+  );
+}
+
+// Seashell Component
+function Seashell({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  const shellRef = useRef<Mesh>(null);
+  
+  useFrame(({ clock }) => {
+    if (shellRef.current) {
+      shellRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+    }
+  });
+
+  return (
+    <mesh ref={shellRef} position={position} scale={scale} castShadow>
+      <coneGeometry args={[0.08, 0.15, 8]} />
+      <meshStandardMaterial color="#F5DEB3" roughness={0.7} />
+    </mesh>
+  );
+}
+
+// Beach Umbrella Component
+function BeachUmbrella({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  const umbrellaRef = useRef<Group>(null);
+  
+  useFrame(({ clock }) => {
+    if (umbrellaRef.current) {
+      umbrellaRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.3) * 0.05;
+    }
+  });
+
+  return (
+    <group ref={umbrellaRef} position={position} scale={scale}>
+      {/* Umbrella Pole */}
+      <mesh position={[0, 1.5, 0]} castShadow>
+        <cylinderGeometry args={[0.03, 0.03, 3, 8]} />
+        <meshStandardMaterial color="#8B4513" />
+      </mesh>
+      
+      {/* Umbrella Top */}
+      <mesh position={[0, 2.8, 0]} castShadow>
+        <coneGeometry args={[1.2, 0.8, 8]} />
+        <meshStandardMaterial color="#FF6B6B" />
+      </mesh>
+      
+      {/* Umbrella Stripes */}
+      {Array.from({ length: 8 }, (_, i) => {
+        const angle = (i / 8) * Math.PI * 2;
+        const x = Math.cos(angle) * 0.6;
+        const z = Math.sin(angle) * 0.6;
+        
+        return (
+          <mesh
+            key={i}
+            position={[x, 2.8, z]}
+            rotation={[0, angle, 0]}
+            castShadow
+          >
+            <boxGeometry args={[0.1, 0.8, 0.05]} />
+            <meshStandardMaterial color="#FFFFFF" />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+}
+
+// Beach Ball Component
+function BeachBall({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  const ballRef = useRef<Mesh>(null);
+  
+  useFrame(({ clock }) => {
+    if (ballRef.current) {
+      ballRef.current.rotation.x = clock.getElapsedTime() * 0.5;
+      ballRef.current.rotation.z = clock.getElapsedTime() * 0.3;
+      ballRef.current.position.y = position[1] + Math.sin(clock.getElapsedTime() * 2) * 0.1;
+    }
+  });
+
+  return (
+    <mesh ref={ballRef} position={position} scale={scale} castShadow>
+      <sphereGeometry args={[0.3, 16, 16]} />
+      <meshStandardMaterial color="#FF69B4" />
+    </mesh>
+  );
+}
+
+// Surfboard Component
+function Surfboard({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  return (
+    <mesh position={position} scale={scale} rotation={[0, Math.PI / 4, 0]} castShadow>
+      <boxGeometry args={[0.15, 0.05, 2]} />
+      <meshStandardMaterial color="#00CED1" />
+    </mesh>
+  );
+}
+
+// Beach Chair Component
+function BeachChair({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  return (
+    <group position={position} scale={scale}>
+      {/* Chair Frame */}
+      <mesh position={[0, 0.5, 0]} castShadow>
+        <boxGeometry args={[0.8, 0.1, 0.6]} />
+        <meshStandardMaterial color="#8B4513" />
+      </mesh>
+      
+      {/* Chair Back */}
+      <mesh position={[0, 1, -0.25]} rotation={[-Math.PI / 6, 0, 0]} castShadow>
+        <boxGeometry args={[0.8, 0.8, 0.1]} />
+        <meshStandardMaterial color="#FF4500" />
+      </mesh>
+      
+      {/* Chair Legs */}
+      {[-0.3, 0.3].map((x, i) => (
+        [-0.2, 0.2].map((z, j) => (
+          <mesh key={`${i}-${j}`} position={[x, 0.25, z]} castShadow>
+            <cylinderGeometry args={[0.02, 0.02, 0.5, 8]} />
+            <meshStandardMaterial color="#8B4513" />
+          </mesh>
+        ))
+      )).flat()}
+    </group>
+  );
+}
+
+// Driftwood Component
+function Driftwood({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  return (
+    <mesh position={position} scale={scale} rotation={[0, Math.random() * Math.PI, 0]} castShadow>
+      <cylinderGeometry args={[0.05, 0.08, 1.5, 8]} />
+      <meshStandardMaterial color="#DEB887" roughness={0.8} />
+    </mesh>
+  );
+}
+
+// Stylized Palm Tree Component - Updated for brightness
 function PalmTree({ position, scale = 1, delay = 0 }: { 
   position: [number, number, number]; 
   scale?: number; 
@@ -49,13 +192,13 @@ function PalmTree({ position, scale = 1, delay = 0 }: {
 
   return (
     <group ref={treeGroupRef} position={position} scale={scale}>
-      {/* Palm Tree Trunk */}
+      {/* Palm Tree Trunk - Brighter */}
       <mesh ref={trunkRef} position={[0, 2, 0]} castShadow>
         <cylinderGeometry args={[0.12, 0.18, 4, 8]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.9} />
+        <meshStandardMaterial color="#CD853F" roughness={0.7} />
       </mesh>
       
-      {/* Palm Leaves - arranged in a crown */}
+      {/* Palm Leaves - Brighter green */}
       {Array.from({ length: 8 }, (_, i) => {
         const angle = (i / 8) * Math.PI * 2;
         const x = Math.cos(angle) * 0.25;
@@ -70,12 +213,12 @@ function PalmTree({ position, scale = 1, delay = 0 }: {
             castShadow
           >
             <boxGeometry args={[0.08, 2, 0.04]} />
-            <meshStandardMaterial color="#228B22" roughness={0.7} />
+            <meshStandardMaterial color="#32CD32" roughness={0.5} />
           </mesh>
         );
       })}
       
-      {/* Coconuts for added detail */}
+      {/* Coconuts - Brighter */}
       {Array.from({ length: 2 }, (_, i) => (
         <mesh
           key={`coconut-${i}`}
@@ -87,7 +230,7 @@ function PalmTree({ position, scale = 1, delay = 0 }: {
           castShadow
         >
           <sphereGeometry args={[0.06, 8, 6]} />
-          <meshStandardMaterial color="#8B4513" roughness={0.8} />
+          <meshStandardMaterial color="#DEB887" roughness={0.6} />
         </mesh>
       ))}
     </group>
@@ -118,13 +261,32 @@ function FloatingParticle({ position, delay = 0 }: {
   );
 }
 
-function Floor() {
-    return (
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
-        <meshStandardMaterial color="#2d5a3d" roughness={0.8} />
-      </mesh>
-    );
+// Beach Sand Floor Component
+function BeachFloor() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+      <planeGeometry args={[25, 25]} />
+      <meshStandardMaterial color="#F4A460" roughness={0.9} />
+    </mesh>
+  );
+}
+
+// Water/Ocean Component
+function Ocean() {
+  const oceanRef = useRef<Mesh>(null);
+  
+  useFrame(({ clock }) => {
+    if (oceanRef.current) {
+      oceanRef.current.position.y = -0.3 + Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+    }
+  });
+
+  return (
+    <mesh ref={oceanRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.3, 8]} receiveShadow>
+      <planeGeometry args={[30, 15]} />
+      <meshStandardMaterial color="#0077BE" transparent opacity={0.8} roughness={0.1} />
+    </mesh>
+  );
 }
 
 function Torus() {
@@ -187,29 +349,17 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
   const palmTreeCount = isMobile ? 4 : 8;
   const particleCount = isMobile ? 6 : 12;
 
-  // Instead of VideoTexture, load your GIF:
-  const gifTexture = useTexture('/sunset.gif')  // put background.gif in /public
-
   return (
     <>
-      {/* Replace your <SunsetGradientBackground/> or video‐plane */}
+      {/* Beach Skybox */}
       <SkyboxSphere />
 
-      {/* <mesh position={[0, 10, -20]} scale={[40, 25, 1]}>
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial
-          map={gifTexture}
-          toneMapped={false}
-          side={DoubleSide}
-        />
-      </mesh> */}
-
-      {/* Optimized Lighting for Tropical Scene */}
-      <ambientLight intensity={0.4} color="#FFE4B5" />
+      {/* BRIGHTER LIGHTING SETUP */}
+      <ambientLight intensity={0.8} color="#FFFFFF" />
       <directionalLight 
         position={[10, 10, 5]} 
-        intensity={0.6} 
-        color="#FFF8DC"
+        intensity={1.2} 
+        color="#FFFFFF"
         castShadow
         shadow-mapSize-width={isMobile ? 1024 : 2048}
         shadow-mapSize-height={isMobile ? 1024 : 2048}
@@ -219,19 +369,85 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
         shadow-camera-top={20}
         shadow-camera-bottom={-20}
       />
-      <pointLight position={[-5, 5, -5]} intensity={0.3} color="#87CEEB" />
-      <hemisphereLight args={["#87CEEB", "#2F4F4F", 0.3]} />
+      <directionalLight 
+        position={[-10, 10, -5]} 
+        intensity={0.8} 
+        color="#FFF8DC"
+      />
+      <pointLight position={[-5, 5, -5]} intensity={0.8} color="#FFFFFF" />
+      <pointLight position={[5, 5, 5]} intensity={0.8} color="#FFFFFF" />
+      <pointLight position={[0, 8, 0]} intensity={0.6} color="#FFFFFF" />
+      <hemisphereLight args={["#FFFFFF", "#CCCCCC", 0.6]} />
+      <spotLight
+        position={[0, 15, 0]}
+        angle={Math.PI / 3}
+        penumbra={0.5}
+        intensity={0.5}
+        color="#FFFFFF"
+        target-position={[0, 0, 0]}
+      />
 
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#FFD700" fontWeight="bold">
         Enthusiast
       </Text>
-      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0a192f">
+      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#333333">
         Javier Lim
       </Text>
       
-      {/* Floor */}
-      <Floor />
+      {/* Beach Floor & Ocean */}
+      <BeachFloor />
+      {/* <Ocean /> */}
+      
+      {/* Beach Elements */}
+      {!isMobile && (
+        <>
+          {/* Beach Umbrellas */}
+          <BeachUmbrella position={[-4, 0, 2]} scale={0.8} />
+          <BeachUmbrella position={[5, 0, 3]} scale={0.9} />
+          
+          {/* Beach Chairs */}
+          <BeachChair position={[-3.5, 0, 1.5]} scale={0.7} />
+          <BeachChair position={[4.5, 0, 2.5]} scale={0.7} />
+          
+          {/* Beach Balls */}
+          <BeachBall position={[2, 0.3, 1]} scale={0.8} />
+          <BeachBall position={[-1, 0.3, 4]} scale={0.6} />
+          
+          {/* Surfboards */}
+          <Surfboard position={[6, 0, 1]} scale={0.8} />
+          <Surfboard position={[-5, 0, 4]} scale={0.9} />
+          
+          {/* Driftwood */}
+          <Driftwood position={[3, 0, 5]} scale={0.8} />
+          <Driftwood position={[-2, 0, 6]} scale={0.6} />
+          <Driftwood position={[1, 0, 7]} scale={0.7} />
+          
+          {/* Beach Rocks */}
+          <BeachRock position={[7, 0, 2]} scale={0.8} />
+          <BeachRock position={[-6, 0, 3]} scale={0.6} />
+          <BeachRock position={[4, 0, 6]} scale={0.7} />
+          <BeachRock position={[-3, 0, 7]} scale={0.9} />
+          
+          {/* Seashells */}
+          <Seashell position={[1.5, 0, 2]} scale={0.8} />
+          <Seashell position={[-1.5, 0, 3]} scale={0.6} />
+          <Seashell position={[2.5, 0, 4]} scale={0.7} />
+          <Seashell position={[-2.5, 0, 5]} scale={0.9} />
+        </>
+      )}
+
+      {/* Mobile-optimized Beach Elements */}
+      {isMobile && (
+        <>
+          <BeachUmbrella position={[-3, 0, 2]} scale={0.6} />
+          <BeachChair position={[3, 0, 1]} scale={0.5} />
+          <BeachBall position={[1, 0.3, 3]} scale={0.6} />
+          <Surfboard position={[-2, 0, 4]} scale={0.6} />
+          <Driftwood position={[2, 0, 5]} scale={0.6} />
+          <BeachRock position={[-1, 0, 6]} scale={0.6} />
+        </>
+      )}
       
       {/* 3D Man Model - Central Position */}
       <InteractiveObject
@@ -241,7 +457,8 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
           title: "About Javier",
           description: "Creative content creator specializing in cinematic storytelling, motion graphics, and immersive 3D experiences. Expert in Adobe Creative Suite and Three.js.",
           imageUrl: "/man.glb",
-          geometryType: "torus"
+          geometryType: "torus",
+          componentType: "life"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
@@ -250,7 +467,6 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
       {/* Palm Trees - Positioned to Frame Content */}
       {!isMobile && (
         <>
-          {/* Background Palm Trees */}
           <PalmTree position={[-8, 0, -3]} scale={1.2} delay={0} />
           <PalmTree position={[8, 0, -4]} scale={1.0} delay={0.5} />
           <PalmTree position={[-6, 0, 6]} scale={0.8} delay={1.0} />
@@ -284,84 +500,6 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
           delay={i * 0.2}
         />
       ))}
-      
-      {/* Original Scene Elements */}
-      
-      {/* Interactive Project Objects */}
-      <InteractiveObject
-        position={[3, 1, 0]}
-        project={{
-          id: "vc-project-1",
-          title: "Travelling",
-          description: "Capturing beautiful moments from around the world, focusing on landscapes, cultures, and hidden gems discovered during my adventures.",
-          imageUrl: "/file.svg",
-          geometryType: "torus"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      <InteractiveObject
-        position={[-3, 1, 0]}
-        project={{
-          id: "vc-project-2",
-          title: "Floorball",
-          description: "Exploring diverse cuisines and creating fusion dishes that blend traditional techniques with modern creativity.",
-          imageUrl: "/next.svg",
-          geometryType: "cone"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      <InteractiveObject
-        position={[0, 1, 3]}
-        project={{
-          id: "vc-project-3",
-          title: "Video Production",
-          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
-          imageUrl: "/globe.svg",
-          geometryType: "sphere"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      <InteractiveObject
-        position={[0, 3, 5]}
-        project={{
-          id: "vc-project-4",
-          title: "Chinese Chess",
-          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
-          imageUrl: "/globe.svg",
-          geometryType: "sphere"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      <InteractiveObject
-        position={[-3, 2, 6]}
-        project={{
-          id: "vc-project-5",
-          title: "Cycling",
-          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
-          imageUrl: "/globe.svg",
-          geometryType: "sphere"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      <InteractiveObject
-        position={[3, 2, 4]}
-        project={{
-          id: "vc-project-6",
-          title: "Guitar",
-          description: "Creating ambient and electronic music tracks, experimenting with soundscapes and digital audio synthesis.",
-          imageUrl: "/globe.svg",
-          geometryType: "sphere"
-        }}
-        onProjectActivate={onProjectActivate}
-        themeColors={themeColors}
-      />
-      
-      {/* 3D Man Model - Positioned in the Scene */}
     </>
   );
 }

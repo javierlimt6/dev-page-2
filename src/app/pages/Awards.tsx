@@ -19,27 +19,9 @@ const awards = [
       },
       {
         id: 2,
-        title: "Pitching Competitions",
-        subtitle: "RC4 Pitching Competition",
-        description: "Pitched Chimera to various judges, including a Stanford professor from Silicon Valley for a $10,000 grant funded by NUS Enterprise"
-      },
-      {
-        id: 3,
         title: "Serial Olympiad Medallist",
         subtitle: "Participating since 2016",
         description: "International Olympiads: IJMO 2018 (Bronze) SIMOC 2017 (Bronze, Rank 26) National Olympiads: 2x Distinctions, 2x Silver, 1x Bronze, 1x Credit"
-      },
-      {
-        id: 4,
-        title: "Sportsperson",
-        subtitle: "Floorball",
-        description: "Participated in national SFA Divisions 2 & 4 2022-2023, Inter-Faculty Games 2024 Gold, Inter-College Games 2025 Bronze"
-      },
-      {
-        id: 5,
-        title: "Sweaty Gamer",
-        subtitle: "Tech Innovators",
-        description: "Inter-College Games 2025: Super Smash Bros Ultimate (Gold), Foosball (Gold), FIFA Captain (Bronze), resident video game tryhard"
       }
 ];
 
@@ -51,13 +33,13 @@ const Awards = () => {
       <Box 
         position="absolute" 
         inset="0" 
-        bg="rgba(255,255,255,0.3)" 
+        bg="rgba(9, 9, 9, 0.3)" 
         backdropFilter="blur(10px)" 
       />
       
       <Box maxW="5xl" mx="auto" position="relative" zIndex={1} px={{ base: 4, md: 8 }}>
         <Heading as="h1" size="5xl" textAlign="center" mb={4} color="white">Activites</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12} color="gray.300">I chase shiny stuffs (Do not take this section too seriously)</Text>
+        <Text fontSize="lg" textAlign="center" mb={12} color="gray.300">My Extracurriculars</Text>
         
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>
           {awards.map((award) => (

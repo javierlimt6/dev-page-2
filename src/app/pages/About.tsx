@@ -42,17 +42,15 @@ const About = () => {
 
               <Box>
                 <Flex align="center" gap={4}>
-                  <Text fontSize="lg" fontWeight="semibold">
-                    Resume:
-                  </Text>
                   <Link href="/resume.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
                     <Button 
-                      variant="outline" 
-                      colorScheme="blue"
+                      variant="solid" 
                       size="lg"
+                      colorPalette="blue"
+                      color="white"
                     >
                       <Icon as={FaFileAlt} mr={2} />
-                      1 Page
+                      Resume
                     </Button>
                   </Link>
                 </Flex>

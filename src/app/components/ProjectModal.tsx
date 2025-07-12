@@ -17,6 +17,7 @@ import Name from '../pages/Name';
 import Photo from '../pages/Photo';
 import AboutEntre from '../pages/AboutEntre';
 import Startup from '../pages/Startup';
+import Education from '../pages/Education'
 
 interface ProjectModalProps {
   title: string;
@@ -33,6 +34,7 @@ interface ProjectModalProps {
     two: string;
     three: string;
   };
+  link?: string;
 }
 
 export default function ProjectModal({
@@ -42,6 +44,7 @@ export default function ProjectModal({
   onClose,
   project,
   themeColors,
+  link
 }: ProjectModalProps) {
   
   // Create a theme system for the modal
@@ -75,7 +78,38 @@ export default function ProjectModal({
                 }} 
               />
             </div>
-          )}
+            )}
+            {link && (
+            <div style={{ marginBottom: '15px', textAlign: 'center' }}>
+              <a 
+              href={link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ 
+                color: themeColors?.one || '#64ffda',
+                textDecoration: 'none',
+                fontSize: '1.1rem',
+                fontWeight: 'bold',
+                padding: '10px 20px',
+                border: `2px solid ${themeColors?.one || '#64ffda'}`,
+                borderRadius: '8px',
+                display: 'inline-block',
+                transition: 'all 0.3s ease',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = themeColors?.one || '#64ffda';
+                e.currentTarget.style.color = '#000';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.color = themeColors?.one || '#64ffda';
+              }}
+              >
+              View
+              </a>
+            </div>
+            )}
           <p style={{ 
             lineHeight: '1.6',
             fontSize: '1.1rem',
@@ -89,14 +123,14 @@ export default function ProjectModal({
 
     // Render specific page component based on componentType
     switch (project.componentType.toLowerCase()) {
+      case 'education':
+        return <Education />;
       case 'about':
         return <About />;
       case 'about_entre':
-        return <AboutEntre />
-      case 'about_hobby':
-        return <AboutHobby />
+        return <AboutEntre />;
       case 'startup':
-        return <Startup />
+        return <Startup />;
       case 'awards':
         return <Awards />;
       case 'leadership':

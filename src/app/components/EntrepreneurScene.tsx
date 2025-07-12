@@ -65,14 +65,14 @@ function TechBuildings() {
   return (
     <>
       {/* Background building silhouettes */}
-      <Building position={[-8, 0, -5]} height={6} width={1.5} depth={1} />
+      <Building position={[-7, 0, -5]} height={6} width={1.5} depth={1} />
       <Building position={[-5, 0, -6]} height={8} width={2} depth={1.5} />
       <Building position={[-2, 0, -4]} height={5} width={1.2} depth={0.8} />
       <Building position={[2, 0, -5]} height={7} width={1.8} depth={1.2} />
       <Building position={[5, 0, -6]} height={4.5} width={1.3} depth={1} />
-      <Building position={[8, 0, -4]} height={6.5} width={2.2} depth={1.6} />
-      <Building position={[10, 0, -7]} height={9} width={1.6} depth={1.1} />
-      <Building position={[-10, 0, -8]} height={5.5} width={1.4} depth={0.9} />
+      <Building position={[7, 0, -4]} height={6.5} width={2.2} depth={1.6} />
+      <Building position={[9, 0, -7]} height={9} width={1.6} depth={1.1} />
+      <Building position={[-9, 0, -6]} height={5.5} width={1.4} depth={0.9} />
     </>
   );
 }
@@ -500,7 +500,7 @@ function RocketShip({ position }: { position: [number, number, number] }) {
 function Floor() {
     return (
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
-        <planeGeometry args={[20, 20]} />
+        <planeGeometry args={[20, 15]} />
         <meshStandardMaterial 
           color="#34495e" 
           roughness={0.1}
@@ -629,7 +629,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
           description: "Aspiring Entrepreneur",
           imageUrl: "/man.glb",
           geometryType: "dodecahedron",
-          componentType: "about_entre"
+          componentType: "leadership"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
@@ -643,29 +643,29 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         project={{
           id: "ent-project-1",
           title: "NUS Overseas College",
-          description: "Developed a scalable SaaS platform that serves 10,000+ businesses worldwide, generating $2M+ ARR through innovative cloud solutions.",
-          imageUrl: "/vercel.svg",
+          description: "Part of the NOCMY Batch 5, Summer of 2025",
+          imageUrl: "/noc.png",
           geometryType: "dodecahedron",
-          componentType: "photo"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
-      <InteractiveObject
+      {/* <InteractiveObject
         position={[-3, 1, 0]}
         scale={1.5}
         project={{
           id: "ent-project-2",
-          title: "Activities",
+          title: "Activites",
           description: "Founded a fintech startup that revolutionized digital payments, secured Series A funding, and processed $50M+ in transactions.",
           imageUrl: "/window.svg",
-          geometryType: "sphere"
+          geometryType: "sphere",
+          componentType: "leadership"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
-      />
+      /> */}
       <InteractiveObject
-        position={[0, 1, 3]}
+        position={[-3, 2, 2]}
         scale={1.5}
         project={{
           id: "ent-project-3",
