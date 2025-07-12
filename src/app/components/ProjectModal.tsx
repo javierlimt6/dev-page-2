@@ -126,8 +126,6 @@ export default function ProjectModal({
         return <Education />;
       case 'about':
         return <About />;
-      case 'about_entre':
-        return <AboutEntre />;
       case 'startup':
         return <Startup />;
       case 'awards':
