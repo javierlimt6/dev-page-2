@@ -3,16 +3,25 @@
 import 'antd/dist/reset.css';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
-import { useRef, useState, useEffect, Suspense } from 'react';
+import { useRef, useState, useEffect, Suspense, lazy } from 'react';
 import { Mesh, Color } from 'three';
-import DeveloperScene from './components/DeveloperScene';
-import EntrepreneurScene from './components/EntrepreneurScene';
-import VideoCreatorScene from './components/VideoCreatorScene';
 import ProjectModal from './components/ProjectModal';
 import Header from './pages/Header';
-import AIChatBox from '../components/AIChatBox';
 import { useAIChat } from '../hooks/useAIChat';
 import { Project } from '../types';
+import { ErrorBoundary } from 'react-error-boundary';
+
+// Lazy load heavy components
+const DeveloperScene = lazy(() => import('./components/DeveloperScene'));
+const EntrepreneurScene = lazy(() => import('./components/EntrepreneurScene'));
+const VideoCreatorScene = lazy(() => import('./components/VideoCreatorScene'));
+
+// Fallback loading component
+const SceneLoader = () => (
+  <div className="flex items-center justify-center h-screen">
+    <div className="text-white text-xl">Loading 3D Experience...</div>
+  </div>
+);
 
 interface SceneProps {
   persona: string;
@@ -128,28 +137,27 @@ export default function Home() {
         onChatToggle={handleChatToggle}
       />
 
-      <Canvas camera={{ position: [0, 4, 8], fov: 90 }}>
-        <Suspense fallback={null}>
-          <Scene 
-            persona={persona} 
-            themeColors={themeColors} 
-            onProjectActivate={handleProjectActivate} 
-          />
-        </Suspense>
-      </Canvas>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Canvas
+          camera={{ position: [0, 4, 8], fov: 90 }}
+          dpr={[1, 1.5]} // Limit device pixel ratio for performance
+          performance={{ min: 0.5 }} // Auto-adjust quality
+          gl={{ 
+            antialias: false, // Disable for better performance
+            alpha: false,
+            powerPreference: "high-performance"
+          }}
+        >
+          <Suspense fallback={<SceneLoader />}>
+            <Scene 
+              persona={persona} 
+              themeColors={themeColors} 
+              onProjectActivate={handleProjectActivate} 
+            />
+          </Suspense>
+        </Canvas>
+      </ErrorBoundary>
       <Loader />
-
-      {showChat && (
-        <AIChatBox 
-          onSendMessage={sendMessage} 
-          chatHistory={chatHistory} 
-          isLoading={isLoading}
-          isInitialized={isInitialized}
-          voiceEnabled={voiceEnabled}
-          initializationProgress={initializationProgress}
-          themeColors={getCurrentTheme()}
-        />
-      )}
       {showProjectModal && activeProject && (
         <ProjectModal
           title={activeProject.title}
