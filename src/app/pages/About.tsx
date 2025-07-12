@@ -75,7 +75,7 @@ const About = () => {
                   <Stack gap={3}>
                     <Box>
                       <Text fontWeight="medium">
-                        Bachelor's in Computer Science
+                        Bachelors in Computer Science
                       </Text>
                       <Text fontSize="sm" color="gray.400">
                         National University of Singapore, 2024-2028

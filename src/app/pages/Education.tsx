@@ -74,7 +74,7 @@ const Education = () => {
               🎓 Education
             </Heading>
             <Text fontSize="lg" color="gray.300" maxW="2xl">
-              My academic journey at one of Asia's leading universities
+              My academic journey at one of Asias leading universities
             </Text>
           </VStack>
 

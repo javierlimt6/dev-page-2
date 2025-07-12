@@ -52,7 +52,7 @@ const Contact = () => {
             Contact Me
           </Heading>
           <Text fontSize="lg" textAlign="center" color="gray.400">
-            Let's chat 😊
+            Lets chat 😊
           </Text>
           
           <Box 
@@ -73,7 +73,7 @@ const Contact = () => {
                     </Heading>
                   </HStack>
                   <Text mb={4}>
-                    Interested in working together or have a question? Send me a message and I'll get back to you as soon as possible.
+                    Interested in working together or have a question? Send me a message and Ill get back to you as soon as possible.
                   </Text>
                   <Text color="gray.400">
                     Alternatively, you can contact me directly at{' '}

@@ -165,13 +165,13 @@ const Startup = () => {
                           ⚡ BlazeUp
                         </Heading>
                         <Text fontSize="md" color={textMuted} fontStyle="italic">
-                          The Last Morning Routine App You'll Need
+                          The Last Morning Routine App You Will Need
                         </Text>
                       </VStack>
                     </HStack>
                     
                     <Text fontSize="sm" lineHeight="1.6" color={textSecondary}>
-                      BlazeUp is a mobile-first productivity platform built for Gen Z and Millennials in fast-paced environments. It's meticulously designed to help users establish consistent, effective morning routines by overcoming digital distractions, leveraging social accountability, and gamifying habit formation.
+                      BlazeUp is a mobile-first productivity platform built for Gen Z and Millennials in fast-paced environments. It is meticulously designed to help users establish consistent, effective morning routines by overcoming digital distractions, leveraging social accountability, and gamifying habit formation.
                     </Text>
 
                     {/* <VStack gap={2} align="stretch">
@@ -257,7 +257,7 @@ const Startup = () => {
                 </Heading>
               </HStack>
               <Text fontSize="md" lineHeight="1.7" color={textSecondary}>
-                We're committed to advancing youth-driven digital innovation, supporting young people as they transition into empowered digital citizens and entrepreneurs. This aligns with global efforts recognizing youth as essential drivers of technological progress and sustainable development.
+                We are committed to driving solutions to solve real problems people face.
               </Text>
             </VStack>
           </Box>

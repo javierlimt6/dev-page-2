@@ -15,7 +15,6 @@ import Contact from '../pages/Contact';
 import Hero from '../pages/Hero';
 import Name from '../pages/Name';
 import Photo from '../pages/Photo';
-import AboutEntre from '../pages/AboutEntre';
 import Startup from '../pages/Startup';
 import Education from '../pages/Education'
 
