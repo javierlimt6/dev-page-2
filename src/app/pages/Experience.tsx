@@ -79,7 +79,7 @@ const Experience = () => {
   return (
     <Box as="section" id="experience" py={20}>
       <Box maxW="5xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Experience</Heading>
+        <Heading as="h1" size="5xl" textAlign="center" mb={4}>Experience</Heading>
         <Text fontSize="lg" textAlign="center" mb={12}>My Technical Roles</Text>
         
         <Stack gap={8}>

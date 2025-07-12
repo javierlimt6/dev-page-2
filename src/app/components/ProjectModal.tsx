@@ -16,7 +16,7 @@ import Hero from '../pages/Hero';
 import Name from '../pages/Name';
 import Photo from '../pages/Photo';
 import AboutEntre from '../pages/AboutEntre';
-import AboutHobby from '../pages/AboutHobby';
+import Startup from '../pages/Startup';
 
 interface ProjectModalProps {
   title: string;
@@ -95,6 +95,8 @@ export default function ProjectModal({
         return <AboutEntre />
       case 'about_hobby':
         return <AboutHobby />
+      case 'startup':
+        return <Startup />
       case 'awards':
         return <Awards />;
       case 'leadership':

@@ -16,9 +16,23 @@
 
 import { Text } from '@react-three/drei';
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Mesh, Vector3, Color, ShaderMaterial, PlaneGeometry, DoubleSide, Group, VideoTexture } from 'three';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { Mesh, Group, VideoTexture, TextureLoader } from 'three';
 import InteractiveObject from './InteractiveObject';
+
+function SkyboxSphere() {
+  const skyTexture = useLoader(TextureLoader, '/panoramic-tech.png'); // Put sky.jpg in your public folder
+  
+  return (
+    <mesh>
+      <sphereGeometry args={[500, 60, 40]} />
+      <meshBasicMaterial 
+        map={skyTexture} 
+        side={2} // THREE.BackSide = 2
+      />
+    </mesh>
+  );
+}
 
 // Giant Laptop Environment - keyboard as floor, screen as background
 function LaptopEnvironment() {
@@ -521,6 +535,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
   return (
     <>
       {/* Immersive Tech Background */}
+      <SkyboxSphere />
       <LaptopEnvironment />
       
       {/* Enhanced Developer Lighting with screen glow */}
@@ -619,7 +634,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         scale={1.5}
         project={{
           id: "dev-project-3",
-          title: "Awards",
+          title: "Activites",
           description: "Check out my achievements and accolades.",
           imageUrl: "/vercel.svg",
           geometryType: "tetrahedron",

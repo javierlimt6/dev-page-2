@@ -56,7 +56,7 @@ const Awards = () => {
       />
       
       <Box maxW="5xl" mx="auto" position="relative" zIndex={1} px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4} color="white">Awards</Heading>
+        <Heading as="h1" size="5xl" textAlign="center" mb={4} color="white">Activites</Heading>
         <Text fontSize="lg" textAlign="center" mb={12} color="gray.300">I chase shiny stuffs (Do not take this section too seriously)</Text>
         
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>

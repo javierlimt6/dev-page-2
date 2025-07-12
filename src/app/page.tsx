@@ -114,7 +114,8 @@ export default function Home() {
           padding: '0.25rem 0.5rem',
           borderRadius: '0.375rem'
         }}>
-          Drag and hold to move around!
+          Hold with 1 finger to move around!
+          Hold with 2 fingers to shift the camera
         </div>
       </div>
 

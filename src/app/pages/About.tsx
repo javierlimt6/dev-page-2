@@ -55,17 +55,6 @@ const About = () => {
                       1 Page
                     </Button>
                   </Link>
-
-                  <Link href="/resume2.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
-                    <Button 
-                      variant="outline" 
-                      colorScheme="blue"
-                      size="lg"
-                    >
-                      <Icon as={FaFileAlt} mr={2} />
-                      2 Pages
-                    </Button>
-                  </Link>
                 </Flex>
               </Box>
             </Stack>
@@ -127,21 +116,6 @@ const About = () => {
                     "FASTApi", "Axios"
                   ].map((skill) => (
                       <Badge key={skill} colorScheme="green" px={3} py={1} borderRadius="full">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </Flex>
-                </Box>
-
-                <Box>
-                  <Heading as="h4" size="md" mb={3}>
-                    Content Creation
-                  </Heading>
-                  <Flex wrap="wrap" gap={2}>
-                    {["Figma", "Adobe Express", "Adobe Premiere Pro",
-                    "Adobe Photoshop", "Canva", "GIMPS"
-                  ].map((skill) => (
-                      <Badge key={skill} colorScheme="purple" px={3} py={1} borderRadius="full">
                         {skill}
                       </Badge>
                     ))}

@@ -111,7 +111,7 @@ const Projects = () => {
   return (
     <Box as="section" id="projects" py={20}>
       <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Projects</Heading>
+        <Heading as="h1" size="5xl" textAlign="center" mb={4}>Projects</Heading>
         <Text fontSize="lg" textAlign="center" mb={12}>The itches I am scratching!</Text>
         
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>

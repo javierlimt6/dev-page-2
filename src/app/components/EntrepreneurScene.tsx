@@ -12,12 +12,25 @@
  * - Modern color palette: #0066cc, #2c3e50, #f39c12, #e74c3c
  */
 
-import { Text } from '@react-three/drei';
+import { Text, Preload } from '@react-three/drei';
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide, VideoTexture } from 'three';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide, VideoTexture, TextureLoader } from 'three';
 import InteractiveObject from './InteractiveObject';
 
+function SkyboxSphere() {
+  const skyTexture = useLoader(TextureLoader, '/panoramic-sg.png'); // Put sky.jpg in your public folder
+  
+  return (
+    <mesh>
+      <sphereGeometry args={[500, 60, 40]} />
+      <meshBasicMaterial 
+        map={skyTexture} 
+        side={2} // THREE.BackSide = 2
+      />
+    </mesh>
+  );
+}
 // 1) Create a video‐backed background component
 function EntrepreneurVideoBackground() {
   const videoTexture = useMemo(() => {
@@ -576,9 +589,9 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
 
   return (
     <>
-      {/* Replace your shader background: */}
-+     <EntrepreneurVideoBackground />
-
+      {/* Skybox - Add this first */}
+      <SkyboxSphere />
+    
       {/* Professional Business Lighting */}
       <ambientLight intensity={0.3} color="#0066cc" />
       <directionalLight position={[10, 10, 5]} intensity={0.7} color="#ffffff" />
@@ -632,7 +645,8 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
           title: "NUS Overseas College",
           description: "Developed a scalable SaaS platform that serves 10,000+ businesses worldwide, generating $2M+ ARR through innovative cloud solutions.",
           imageUrl: "/vercel.svg",
-          geometryType: "dodecahedron"
+          geometryType: "dodecahedron",
+          componentType: "photo"
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
@@ -642,7 +656,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         scale={1.5}
         project={{
           id: "ent-project-2",
-          title: "Leadership & Activities",
+          title: "Activities",
           description: "Founded a fintech startup that revolutionized digital payments, secured Series A funding, and processed $50M+ in transactions.",
           imageUrl: "/window.svg",
           geometryType: "sphere"
@@ -655,16 +669,18 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         scale={1.5}
         project={{
           id: "ent-project-3",
-          title: "Your Startup?",
+          title: "Startup?",
           description: "Built an AI-powered business analytics platform that helps companies increase revenue by 30% through data-driven insights.",
           imageUrl: "/globe.svg",
-          geometryType: "icosahedron"
+          geometryType: "icosahedron",
+          componentType: "startup",
         }}
         onProjectActivate={onProjectActivate}
         themeColors={themeColors}
       />
       
       {/* 3D Man Model for Entrepreneur Scene */}
+      <Preload all />
     </>
   );
 }

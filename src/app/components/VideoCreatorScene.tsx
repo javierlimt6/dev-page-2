@@ -1,11 +1,23 @@
 import { Text, useTexture } from '@react-three/drei';
 import { useState, useEffect, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Mesh, Group, DoubleSide } from 'three';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { Mesh, Group, DoubleSide, TextureLoader } from 'three';
 import InteractiveObject from './InteractiveObject';
 
 // Vibrant Sunset Gradient Background Component
-
+function SkyboxSphere() {
+  const skyTexture = useLoader(TextureLoader, '/panoramic-beach.png'); // Put sky.jpg in your public folder
+  
+  return (
+    <mesh>
+      <sphereGeometry args={[500, 60, 40]} />
+      <meshBasicMaterial 
+        map={skyTexture} 
+        side={2} // THREE.BackSide = 2
+      />
+    </mesh>
+  );
+}
 
 // Stylized Palm Tree Component
 function PalmTree({ position, scale = 1, delay = 0 }: { 
@@ -181,14 +193,16 @@ export default function VideoCreatorScene({ onProjectActivate, themeColors }: Vi
   return (
     <>
       {/* Replace your <SunsetGradientBackground/> or video‐plane */}
-      <mesh position={[0, 10, -20]} scale={[40, 25, 1]}>
+      <SkyboxSphere />
+
+      {/* <mesh position={[0, 10, -20]} scale={[40, 25, 1]}>
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial
           map={gifTexture}
           toneMapped={false}
           side={DoubleSide}
         />
-      </mesh>
+      </mesh> */}
 
       {/* Optimized Lighting for Tropical Scene */}
       <ambientLight intensity={0.4} color="#FFE4B5" />
