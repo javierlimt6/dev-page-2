@@ -16,11 +16,12 @@ const DeveloperScene = lazy(() => import('./components/DeveloperScene'));
 const EntrepreneurScene = lazy(() => import('./components/EntrepreneurScene'));
 const VideoCreatorScene = lazy(() => import('./components/VideoCreatorScene'));
 
-// Fallback loading component
-const SceneLoader = () => (
-  <div className="flex items-center justify-center h-screen">
-    <div className="text-white text-xl">Loading 3D Experience...</div>
-  </div>
+// 3D Loading component for inside Canvas
+const Scene3DLoader = () => (
+  <mesh>
+    <boxGeometry args={[1, 1, 1]} />
+    <meshBasicMaterial color="white" />
+  </mesh>
 );
 
 interface SceneProps {
@@ -57,6 +58,7 @@ export default function Home() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [showChat, setShowChat] = useState(false);
+  const [isCanvasLoading, setIsCanvasLoading] = useState(true);
 
   // Use AI Chat hook
   const {
@@ -110,7 +112,27 @@ export default function Home() {
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      {/* Instruction prompt (must be above Header & Canvas, zIndex > header */}
+      {/* Loading overlay - OUTSIDE Canvas */}
+      {isCanvasLoading && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0,0,0,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{ color: 'white', fontSize: '1.5rem' }}>
+            Loading (pls wait a while)...
+          </div>
+        </div>
+      )}
+
+      {/* Instruction prompt */}
       <div style={{
         position: 'absolute',
         top: '5rem',
@@ -140,15 +162,19 @@ export default function Home() {
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <Canvas
           camera={{ position: [0, 4, 8], fov: 90 }}
-          dpr={[1, 1.5]} // Limit device pixel ratio for performance
-          performance={{ min: 0.5 }} // Auto-adjust quality
+          dpr={[1, 1.5]}
+          performance={{ min: 0.5 }}
           gl={{ 
-            antialias: false, // Disable for better performance
+            antialias: false,
             alpha: false,
             powerPreference: "high-performance"
           }}
+          onCreated={() => {
+            // Hide loading overlay when canvas is ready
+            setTimeout(() => setIsCanvasLoading(false), 1000);
+          }}
         >
-          <Suspense fallback={<SceneLoader />}>
+          <Suspense fallback={<Scene3DLoader />}>
             <Scene 
               persona={persona} 
               themeColors={themeColors} 
