@@ -40,10 +40,6 @@ const Hero = () => {
           size="4xl" 
           mb={6} 
           fontFamily="Inter, sans-serif"
-          sx={{
-            fontSize: { base: '3xl', md: '6xl' },
-            animation: 'fadeIn 2s ease-in-out 0.2s both'
-          }}
         >
           Hello! I am Javier.
         </Heading>
@@ -52,10 +48,7 @@ const Hero = () => {
           size="4xl" 
           mb={6} 
           fontFamily="Inter, sans-serif"
-          sx={{
-            fontSize: { base: '3xl', md: '6xl' },
-            animation: 'fadeIn 5s ease-in-out 0.2s both'
-          }}
+
         >
           Developer.
           <Box as="span" bgGradient="linear(to-r, blue.400, purple.400)" bgClip="text">
@@ -69,14 +62,11 @@ const Hero = () => {
           maxW="3xl" 
           mx="auto" 
           mb={12}
-          sx={{
-            animation: 'fadeIn 2s ease-in-out 0.4s both'
-          }}
         >
           I like to code stuff to solve real problems.
         </Text>
         
-        <Box sx={{ animation: 'fadeIn 1s ease-in-out 0.8s both' }}>
+        <Box>
           <Link 
             href="#about" 
             display="inline-flex" 
@@ -87,7 +77,7 @@ const Hero = () => {
             transition="colors 0.3s"
           >
             See my page
-            <Icon as={FaArrowDown} boxSize={5} sx={{ animation: 'bounce 2s infinite' }} />
+            <Icon as={FaArrowDown} boxSize={5} />
           </Link>
         </Box>
       </Container>

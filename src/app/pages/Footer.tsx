@@ -27,10 +27,10 @@ const Footer = () => {
           © {currentYear} Javier Lim Jun Yi. All rights reserved.
         </Text>
         
-        <HStack spacing={6}>
+        <HStack gap={6}>
           <Link 
             href="https://linkedin.com/in/javierlimjuyi" 
-            isExternal
+            
             color="gray.500"
             _hover={{ color: 'white' }}
             transition="color 0.2s"
@@ -40,7 +40,7 @@ const Footer = () => {
           </Link>
           <Link 
             href="https://github.com/javierlimt6" 
-            isExternal
+            
             color="gray.500"
             _hover={{ color: 'white' }}
             transition="color 0.2s"

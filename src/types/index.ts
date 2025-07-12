@@ -14,5 +14,5 @@ export interface InteractiveObjectProps {
   project: Project;
   onProjectActivate: (project: Project) => void;
   themeColors: { [key: string]: string };
-  scale: number;
+  scale?: number;
 }

@@ -17,7 +17,9 @@ export default function InteractiveObject({
 
   // Load GLB model if the imageUrl is a .glb file
   const isGLBFile = project.imageUrl?.endsWith('.glb');
-  const { scene: gltfScene } = useGLTF(isGLBFile ? project.imageUrl : '/man.glb');
+  const gltfPath = isGLBFile && project.imageUrl ? project.imageUrl : '/man.glb';
+  const gltfResult = useGLTF(gltfPath);
+  const gltfScene = Array.isArray(gltfResult) ? gltfResult[0].scene : gltfResult.scene;
 
   useFrame(() => {
     // Only spin geometric shapes, not GLB models
