@@ -159,7 +159,7 @@ export default function Home() {
           zIndex: 1000
         }}>
           <div style={{ color: 'white', fontSize: '1.5rem' }}>
-            Loading, patience is a virtue...
+            patience...
           </div>
         </div>
       )}
