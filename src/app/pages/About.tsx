@@ -421,7 +421,7 @@ const BioHeader = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 3, duration: 1 }}
       >
-        Building innovative digital solutions with cutting-edge technology
+        Building innovative digital solutions with purpose
       </MotionText>
     </Box>
   );
