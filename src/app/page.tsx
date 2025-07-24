@@ -171,7 +171,7 @@ export default function Home() {
         left: '1rem',
         zIndex: 1000
       }}>
-        <div style={{
+        {/* <div style={{
           fontSize: '0.875rem',
           color: 'white',
           padding: '0.25rem 0.5rem',
@@ -179,7 +179,7 @@ export default function Home() {
         }}>
           Hold with 1 finger to move around!
           Hold with 2 fingers to shift the camera
-        </div>
+        </div> */}
       </div>
 
       <Header
