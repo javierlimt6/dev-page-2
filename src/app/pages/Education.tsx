@@ -40,7 +40,8 @@ const educationDetails = [
     id: "activities",
     title: "Academic Activities",
     items: [
-      "2x NUS SoC Teaching Assistant for Programming Modules",
+      "Notion Campus Leader",
+      "2x NUS SoC Teaching Assistant for Computer Science Modules",
       "Software Engineering Lead @ RC4 CSC Tech",
       "Avid Hackathon Participant",
       "Winter School @ Korea University"
@@ -52,6 +53,7 @@ const educationDetails = [
     id: "achievements",
     title: "Academic Achievements",
     items: [
+      "Recipient of Kwan Im Thong Hood Cho Temple Scholarship Award",
       "First Class Honours",
       "Testimonials from >5 NUS Professors"
     ],
