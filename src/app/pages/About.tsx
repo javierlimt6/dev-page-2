@@ -15,7 +15,7 @@ import {
   Image,
   HStack
 } from '@chakra-ui/react';
-import { FaFileAlt, FaCode, FaTools, FaCog, FaDatabase } from 'react-icons/fa';
+import { FaFileAlt, FaCode, FaTools, FaCog, FaDatabase, FaQuoteLeft } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Motion components
@@ -84,7 +84,7 @@ const LogoStream = ({ items, direction = "left", speed = 60 }: {
   const totalWidth = items.length * itemWidth;
   
   return (
-    <Box overflow="hidden" position="relative" h="70px" w="100%">
+    <Box overflowX="hidden" position="relative" h="80px" w="100%" py="10px">
       <MotionFlex
         animate={{ 
           x: direction === "left" 
@@ -100,7 +100,7 @@ const LogoStream = ({ items, direction = "left", speed = 60 }: {
         align="center"
         gap={6}
         position="absolute"
-        top="0"
+        top="10px"
         left={direction === "left" ? "0" : `-${totalWidth}px`}
         whiteSpace="nowrap"
         w={`${totalWidth * 3}px`}
@@ -113,17 +113,16 @@ const LogoStream = ({ items, direction = "left", speed = 60 }: {
             flex="none"
             whileHover={{ 
               scale: 1.1,
-              filter: "drop-shadow(0 0 20px rgba(100, 255, 218, 0.6))"
+              filter: "drop-shadow(0 0 5px rgba(100, 255, 218, 0.6))"
             }}
             transition={{ duration: 0.2 }}
           >
             <Image
               src={item.logo}
               alt={item.name}
-              boxSize="45px"
+              boxSize="35px"
               mx="auto"
               mb={2}
-              filter="drop-shadow(0 0 8px rgba(100, 255, 218, 0.3))"
             />
             <Text fontSize="xs" color="gray.300" fontWeight="medium">
               {item.name}
@@ -169,6 +168,7 @@ const TextStream = ({ items, direction = "left", speed = 40 }: {
         left={direction === "left" ? "0" : `-${totalWidth}px`}
         whiteSpace="nowrap"
         w={`${totalWidth * 3}px`}
+        style={{ overflow: 'visible' }}
       >
         {tripleItems.map((item, index) => (
           <MotionBox
@@ -483,23 +483,37 @@ const About = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.1, duration: 0.8 }}
                 >
+                  <HStack align="center">
                   <Link href="/resume.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
                     <Button 
                       variant="solid" 
                       size="lg"
                       color="white"
-                      colorPalette="blue"
+                      colorPalette="cyan"
                       transition="all 0.3s ease"
                     >
                       <Icon as={FaFileAlt} mr={2} />
                       Resume
                     </Button>
                   </Link>
-                </MotionBox>
-              </Stack>
-            </MotionBox>
-          </GridItem>
-          
+                  <Link href="/testimonials.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
+                    <Button 
+                      variant="solid" 
+                      size="lg"
+                      color="white"
+                      colorPalette="teal"
+                      transition="all 0.3s ease"
+                    >
+                      <Icon as={FaQuoteLeft} mr={2} />
+                      Testimonials
+                    </Button>
+                  </Link>
+                </HStack>
+              </MotionBox>
+            </Stack>
+          </MotionBox>
+        </GridItem>
+
           <GridItem>
             <MotionBox
               initial={{ opacity: 0, x: 50 }}
