@@ -1,20 +1,19 @@
 'use client';
 
 import 'antd/dist/reset.css';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
-import { useRef, useState, useEffect, Suspense, lazy } from 'react';
-import { Mesh, Color } from 'three';
+import { useState, useEffect, Suspense, lazy } from 'react';
+import { Color } from 'three';
 import ProjectModal from './components/ProjectModal';
-import Header from './pages/Header';
-import { useAIChat } from '../hooks/useAIChat';
+import Sidebar from './pages/Sidebar';
 import { Project } from '../types';
 import { ErrorBoundary } from 'react-error-boundary';
 
 // Lazy load heavy components
 const DeveloperScene = lazy(() => import('./components/DeveloperScene'));
-const EntrepreneurScene = lazy(() => import('./components/EntrepreneurScene'));
-const VideoCreatorScene = lazy(() => import('./components/VideoCreatorScene'));
+// const EntrepreneurScene = lazy(() => import('./components/EntrepreneurScene'));
+// const VideoCreatorScene = lazy(() => import('./components/VideoCreatorScene'));
 
 // 3D Loading component for inside Canvas
 const Scene3DLoader = () => (
@@ -33,20 +32,16 @@ interface SceneProps {
 function Scene({ persona, themeColors, onProjectActivate }: SceneProps) {
     const { gl } = useThree();
     useEffect(() => {
-        gl.setClearColor(new Color(themeColors[persona].bg));
-    }, [persona, gl, themeColors]);
+        // Always use developer theme for now
+        gl.setClearColor(new Color(themeColors['developer'].bg));
+    }, [gl, themeColors]);
 
     return (
         <>
-            {persona !== 'video-creator' && (
-                <>
-                    <ambientLight intensity={0.5} />
-                    <pointLight position={[10, 10, 10]} />
-                </>
-            )}
-            {persona === 'developer' && <DeveloperScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
-            {persona === 'entrepreneur' && <EntrepreneurScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
-            {persona === 'video-creator' && <VideoCreatorScene onProjectActivate={onProjectActivate} themeColors={themeColors[persona]} />}
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} />
+            {/* Only load DeveloperScene for now - other personas are disabled */}
+            <DeveloperScene onProjectActivate={onProjectActivate} themeColors={themeColors['developer']} />
             <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
         </>
     );
@@ -54,29 +49,18 @@ function Scene({ persona, themeColors, onProjectActivate }: SceneProps) {
 
 export default function Home() {
   const [persona, setPersona] = useState('developer');
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [showChat, setShowChat] = useState(false);
   const [isCanvasLoading, setIsCanvasLoading] = useState(true);
-  const [showMobileWarning, setShowMobileWarning] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Use AI Chat hook
-  const {
-    chatHistory,
-    isLoading,
-    isInitialized,
-    sendMessage,
-    addProjectToKnowledge,
-    initializationProgress
-  } = useAIChat({ persona });
+  // const [showMobileWarning, setShowMobileWarning] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', persona);
   }, [persona]);
 
-  // Mobile detection and warning modal
+  // Mobile detection commented out for simplification
+  /*
   useEffect(() => {
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
@@ -86,7 +70,6 @@ export default function Home() {
       const isMobileDevice = mobileCheck || screenCheck;
       setIsMobile(isMobileDevice);
       
-      // Show warning modal only once for mobile users
       if (isMobileDevice) {
         const hasSeenWarning = localStorage.getItem('mobile-warning-seen');
         if (!hasSeenWarning) {
@@ -101,26 +84,21 @@ export default function Home() {
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+  */
 
   const handlePersonaChange = (newPersona: string) => {
-    setPersona(newPersona);
-    console.log('Switched to', newPersona, 'persona');
-  };
-
-  const handleVoiceToggle = () => {
-    setVoiceEnabled(!voiceEnabled);
-  };
-
-  const handleChatToggle = () => {
-    setShowChat(!showChat);
+    // For now, only allow developer persona
+    if (newPersona === 'developer') {
+      setPersona(newPersona);
+      console.log('Switched to', newPersona, 'persona');
+    } else {
+      console.log('Persona', newPersona, 'is disabled');
+    }
   };
 
   const handleProjectActivate = (project: Project) => {
     setActiveProject(project);
     setShowProjectModal(true);
-    
-    // Add project to knowledge base when activated
-    addProjectToKnowledge(project);
   };
 
   const handleCloseProjectModal = () => {
@@ -128,9 +106,9 @@ export default function Home() {
     setActiveProject(null);
   };
 
-  const handleCloseMobileWarning = () => {
-    setShowMobileWarning(false);
-  };
+  // const handleCloseMobileWarning = () => {
+  //   setShowMobileWarning(false);
+  // };
 
   const themeColors = {
     'developer': { one: '#ff00ff', two: '#00ffff', three: '#ffff00', bg: '#0d203d' },
@@ -142,9 +120,12 @@ export default function Home() {
     return themeColors[persona as keyof typeof themeColors];
   };
 
+  // Sidebar width for content offset
+  const sidebarWidth = 240;
+
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      {/* Loading overlay - OUTSIDE Canvas */}
+      {/* Loading overlay */}
       {isCanvasLoading && (
         <div style={{
           position: 'absolute',
@@ -164,59 +145,42 @@ export default function Home() {
         </div>
       )}
 
-      {/* Instruction prompt */}
-      <div style={{
-        position: 'absolute',
-        top: '5rem',
-        left: '1rem',
-        zIndex: 1000
-      }}>
-        {/* <div style={{
-          fontSize: '0.875rem',
-          color: 'white',
-          padding: '0.25rem 0.5rem',
-          borderRadius: '0.375rem'
-        }}>
-          Hold with 1 finger to move around!
-          Hold with 2 fingers to shift the camera
-        </div> */}
-      </div>
-
-      <Header
+      {/* Sidebar Navigation */}
+      <Sidebar
         persona={persona}
         onPersonaChange={handlePersonaChange}
-        voiceEnabled={voiceEnabled}
-        onVoiceToggle={handleVoiceToggle}
-        showChat={showChat}
-        onChatToggle={handleChatToggle}
       />
 
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
-        <Canvas
-          camera={{ position: [0, 4, 8], fov: 90 }}
-          dpr={[1, 1.5]}
-          performance={{ min: 0.5 }}
-          gl={{ 
-            antialias: false,
-            alpha: false,
-            powerPreference: "high-performance"
-          }}
-          onCreated={() => {
-            // Hide loading overlay when canvas is ready
-            setTimeout(() => setIsCanvasLoading(false), 1000);
-          }}
-        >
-          <Suspense fallback={<Scene3DLoader />}>
-            <Scene 
-              persona={persona} 
-              themeColors={themeColors} 
-              onProjectActivate={handleProjectActivate} 
-            />
-          </Suspense>
-        </Canvas>
-      </ErrorBoundary>
-      <Loader />
-      {/* Mobile Warning Modal */}
+      {/* Main Content Area - offset by sidebar width */}
+      <div style={{ marginLeft: sidebarWidth, width: `calc(100vw - ${sidebarWidth}px)`, height: '100vh' }}>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <Canvas
+            camera={{ position: [0, 4, 8], fov: 90 }}
+            dpr={[1, 1.5]}
+            performance={{ min: 0.5 }}
+            gl={{ 
+              antialias: false,
+              alpha: false,
+              powerPreference: "high-performance"
+            }}
+            onCreated={() => {
+              setTimeout(() => setIsCanvasLoading(false), 1000);
+            }}
+          >
+            <Suspense fallback={<Scene3DLoader />}>
+              <Scene 
+                persona={persona} 
+                themeColors={themeColors} 
+                onProjectActivate={handleProjectActivate} 
+              />
+            </Suspense>
+          </Canvas>
+        </ErrorBoundary>
+        <Loader />
+      </div>
+
+      {/* Mobile Warning Modal - commented out for simplification */}
+      {/*
       {showMobileWarning && (
         <div style={{
           position: 'fixed',
@@ -232,79 +196,10 @@ export default function Home() {
           padding: '20px',
           boxSizing: 'border-box'
         }}>
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '2px solid #ff6b6b',
-            borderRadius: '15px',
-            padding: '30px',
-            maxWidth: '400px',
-            width: '100%',
-            textAlign: 'center',
-            boxShadow: '0 20px 40px rgba(255, 107, 107, 0.3)'
-          }}>
-            <div style={{
-              fontSize: '3rem',
-              marginBottom: '20px'
-            }}>
-              📱⚠️
-            </div>
-            <h2 style={{
-              color: '#ff6b6b',
-              fontSize: '1.5rem',
-              marginBottom: '15px',
-              fontWeight: 'bold'
-            }}>
-              WARNING.
-            </h2>
-            <p style={{
-              color: '#ffffff',
-              fontSize: '1rem',
-              lineHeight: '1.6',
-              marginBottom: '20px'
-            }}>
-              This website is not optimised for mobile.
-            </p>
-            <p style={{
-              color: '#ffd700',
-              fontSize: '0.9rem',
-              marginBottom: '25px',
-              fontStyle: 'italic'
-            }}>
-              you can continue anyway, but your phone may explode.
-            </p>
-            <div style={{
-              display: 'flex',
-              gap: '10px',
-              justifyContent: 'center'
-            }}>
-              <button
-                onClick={handleCloseMobileWarning}
-                style={{
-                  backgroundColor: '#FFA700',
-                  color: 'white',
-                  border: 'none',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ff5252';
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#FFA700';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-              >
-                bring it :)
-              </button>
-            </div>
-          </div>
+          ... modal content ...
         </div>
       )}
+      */}
 
       {/* Project Modal */}
       {showProjectModal && activeProject && (
@@ -320,4 +215,3 @@ export default function Home() {
     </div>
   );
 }
-

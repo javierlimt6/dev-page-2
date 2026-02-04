@@ -1,19 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Grid,
-  Flex,
-  Link,
-  Image,
-  Badge,
-  Icon,
-  Stack,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
+import { Typography, Flex, Tag, ConfigProvider, theme } from "antd";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { darkTheme } from "../antd-theme";
+
+const { Title, Text, Link } = Typography;
 
 const experiences = [
   {
@@ -92,7 +82,7 @@ const experiences = [
     company: "A*Star Institute for Infocomm Research",
     period: "Nov 2020 - Jan 2021",
     description:
-      "Research attachment at Singapore’s leading research organisation to enhance PCR result detection Extracted and analysed datasets via Matplotlib, NumPy, & pandas, and used EMA to determine sigmoidal curves from plot points and establish thresholds. Produced numerous algorithms with 100% detection accuracy, tested with evaluation datasets.",
+      "Research attachment at Singapore's leading research organisation to enhance PCR result detection Extracted and analysed datasets via Matplotlib, NumPy, & pandas, and used EMA to determine sigmoidal curves from plot points and establish thresholds. Produced numerous algorithms with 100% detection accuracy, tested with evaluation datasets.",
     technologies: [
       "Python",
       "matplotlib",
@@ -111,101 +101,99 @@ const Experience = () => {
   const cardBg = "rgba(255,255,255,0.1)";
 
   return (
-    <Box as="section" id="experience" py={20}>
-      <Box maxW="5xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h1" size="5xl" textAlign="center" mb={4}>
-          Experience
-        </Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>
-          My Technical Roles
-        </Text>
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <section id="experience" style={{ padding: '80px 0' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 32px' }}>
+          <Title level={1} style={{ textAlign: 'center', marginBottom: 16 }}>
+            Experience
+          </Title>
+          <Text style={{ fontSize: '1.125rem', textAlign: 'center', display: 'block', marginBottom: 48 }}>
+            My Technical Roles
+          </Text>
 
-        <Stack gap={8}>
-          {experiences.map((exp) => (
-            <Box
-              key={exp.id}
-              bg={cardBg}
-              backdropFilter="blur(10px)"
-              borderRadius="xl"
-              overflow="hidden"
-              border="1px solid rgba(255,255,255,0.2)"
-              direction={{ base: "column", md: "row" }}
-              _hover={{ transform: "translateY(-5px)", shadow: "lg" }}
-              transition="transform 0.2s, box-shadow 0.2s"
-              display="flex"
-              flexDirection={{ base: "column", md: "row" }}
-            >
-              <Flex
-                p={6}
-                bg="rgba(0,0,0,0.1)"
-                justify="center"
-                align="center"
-                textAlign="center"
-                borderRight={{ md: "1px solid rgba(255,255,255,0.2)" }}
-                w={{ base: "full", md: "200px", lg: "250px" }}
+          <Flex vertical gap={32}>
+            {experiences.map((exp) => (
+              <div
+                key={exp.id}
+                style={{
+                  background: cardBg,
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
-                <VStack>
-                  <Box
-                    boxSize="80px"
-                    mb={4}
-                    borderRadius="full"
-                    overflow="hidden"
+                <Flex
+                  vertical
+                  align="center"
+                  justify="center"
+                  style={{
+                    padding: 24,
+                    background: 'rgba(0,0,0,0.1)',
+                    borderRight: '1px solid rgba(255,255,255,0.2)',
+                    minWidth: 200,
+                    textAlign: 'center'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 80,
+                      height: 80,
+                      marginBottom: 16,
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                    }}
                   >
-                    <Image
+                    <img
                       src={exp.photoUrl}
                       alt={`${exp.company} logo`}
-                      objectFit="cover"
-                      boxSize="100%"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
-                  </Box>
-                  <Heading as="h3" size="md">
-                    {exp.company}
-                  </Heading>
-                  <Text color="gray.400">{exp.period}</Text>
-                </VStack>
-              </Flex>
-
-              <Box p={6}>
-                <Flex justify="space-between" align="center" mb={3}>
-                  <Heading as="h3" size="lg">
-                    {exp.title}
-                  </Heading>
-                  {exp.link && (
-                    <Link
-                      href={exp.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      color="blue.400"
-                      _hover={{ color: "blue.300" }}
-                      display="flex"
-                      alignItems="center"
-                      gap={2}
-                    >
-                      {exp.linktext || "Visit"} <Icon as={FaExternalLinkAlt} />
-                    </Link>
-                  )}
+                  </div>
+                  <Title level={4} style={{ margin: 0 }}>{exp.company}</Title>
+                  <Text style={{ color: '#a0aec0' }}>{exp.period}</Text>
                 </Flex>
-                <Text mb={4}>{exp.description}</Text>
 
-                <HStack gap={2} wrap="wrap">
-                  {exp.technologies.map((tech) => (
-                    <Badge
-                      key={tech}
-                      colorScheme="blue"
-                      px={3}
-                      py={1}
-                      borderRadius="full"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </HStack>
-              </Box>
-            </Box>
-          ))}
-        </Stack>
-      </Box>
-    </Box>
+                <div style={{ padding: 24, flex: 1 }}>
+                  <Flex justify="space-between" align="center" style={{ marginBottom: 12 }}>
+                    <Title level={4} style={{ margin: 0 }}>{exp.title}</Title>
+                    {exp.link && (
+                      <Link
+                        href={exp.link}
+                        target="_blank"
+                        style={{ color: '#3b82f6', display: 'flex', alignItems: 'center', gap: 8 }}
+                      >
+                        {exp.linktext || "Visit"} <FaExternalLinkAlt />
+                      </Link>
+                    )}
+                  </Flex>
+                  <Text style={{ marginBottom: 16, display: 'block' }}>{exp.description}</Text>
+
+                  <Flex gap={8} wrap="wrap">
+                    {exp.technologies.map((tech) => (
+                      <Tag key={tech} color="blue" style={{ borderRadius: 16, padding: '4px 12px' }}>
+                        {tech}
+                      </Tag>
+                    ))}
+                  </Flex>
+                </div>
+              </div>
+            ))}
+          </Flex>
+        </div>
+      </section>
+    </ConfigProvider>
   );
 };
 

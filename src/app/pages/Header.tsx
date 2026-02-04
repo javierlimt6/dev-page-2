@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Button, 
-  Container, 
-  Flex, 
-  Heading, 
-  HStack, 
-  Link, 
-  Text,
-  Icon,
-  VisuallyHidden,
-  ChakraProvider, createSystem, defaultConfig
-} from '@chakra-ui/react';
-import { FaGithub, FaFileAlt, FaQuoteLeft, FaLinkedin, FaComments, FaTimes, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import { Button, Flex, Typography, ConfigProvider, theme } from 'antd';
+import { FaGithub, FaFileAlt, FaQuoteLeft, FaLinkedin, FaTimes } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import About from './About';
+import { darkTheme, colors } from '../antd-theme';
+
+const { Title } = Typography;
 
 interface HeaderProps {
   persona: string;
@@ -25,8 +16,7 @@ interface HeaderProps {
   onChatToggle: () => void;
 }
 
-const system = createSystem(defaultConfig);
-const MotionBox = motion(Box);
+const MotionDiv = motion.div;
 
 const Header: React.FC<HeaderProps> = ({
   persona,
@@ -39,177 +29,189 @@ const Header: React.FC<HeaderProps> = ({
   const [showAboutModal, setShowAboutModal] = useState(false);
 
   return (
-    <ChakraProvider value={system}>
-      <Box 
-        as="header" 
-        w="full" 
-        py={4} 
-        position="fixed" 
-        top={0} 
-        zIndex={50} 
-        backdropFilter="blur(10px)" 
-        bg="rgba(0, 0, 0, 0.8)" 
-        borderBottom="1px solid rgba(255, 255, 255, 0.1)"
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <header 
+        style={{
+          width: '100%',
+          padding: '16px 0',
+          position: 'fixed',
+          top: 0,
+          zIndex: 50,
+          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        }}
       >
-        <Container maxW="10xl">
-          <Flex align="center" justify="space-between" wrap="wrap" gap={4} h="35px">
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px' }}>
+          <Flex align="center" justify="space-between" wrap="wrap" gap={16} style={{ height: '35px' }}>
             {/* Name link that opens About modal */}
-            <Link 
+            <a 
               href="#" 
-              textDecoration="none" 
-              colorPalette="teal"
-              _hover={{ textDecoration: 'none', cursor: 'pointer' }}
               onClick={(e) => {
                 e.preventDefault();
                 setShowAboutModal(true);
               }}
+              style={{ textDecoration: 'none' }}
             >
-              <Heading 
-                fontWeight="bold"
-                size="2xl" 
-                colorPalette="cyan"
-                _hover={{ color: 'cyan.300' }}
-                transition="color 0.2s"
+              <Title 
+                level={3}
+                style={{
+                  margin: 0,
+                  color: colors.cyan.light,
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s'
+                }}
               >
                 Javier Lim Jun Yi
-              </Heading>
-            </Link>
+              </Title>
+            </a>
             
-            {/* Rest of your existing header content */}
-            <Flex align="center" gap={4} wrap="wrap">
-              {/* Persona buttons */}
-              <HStack gap={2} wrap="wrap">
+            {/* Persona buttons */}
+            <Flex align="center" gap={16} wrap="wrap">
+              <Flex gap={8} wrap="wrap">
                 <Button
-                  size="sm"
-                  variant={persona === 'developer' ? 'solid' : 'outline'}
-                  colorPalette="purple"
+                  size="small"
+                  type={persona === 'developer' ? 'primary' : 'default'}
+                  style={{
+                    backgroundColor: persona === 'developer' ? colors.purple.primary : 'transparent',
+                    borderColor: colors.purple.primary,
+                    color: persona === 'developer' ? 'white' : colors.purple.primary
+                  }}
                   onClick={() => onPersonaChange('developer')}
                 >
                   Computer Science
                 </Button>
                 <Button
-                  size="sm"
-                  variant={persona === 'entrepreneur' ? 'solid' : 'outline'}
-                  colorPalette="orange"
+                  size="small"
+                  type={persona === 'entrepreneur' ? 'primary' : 'default'}
+                  style={{
+                    backgroundColor: persona === 'entrepreneur' ? colors.orange.primary : 'transparent',
+                    borderColor: colors.orange.primary,
+                    color: persona === 'entrepreneur' ? 'white' : colors.orange.primary
+                  }}
                   onClick={() => onPersonaChange('entrepreneur')}
                 >
                   Entrepreneurship
                 </Button>
                 <Button
-                  size="sm"
-                  variant={persona === 'video-creator' ? 'solid' : 'outline'}
-                  colorPalette="green"
+                  size="small"
+                  type={persona === 'video-creator' ? 'primary' : 'default'}
+                  style={{
+                    backgroundColor: persona === 'video-creator' ? colors.green.primary : 'transparent',
+                    borderColor: colors.green.primary,
+                    color: persona === 'video-creator' ? 'white' : colors.green.primary
+                  }}
                   onClick={() => onPersonaChange('video-creator')}
                 >
                   Hobbies & Others
                 </Button>
-              </HStack>
+              </Flex>
             </Flex>
 
             {/* Social links */}
-            <HStack gap={3} display={{ base: 'none', md: 'flex' }}>
-              <Link href="/resume.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
+            <Flex gap={12} style={{ display: 'none' }} className="md-show">
+              <a href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                 <Button 
-                  variant="solid" 
-                  size="md"
-                  colorPalette="cyan"
-                  color="white"
+                  type="primary"
+                  style={{
+                    backgroundColor: colors.cyan.primary,
+                    borderColor: colors.cyan.primary,
+                    color: 'white'
+                  }}
                 >
-                  <Icon as={FaFileAlt} mr={2} />
+                  <FaFileAlt style={{ marginRight: 8 }} />
                   Resume
                 </Button>
-              </Link>
-              <Link href="/testimonials.pdf" target="_blank" _hover={{ textDecoration: 'none' }}>
+              </a>
+              <a href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                 <Button 
-                  variant="solid" 
-                  size="md"
-                  color="white"
-                  colorPalette="teal"
-                  transition="all 0.3s ease"
+                  type="primary"
+                  style={{
+                    backgroundColor: colors.teal.primary,
+                    borderColor: colors.teal.primary,
+                    color: 'white'
+                  }}
                 >
-                  <Icon as={FaQuoteLeft} mr={2} />
+                  <FaQuoteLeft style={{ marginRight: 8 }} />
                   Testimonials
                 </Button>
-              </Link>
-              <Link 
+              </a>
+              <a 
                 href="https://linkedin.com/in/jav-lim" 
                 target="_blank" 
-                rel="noopener noreferrer" 
-                color="gray.300" 
-                _hover={{ color: 'white' }} 
-                transition="colors 0.2s"
+                rel="noopener noreferrer"
+                style={{ color: '#a0aec0', transition: 'color 0.2s' }}
               >
-                <Icon as={FaLinkedin} boxSize={5} />
-                <VisuallyHidden>LinkedIn</VisuallyHidden>
-              </Link>
-              <Link 
+                <FaLinkedin size={20} />
+              </a>
+              <a 
                 href="https://github.com/javierlimt6" 
                 target="_blank" 
-                rel="noopener noreferrer" 
-                color="gray.300" 
-                _hover={{ color: 'white' }} 
-                transition="colors 0.2s"
+                rel="noopener noreferrer"
+                style={{ color: '#a0aec0', transition: 'color 0.2s' }}
               >
-                <Icon as={FaGithub} boxSize={5} />
-                <VisuallyHidden>GitHub</VisuallyHidden>
-              </Link>
-            </HStack>
+                <FaGithub size={20} />
+              </a>
+            </Flex>
           </Flex>
-        </Container>
-      </Box>
+        </div>
+      </header>
 
       {/* About Modal */}
       {showAboutModal && (
-        <MotionBox
-          position="fixed"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          bg="rgba(0, 0, 0, 0.8)"
-          backdropFilter="blur(10px)"
-          zIndex={2000}
+        <MotionDiv
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setShowAboutModal(false)}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
         >
-          <MotionBox
-            maxW="90vw"
-            maxH="90vh"
-            w="full"
-            bg="rgba(0, 0, 0, 0.9)"
-            border="1px solid rgba(255, 255, 255, 0.2)"
-            borderRadius="xl"
-            p={8}
-            overflow="auto"
+          <MotionDiv
+            style={{
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              width: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '12px',
+              padding: '32px',
+              overflow: 'auto'
+            }}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
-            <Flex justify="flex-end" mb={4}>
+            <Flex justify="flex-end" style={{ marginBottom: 16 }}>
               <Button
-                variant="ghost"
-                size="sm"
+                type="text"
+                size="small"
                 onClick={() => setShowAboutModal(false)}
-                color="white"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
-              >
-                <Icon as={FaTimes} />
-              </Button>
+                style={{ color: 'white' }}
+                icon={<FaTimes />}
+              />
             </Flex>
 
             {/* About content */}
             <About />
-          </MotionBox>
-        </MotionBox>
+          </MotionDiv>
+        </MotionDiv>
       )}
-    </ChakraProvider>
+    </ConfigProvider>
   );
 };
 

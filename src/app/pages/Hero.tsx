@@ -1,111 +1,137 @@
 import React from 'react';
-import { Box, Container, Heading, Text, Link, Icon, VStack } from '@chakra-ui/react';
+import { Typography, Flex, ConfigProvider, theme } from 'antd';
 import { FaArrowDown } from 'react-icons/fa';
 import Photo from './Photo';
+import { darkTheme } from '../antd-theme';
+
+const { Title, Text, Link } = Typography;
 
 const Hero = () => {
   return (
-    <Box 
-      as="section" 
-      height="100vh" 
-      display="flex" 
-      alignItems="center" 
-      justifyContent="center" 
-      position="relative" 
-      overflow="hidden"
-    >
-      <Box 
-        position="absolute" 
-        inset={0} 
-        bg="radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 100%)" 
-        opacity={0.8} 
-        zIndex={0} 
-      />
-      <Container 
-        maxW="7xl" 
-        px={4} 
-        zIndex={10} 
-        textAlign="center" 
-        display="flex" 
-        flexDirection="column" 
-        justifyContent="center" 
-        height="full"
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <section 
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
       >
-        <Box mt={16}>
-          <Photo />
-        </Box>
+        {/* Background overlay */}
+        <div 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 100%)',
+            opacity: 0.8,
+            zIndex: 0
+          }}
+        />
         
-        <Heading 
-          as="h1" 
-          size="4xl" 
-          mb={6} 
-          fontFamily="Inter, sans-serif"
+        <div 
+          style={{
+            maxWidth: '1200px',
+            padding: '0 16px',
+            zIndex: 10,
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '100%'
+          }}
         >
-          Hello! I am Javier.
-        </Heading>
-        <Heading 
-          as="h1" 
-          size="4xl" 
-          mb={6} 
-          fontFamily="Inter, sans-serif"
-
-        >
-          Developer.
-          <Box as="span" bgGradient="linear(to-r, blue.400, purple.400)" bgClip="text">
-            {' '}Entrepreneur.
-          </Box>
-          {' '}Innovator.
-        </Heading>
-        <Text 
-          fontSize={{ base: 'xl', md: '2xl' }} 
-          color="gray.400" 
-          maxW="3xl" 
-          mx="auto" 
-          mb={12}
-        >
-          I like to code stuff to solve real problems.
-        </Text>
-        
-        <Box>
-          <Link 
-            href="#about" 
-            display="inline-flex" 
-            alignItems="center" 
-            gap={2} 
-            color="gray.300" 
-            _hover={{ color: 'white' }} 
-            transition="colors 0.3s"
+          <div style={{ marginTop: 64 }}>
+            <Photo />
+          </div>
+          
+          <Title 
+            level={1}
+            style={{
+              marginBottom: 24,
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '3rem'
+            }}
           >
-            See my page
-            <Icon as={FaArrowDown} boxSize={5} />
-          </Link>
-        </Box>
-      </Container>
+            Hello! I am Javier.
+          </Title>
+          <Title 
+            level={1}
+            style={{
+              marginBottom: 24,
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '3rem'
+            }}
+          >
+            Developer.
+            <span style={{
+              background: 'linear-gradient(to right, #3b82f6, #a855f7)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              {' '}Entrepreneur.
+            </span>
+            {' '}Innovator.
+          </Title>
+          <Text 
+            style={{
+              fontSize: '1.5rem',
+              color: '#718096',
+              maxWidth: 800,
+              margin: '0 auto 48px'
+            }}
+          >
+            I like to code stuff to solve real problems.
+          </Text>
+          
+          <div>
+            <Link 
+              href="#about"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                color: '#a0aec0',
+                transition: 'color 0.3s'
+              }}
+            >
+              See my page
+              <FaArrowDown size={20} />
+            </Link>
+          </div>
+        </div>
 
-      {/* Background gradient elements */}
-      <Box 
-        position="absolute" 
-        top={20} 
-        left={10} 
-        w={72} 
-        h={72} 
-        borderRadius="full" 
-        bg="blue.400" 
-        opacity={0.2} 
-        filter="blur(60px)" 
-      />
-      <Box 
-        position="absolute" 
-        bottom={20} 
-        right={10} 
-        w={96} 
-        h={96} 
-        borderRadius="full" 
-        bg="purple.400" 
-        opacity={0.1} 
-        filter="blur(60px)" 
-      />
-    </Box>
+        {/* Background gradient elements */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 80,
+            left: 40,
+            width: 288,
+            height: 288,
+            borderRadius: '50%',
+            background: '#3b82f6',
+            opacity: 0.2,
+            filter: 'blur(60px)'
+          }}
+        />
+        <div 
+          style={{
+            position: 'absolute',
+            bottom: 80,
+            right: 40,
+            width: 384,
+            height: 384,
+            borderRadius: '50%',
+            background: '#a855f7',
+            opacity: 0.1,
+            filter: 'blur(60px)'
+          }}
+        />
+      </section>
+    </ConfigProvider>
   );
 };
 

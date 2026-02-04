@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Button, 
-  Input, 
-  Textarea, 
-  Heading, 
-  Text, 
-  Grid, 
-  GridItem, 
-  Container, 
-  VStack, 
-  HStack, 
-  Link,
-  Icon
-} from '@chakra-ui/react';
+import { Button, Input, Typography, Row, Col, Flex, ConfigProvider, theme } from 'antd';
 import { FaEnvelope } from 'react-icons/fa';
+import { darkTheme } from '../antd-theme';
+
+const { Title, Text, Link } = Typography;
+const { TextArea } = Input;
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,99 +34,103 @@ const Contact = () => {
     }
   };
 
+  const inputStyle = {
+    background: 'rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    color: 'white',
+  };
+
   return (
-    <Box as="section" id="contact" py={16} px={4} bg="rgba(255, 255, 255, 0.05)">
-      <Container maxW="5xl">
-        <VStack gap={8}>
-          <Heading as="h2" size="2xl" textAlign="center">
-            Contact Me
-          </Heading>
-          <Text fontSize="lg" textAlign="center" color="gray.400">
-            Lets chat 😊
-          </Text>
-          
-          <Box 
-            w="full"
-            bg="rgba(255, 255, 255, 0.1)" 
-            backdropFilter="blur(10px)" 
-            p={8} 
-            borderRadius="xl"
-            border="1px solid rgba(255, 255, 255, 0.2)"
-          >
-            <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={8}>
-              <GridItem>
-                <VStack align="start" gap={6}>
-                  <HStack gap={3}>
-                    <Icon as={FaEnvelope} color="blue.400" boxSize={6} />
-                    <Heading as="h3" size="lg">
-                      Get in Touch
-                    </Heading>
-                  </HStack>
-                  <Text mb={4}>
-                    Interested in working together or have a question? Send me a message and Ill get back to you as soon as possible.
-                  </Text>
-                  <Text color="gray.400">
-                    Alternatively, you can contact me directly at{' '}
-                    <Link href="mailto:javier.lim@u.nus.edu" color="blue.400" _hover={{ textDecoration: 'underline' }}>
-                      javier.lim@u.nus.edu
-                    </Link>
-                  </Text>
-                </VStack>
-              </GridItem>
-              
-              <GridItem>
-                <form onSubmit={handleSubmit}>
-                  <VStack gap={6}>
-                    <Input
-                      placeholder="Your Name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      _placeholder={{ color: 'gray.400' }}
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Your Email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      _placeholder={{ color: 'gray.400' }}
-                    />
-                    <Textarea
-                      placeholder="Your Message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      _placeholder={{ color: 'gray.400' }}
-                      resize="none"
-                    />
-                    <Button 
-                      type="submit" 
-                      loading={isSubmitting}
-                      colorScheme="blue"
-                      size="lg"
-                      w="full"
-                    >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                    </Button>
-                  </VStack>
-                </form>
-              </GridItem>
-            </Grid>
-          </Box>
-        </VStack>
-      </Container>
-    </Box>
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <section id="contact" style={{ padding: '64px 16px', background: 'rgba(255, 255, 255, 0.05)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <Flex vertical gap={32}>
+            <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
+              Contact Me
+            </Title>
+            <Text style={{ fontSize: '1.125rem', textAlign: 'center', color: '#718096' }}>
+              Let&apos;s chat 😊
+            </Text>
+            
+            <div 
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                padding: 32,
+                borderRadius: 12,
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              }}
+            >
+              <Row gutter={32}>
+                <Col xs={24} md={8}>
+                  <Flex vertical align="flex-start" gap={24}>
+                    <Flex align="center" gap={12}>
+                      <FaEnvelope style={{ color: '#3b82f6', fontSize: 24 }} />
+                      <Title level={4} style={{ margin: 0 }}>
+                        Get in Touch
+                      </Title>
+                    </Flex>
+                    <Text style={{ marginBottom: 16 }}>
+                      Interested in working together or have a question? Send me a message and I&apos;ll get back to you as soon as possible.
+                    </Text>
+                    <Text style={{ color: '#718096' }}>
+                      Alternatively, you can contact me directly at{' '}
+                      <Link href="mailto:javier.lim@u.nus.edu" style={{ color: '#3b82f6' }}>
+                        javier.lim@u.nus.edu
+                      </Link>
+                    </Text>
+                  </Flex>
+                </Col>
+                
+                <Col xs={24} md={16}>
+                  <form onSubmit={handleSubmit}>
+                    <Flex vertical gap={24}>
+                      <Input
+                        placeholder="Your Name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        style={inputStyle}
+                        size="large"
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Your Email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        style={inputStyle}
+                        size="large"
+                      />
+                      <TextArea
+                        placeholder="Your Message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={5}
+                        style={{ ...inputStyle, resize: 'none' }}
+                      />
+                      <Button 
+                        type="primary"
+                        htmlType="submit"
+                        loading={isSubmitting}
+                        size="large"
+                        block
+                      >
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </Button>
+                    </Flex>
+                  </form>
+                </Col>
+              </Row>
+            </div>
+          </Flex>
+        </div>
+      </section>
+    </ConfigProvider>
   );
 };
 

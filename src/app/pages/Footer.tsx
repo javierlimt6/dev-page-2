@@ -1,56 +1,46 @@
 import React from 'react';
-import {
-  Box,
-  Flex,
-  Link,
-  Icon,
-  Text,
-  HStack,
-  VisuallyHidden
-} from '@chakra-ui/react';
+import { Typography, Flex, ConfigProvider, theme } from 'antd';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { darkTheme } from '../antd-theme';
+
+const { Text, Link } = Typography;
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <Box as="footer" py={8} borderTop="1px solid" borderColor="whiteAlpha.200">
-      <Flex 
-        maxW="container.xl" 
-        mx="auto" 
-        px={4} 
-        direction={{ base: 'column', md: 'row' }} 
-        justify="space-between" 
-        align="center"
-      >
-        <Text color="gray.500" mb={{ base: 4, md: 0 }}>
-          © {currentYear} Javier Lim Jun Yi. All rights reserved.
-        </Text>
-        
-        <HStack gap={6}>
-          <Link 
-            href="https://linkedin.com/in/javierlimjuyi" 
-            
-            color="gray.500"
-            _hover={{ color: 'white' }}
-            transition="color 0.2s"
-          >
-            <Icon as={FaLinkedin} boxSize={5} />
-            <VisuallyHidden>LinkedIn</VisuallyHidden>
-          </Link>
-          <Link 
-            href="https://github.com/javierlimt6" 
-            
-            color="gray.500"
-            _hover={{ color: 'white' }}
-            transition="color 0.2s"
-          >
-            <Icon as={FaGithub} boxSize={5} />
-            <VisuallyHidden>GitHub</VisuallyHidden>
-          </Link>
-        </HStack>
-      </Flex>
-    </Box>
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <footer style={{ padding: '32px 0', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <Flex 
+          style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 16px' }}
+          justify="space-between"
+          align="center"
+          wrap="wrap"
+          gap={16}
+        >
+          <Text style={{ color: '#718096' }}>
+            © {currentYear} Javier Lim Jun Yi. All rights reserved.
+          </Text>
+          
+          <Flex gap={24}>
+            <Link 
+              href="https://linkedin.com/in/javierlimjuyi"
+              target="_blank"
+              style={{ color: '#718096', transition: 'color 0.2s' }}
+            >
+              <FaLinkedin size={20} />
+            </Link>
+            <Link 
+              href="https://github.com/javierlimt6"
+              target="_blank"
+              style={{ color: '#718096', transition: 'color 0.2s' }}
+            >
+              <FaGithub size={20} />
+            </Link>
+          </Flex>
+        </Flex>
+      </footer>
+    </ConfigProvider>
   );
 };
 

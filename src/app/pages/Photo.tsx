@@ -1,24 +1,30 @@
 import React from 'react';
-import { Flex, Image } from '@chakra-ui/react';
+import { Flex, ConfigProvider, theme } from 'antd';
 import { motion } from 'framer-motion';
+import { darkTheme } from '../antd-theme';
 
-const MotionImage = motion(Image);
+const MotionImg = motion.img;
 
 const Photo = () => {
   return (
-    <Flex justify="center" align="center" h="50vh">
-      <MotionImage
-        src="/image.png" // Using the available image from the public folder
-        alt="Javier Lim's Photo"
-        borderRadius="full"
-        boxSize="300px"
-        objectFit="cover"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5 }}
-        boxShadow="lg"
-      />
-    </Flex>
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <Flex justify="center" align="center" style={{ height: '50vh' }}>
+        <MotionImg
+          src="/image.png"
+          alt="Javier Lim's Photo"
+          style={{
+            borderRadius: '50%',
+            width: 300,
+            height: 300,
+            objectFit: 'cover',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5 }}
+        />
+      </Flex>
+    </ConfigProvider>
   );
 };
 

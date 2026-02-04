@@ -1,17 +1,9 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  Text,
-  Grid,
-  Card,
-  CardBody,
-  Flex,
-  Link,
-  Icon,
-  HStack
-} from '@chakra-ui/react';
+import { Typography, Row, Col, Flex, ConfigProvider, theme } from 'antd';
 import { FaMedal, FaLaptopCode, FaChartLine, FaHandshake, FaExternalLinkAlt } from 'react-icons/fa';
+import { darkTheme } from '../antd-theme';
+
+const { Title, Text, Link } = Typography;
 
 const leadershipItems = [
   {
@@ -33,7 +25,6 @@ const leadershipItems = [
     description: "Mentored by Professors from NUS, UM, supported by RC4, NOC, NES. (see Startup?)",
     icon: FaLaptopCode,
   },
-
   {
     id: "startup-nes",
     title: "Startup Member at NUS Entrepreneurship Society",
@@ -48,55 +39,81 @@ const Leadership = () => {
   const cardBg = "rgba(255,255,255,0.1)";
 
   return (
-    <Box as="section" id="leadership" py={20}>
-      <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h1" size="5xl" textAlign="center" mb={4}>Entrepreneurial Activities</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>Putting my skills to impact the world</Text>
-        
-        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>
-          {leadershipItems.map((item) => (
-            <Box 
-              key={item.id} 
-              bg={cardBg} 
-              backdropFilter="blur(10px)" 
-              borderRadius="xl" 
-              overflow="hidden" 
-              border="1px solid rgba(255,255,255,0.2)"
-              _hover={{ transform: 'translateY(-5px)', shadow: 'lg' }}
-              transition="transform 0.2s, box-shadow 0.2s"
-              p={6}
-            >
-              <HStack align="start" gap={4}>
-                <Flex bg="blue.500" p={3} borderRadius="lg" color="white">
-                  <Icon as={item.icon} boxSize={8} />
-                </Flex>
-                <Box flex="1">
-                  <Flex justify="space-between" align="start" mb={2}>
-                    <Heading as="h3" size="md">{item.title}</Heading>
-                    {item.link && (
-                      <Link 
-                        href={item.link} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        color="blue.400" 
-                        _hover={{ color: "blue.300" }}
-                        display="flex"
-                        alignItems="center"
-                        gap={1}
-                        fontSize="sm"
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <section id="leadership" style={{ padding: '80px 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+          <Title level={1} style={{ textAlign: 'center', marginBottom: 16 }}>Entrepreneurial Activities</Title>
+          <Text style={{ fontSize: '1.125rem', textAlign: 'center', display: 'block', marginBottom: 48 }}>Putting my skills to impact the world</Text>
+          
+          <Row gutter={[32, 32]}>
+            {leadershipItems.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Col xs={24} md={12} key={item.id}>
+                  <div 
+                    style={{
+                      background: cardBg,
+                      backdropFilter: 'blur(10px)',
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      padding: 24,
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                      height: '100%',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-5px)';
+                      e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <Flex align="flex-start" gap={16}>
+                      <Flex 
+                        align="center" 
+                        justify="center"
+                        style={{ 
+                          background: '#3b82f6', 
+                          padding: 12, 
+                          borderRadius: 8, 
+                          color: 'white',
+                          flexShrink: 0
+                        }}
                       >
-                        {item.linktext || "Visit"} <Icon as={FaExternalLinkAlt} />
-                      </Link>
-                    )}
-                  </Flex>
-                  <Text color="gray.400">{item.description}</Text>
-                </Box>
-              </HStack>
-            </Box>
-          ))}
-        </Grid>
-      </Box>
-    </Box>
+                        <IconComponent size={32} />
+                      </Flex>
+                      <div style={{ flex: 1 }}>
+                        <Flex justify="space-between" align="flex-start" style={{ marginBottom: 8 }}>
+                          <Title level={4} style={{ margin: 0 }}>{item.title}</Title>
+                          {item.link && (
+                            <Link 
+                              href={item.link} 
+                              target="_blank"
+                              style={{ 
+                                color: '#3b82f6', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 4,
+                                fontSize: 14 
+                              }}
+                            >
+                              {item.linktext || "Visit"} <FaExternalLinkAlt />
+                            </Link>
+                          )}
+                        </Flex>
+                        <Text style={{ color: '#a0aec0' }}>{item.description}</Text>
+                      </div>
+                    </Flex>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+      </section>
+    </ConfigProvider>
   );
 };
 

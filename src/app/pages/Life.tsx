@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  Text,
-  Grid,
-  Card,
-  CardBody,
-} from '@chakra-ui/react';
+import { Typography, Row, Col, ConfigProvider, theme } from 'antd';
 import Image from 'next/image';
+import { darkTheme } from '../antd-theme';
+
+const { Title, Text } = Typography;
 
 const lifeCategories = [
   {
@@ -34,44 +30,54 @@ const Life = () => {
   const cardBg = "rgba(255,255,255,0.1)";
 
   return (
-    <Box as="section" id="life" py={20}>
-      <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }}>
-        <Heading as="h2" size="2xl" textAlign="center" mb={4}>Personal Life</Heading>
-        <Text fontSize="lg" textAlign="center" mb={12}>i attempt touching grass</Text>
-        
-        <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={8}>
-          {lifeCategories.map((category) => (
-            <Card.Root 
-              key={category.id} 
-              bg={cardBg} 
-              backdropFilter="blur(10px)" 
-              borderRadius="xl" 
-              overflow="hidden" 
-              border="1px solid rgba(255,255,255,0.2)"
-              _hover={{ transform: 'translateY(-5px)', shadow: 'lg' }}
-              transition="transform 0.2s, box-shadow 0.2s"
-            >
-              <Box h="224px" overflow="hidden" position="relative">
-                <Image 
-                  src={category.image} 
-                  alt={category.title} 
-                  fill
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <section id="life" style={{ padding: '80px 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+          <Title level={2} style={{ textAlign: 'center', marginBottom: 16 }}>Personal Life</Title>
+          <Text style={{ fontSize: '1.125rem', textAlign: 'center', display: 'block', marginBottom: 48 }}>i attempt touching grass</Text>
+          
+          <Row gutter={[32, 32]}>
+            {lifeCategories.map((category) => (
+              <Col xs={24} md={8} key={category.id}>
+                <div 
                   style={{
-                    objectFit: 'cover',
-                    transition: 'transform 0.5s'
+                    background: cardBg,
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    height: '100%'
                   }}
-                />
-              </Box>
-              
-              <CardBody p={6}>
-                <Heading as="h3" size="lg" mb={3} color="white">{category.title}</Heading>
-                <Text color="gray.400">{category.description}</Text>
-              </CardBody>
-            </Card.Root>
-          ))}
-        </Grid>
-      </Box>
-    </Box>
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <div style={{ height: 224, overflow: 'hidden', position: 'relative' }}>
+                    <Image 
+                      src={category.image} 
+                      alt={category.title} 
+                      fill
+                      style={{ objectFit: 'cover', transition: 'transform 0.5s' }}
+                    />
+                  </div>
+                  
+                  <div style={{ padding: 24 }}>
+                    <Title level={4} style={{ marginBottom: 12, color: 'white' }}>{category.title}</Title>
+                    <Text style={{ color: '#a0aec0' }}>{category.description}</Text>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </section>
+    </ConfigProvider>
   );
 };
 

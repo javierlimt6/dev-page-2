@@ -1,90 +1,94 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  Text,
-  Link,
-  Icon,
-  Container,
-  Flex,
-} from '@chakra-ui/react';
+import { Typography, ConfigProvider, theme } from 'antd';
 import { motion } from 'framer-motion';
 import { FaArrowDown } from 'react-icons/fa';
+import { darkTheme } from '../antd-theme';
+
+const { Title, Text } = Typography;
 
 const MotionDiv = motion.div;
 
 const Name: React.FC = () => {
-  // Use static colors instead of useColorModeValue
-  const textColor = 'gray.400';
-  const linkColor = 'gray.300';
-  const linkHoverColor = 'white';
+  const textColor = '#718096';
+  const linkColor = '#a0aec0';
 
   return (
-    <Container maxW="3xl" centerContent py={{ base: 16, md: 28 }} textAlign="center">
-      <MotionDiv
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-      >
-        <Heading
-          as="h1"
-          fontSize={{ base: '5xl', md: '7xl' }}
-          fontWeight="bold"
-          mb={6}
-          fontFamily="serif"
+    <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '112px 16px', textAlign: 'center' }}>
+        <MotionDiv
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
         >
-          Hello! I am{' '}
-          <Text 
-            as="span" 
-            bgGradient="linear(to-r, blue.400, purple.500)" 
-            bgClip="text"
+          <Title
+            level={1}
+            style={{
+              fontSize: '4rem',
+              fontWeight: 'bold',
+              marginBottom: 24,
+              fontFamily: 'serif'
+            }}
           >
-            Javier
+            Hello! I am{' '}
+            <span 
+              style={{ 
+                background: 'linear-gradient(to right, #3b82f6, #a855f7)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Javier
+            </span>
+          </Title>
+        </MotionDiv>
+
+        <MotionDiv
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          <Text
+            style={{
+              fontSize: '1.5rem',
+              color: textColor,
+              maxWidth: 800,
+              margin: '0 auto 48px',
+              display: 'block'
+            }}
+          >
+            Crafting exceptional digital experiences and building innovative solutions to real-world problems.
           </Text>
-        </Heading>
-      </MotionDiv>
+        </MotionDiv>
 
-      <MotionDiv
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.8 }}
-      >
-        <Text
-          fontSize={{ base: 'xl', md: '2xl' }}
-          color={textColor}
-          maxW="3xl"
-          mx="auto"
-          mb={12}
+        <MotionDiv
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
         >
-          Crafting exceptional digital experiences and building innovative solutions to real-world problems.
-        </Text>
-      </MotionDiv>
-
-      <MotionDiv
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-      >
-        <Link
-          href="#about"
-          color={linkColor}
-          _hover={{ color: linkHoverColor, textDecoration: 'none' }}
-          transition="color 0.2s"
-          display="inline-flex"
-          alignItems="center"
-          gap={2}
-        >
-          Explore My Work
-          <MotionDiv
-            style={{ display: 'inline-block' }}
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
+          <a
+            href="#about"
+            style={{
+              color: linkColor,
+              transition: 'color 0.2s',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              textDecoration: 'none'
+            }}
           >
-            <Icon as={FaArrowDown} w={6} h={6} />
-          </MotionDiv>
-        </Link>
-      </MotionDiv>
-    </Container>
+            Explore My Work
+            <MotionDiv
+              style={{ display: 'inline-block' }}
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <FaArrowDown size={24} />
+            </MotionDiv>
+          </a>
+        </MotionDiv>
+      </div>
+    </ConfigProvider>
   );
 };
 
