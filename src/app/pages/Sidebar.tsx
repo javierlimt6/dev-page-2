@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, Flex, Divider, ConfigProvider, theme } from 'antd';
+import { Button, Typography, Flex, Divider, ConfigProvider, theme, Switch } from 'antd';
 import { 
   FaGithub, 
   FaFileAlt, 
@@ -9,7 +9,9 @@ import {
   FaBriefcase, 
   FaGamepad,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaCube,
+  FaSquare
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import About from './About';
@@ -20,6 +22,10 @@ const { Title, Text } = Typography;
 interface SidebarProps {
   persona: string;
   onPersonaChange: (persona: string) => void;
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+  viewMode: '2d' | '3d';
+  onViewModeChange: (mode: '2d' | '3d') => void;
 }
 
 const MotionDiv = motion.div;
@@ -27,11 +33,14 @@ const MotionDiv = motion.div;
 const Sidebar: React.FC<SidebarProps> = ({
   persona,
   onPersonaChange,
+  collapsed,
+  onCollapsedChange,
+  viewMode,
+  onViewModeChange,
 }) => {
   const [showAboutModal, setShowAboutModal] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const sidebarWidth = isCollapsed ? 60 : 240;
+  const sidebarWidth = collapsed ? 60 : 240;
 
   const menuItems = [
     { 
@@ -63,27 +72,29 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
+          top: 16,
+          left: 16,
+          height: 'auto',
+          maxHeight: 'calc(100vh - 32px)',
           width: sidebarWidth,
           backgroundColor: 'rgba(15, 15, 20, 0.95)',
           backdropFilter: 'blur(10px)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          borderRadius: 12,
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
-          transition: 'width 0.3s ease',
+          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           overflow: 'hidden'
         }}
       >
         {/* Header */}
         <Flex 
           align="center" 
-          justify={isCollapsed ? 'center' : 'space-between'} 
-          style={{ padding: isCollapsed ? '16px 8px' : '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
+          justify={collapsed ? 'center' : 'space-between'} 
+          style={{ padding: collapsed ? '16px 8px' : '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
         >
-          {!isCollapsed && (
+          {!collapsed && (
             <a 
               href="#" 
               onClick={(e) => {
@@ -102,29 +113,75 @@ const Sidebar: React.FC<SidebarProps> = ({
                   whiteSpace: 'nowrap'
                 }}
               >
-                Javier Lim
+                Javier's Portfolio
               </Title>
             </a>
           )}
           <Button
             type="text"
             size="small"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={() => onCollapsedChange(!collapsed)}
             style={{ color: 'rgba(255,255,255,0.6)' }}
           >
-            {isCollapsed ? <FaBars /> : <FaTimes size={12} />}
+            {collapsed ? <FaBars /> : <FaTimes size={12} />}
           </Button>
         </Flex>
 
         {/* Navigation */}
         <Flex vertical style={{ padding: '16px 8px', flex: 1 }}>
-          {!isCollapsed && (
-            <Text style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 8, paddingLeft: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
-              Personas
-            </Text>
-          )}
-          
-          {menuItems.map((item) => {
+          {/* 2D/3D Toggle */}
+          <Flex 
+            gap={4}
+            style={{
+              marginBottom: 16,
+              width: '100%'
+            }}
+          >
+            <Button
+              type="text"
+              size="small"
+              onClick={() => onViewModeChange('2d')}
+              style={{
+                flex: 1,
+                padding: '10px 8px',
+                backgroundColor: viewMode === '2d' ? 'rgba(100, 255, 218, 0.15)' : 'rgba(255,255,255,0.05)',
+                border: viewMode === '2d' ? '1px solid #64ffda' : '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                color: viewMode === '2d' ? '#64ffda' : 'rgba(255,255,255,0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6
+              }}
+            >
+              <FaSquare size={12} />
+              {!collapsed && <span style={{ fontSize: 13 }}>2D</span>}
+            </Button>
+            <Button
+              type="text"
+              size="small"
+              onClick={() => onViewModeChange('3d')}
+              style={{
+                flex: 1,
+                padding: '10px 8px',
+                backgroundColor: viewMode === '3d' ? 'rgba(162, 89, 247, 0.15)' : 'rgba(255,255,255,0.05)',
+                border: viewMode === '3d' ? '1px solid #a259f7' : '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                color: viewMode === '3d' ? '#a259f7' : 'rgba(255,255,255,0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6
+              }}
+            >
+              <FaCube size={12} />
+              {!collapsed && <span style={{ fontSize: 13 }}>3D</span>}
+            </Button>
+          </Flex>
+
+
+          {/* Persona Items - only show in 3D mode */}
+          {viewMode === '3d' && menuItems.map((item) => {
             const IconComponent = item.icon;
             const isActive = persona === item.key;
             
@@ -137,9 +194,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: isCollapsed ? 'center' : 'flex-start',
+                  justifyContent: collapsed ? 'center' : 'flex-start',
                   gap: 12,
-                  padding: isCollapsed ? '12px' : '12px 16px',
+                  padding: collapsed ? '12px' : '12px 16px',
                   marginBottom: 4,
                   borderRadius: 8,
                   backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
@@ -157,7 +214,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     flexShrink: 0
                   }} 
                 />
-                {!isCollapsed && (
+                {!collapsed && (
                   <Text style={{ 
                     color: isActive ? 'white' : 'rgba(255,255,255,0.7)', 
                     fontSize: 14,
@@ -177,11 +234,11 @@ const Sidebar: React.FC<SidebarProps> = ({
           vertical 
           gap={8} 
           style={{ 
-            padding: isCollapsed ? '16px 8px' : '16px', 
+            padding: collapsed ? '16px 8px' : '16px', 
             borderTop: '1px solid rgba(255, 255, 255, 0.1)' 
           }}
         >
-          {!isCollapsed ? (
+          {!collapsed ? (
             <>
               <a href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                 <Button 

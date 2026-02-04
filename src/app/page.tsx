@@ -7,6 +7,7 @@ import { useState, useEffect, Suspense, lazy } from 'react';
 import { Color } from 'three';
 import ProjectModal from './components/ProjectModal';
 import Sidebar from './pages/Sidebar';
+import Page2D from './pages/Page2D';
 import { Project } from '../types';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -52,6 +53,8 @@ export default function Home() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isCanvasLoading, setIsCanvasLoading] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d');
   // const [showMobileWarning, setShowMobileWarning] = useState(false);
   // const [isMobile, setIsMobile] = useState(false);
 
@@ -120,8 +123,8 @@ export default function Home() {
     return themeColors[persona as keyof typeof themeColors];
   };
 
-  // Sidebar width for content offset
-  const sidebarWidth = 240;
+  // Sidebar width for content offset - dynamic based on collapsed state
+  const sidebarWidth = sidebarCollapsed ? 60 : 240;
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
@@ -149,10 +152,39 @@ export default function Home() {
       <Sidebar
         persona={persona}
         onPersonaChange={handlePersonaChange}
+        collapsed={sidebarCollapsed}
+        onCollapsedChange={setSidebarCollapsed}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
       />
 
-      {/* Main Content Area - offset by sidebar width */}
-      <div style={{ marginLeft: sidebarWidth, width: `calc(100vw - ${sidebarWidth}px)`, height: '100vh' }}>
+      {/* Main Content Area - both views rendered, visibility toggled to prevent reload */}
+      
+      {/* 2D Page */}
+      <div style={{ 
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100vw', 
+        height: '100vh',
+        visibility: viewMode === '2d' ? 'visible' : 'hidden',
+        zIndex: viewMode === '2d' ? 1 : 0,
+        overflow: 'auto',
+        backgroundColor: '#0a0a0a'
+      }}>
+        <Page2D />
+      </div>
+
+      {/* 3D Scene - always rendered to prevent reload */}
+      <div style={{ 
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100vw', 
+        height: '100vh',
+        visibility: viewMode === '3d' ? 'visible' : 'hidden',
+        zIndex: viewMode === '3d' ? 1 : 0
+      }}>
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Canvas
             camera={{ position: [0, 4, 8], fov: 90 }}
@@ -175,8 +207,8 @@ export default function Home() {
               />
             </Suspense>
           </Canvas>
+          <Loader />
         </ErrorBoundary>
-        <Loader />
       </div>
 
       {/* Mobile Warning Modal - commented out for simplification */}
