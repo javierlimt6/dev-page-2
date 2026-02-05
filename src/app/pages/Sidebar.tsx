@@ -137,46 +137,52 @@ const Sidebar: React.FC<SidebarProps> = ({
               width: '100%'
             }}
           >
-            <Button
-              type="text"
-              size="small"
-              onClick={() => onViewModeChange('2d')}
-              style={{
-                flex: 1,
-                padding: '10px 8px',
-                backgroundColor: viewMode === '2d' ? 'rgba(100, 255, 218, 0.15)' : 'rgba(255,255,255,0.05)',
-                border: viewMode === '2d' ? '1px solid #64ffda' : '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 8,
-                color: viewMode === '2d' ? '#64ffda' : 'rgba(255,255,255,0.5)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6
-              }}
-            >
-              <FaSquare size={12} />
-              {!collapsed && <span style={{ fontSize: 13 }}>2D</span>}
-            </Button>
-            <Button
-              type="text"
-              size="small"
-              onClick={() => onViewModeChange('3d')}
-              style={{
-                flex: 1,
-                padding: '10px 8px',
-                backgroundColor: viewMode === '3d' ? 'rgba(162, 89, 247, 0.15)' : 'rgba(255,255,255,0.05)',
-                border: viewMode === '3d' ? '1px solid #a259f7' : '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 8,
-                color: viewMode === '3d' ? '#a259f7' : 'rgba(255,255,255,0.5)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6
-              }}
-            >
-              <FaCube size={12} />
-              {!collapsed && <span style={{ fontSize: 13 }}>3D</span>}
-            </Button>
+            {/* Show 2D button: always when expanded, only when active when collapsed */}
+            {(!collapsed || viewMode === '2d') && (
+              <Button
+                type="text"
+                size="small"
+                onClick={() => onViewModeChange('2d')}
+                style={{
+                  flex: 1,
+                  padding: '10px 8px',
+                  backgroundColor: viewMode === '2d' ? 'rgba(100, 255, 218, 0.15)' : 'rgba(255,255,255,0.05)',
+                  border: viewMode === '2d' ? '1px solid #64ffda' : '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                  color: viewMode === '2d' ? '#64ffda' : 'rgba(255,255,255,0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6
+                }}
+              >
+                <FaSquare size={12} />
+                {!collapsed && <span style={{ fontSize: 13 }}>2D</span>}
+              </Button>
+            )}
+            {/* Show 3D button: always when expanded, only when active when collapsed */}
+            {(!collapsed || viewMode === '3d') && (
+              <Button
+                type="text"
+                size="small"
+                onClick={() => onViewModeChange('3d')}
+                style={{
+                  flex: 1,
+                  padding: '10px 8px',
+                  backgroundColor: viewMode === '3d' ? 'rgba(162, 89, 247, 0.15)' : 'rgba(255,255,255,0.05)',
+                  border: viewMode === '3d' ? '1px solid #a259f7' : '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                  color: viewMode === '3d' ? '#a259f7' : 'rgba(255,255,255,0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6
+                }}
+              >
+                <FaCube size={12} />
+                {!collapsed && <span style={{ fontSize: 13 }}>3D</span>}
+              </Button>
+            )}
           </Flex>
 
 
@@ -284,6 +290,9 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Flex vertical align="center" gap={12}>
               <a href="/resume.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaFileAlt size={16} />
+              </a>
+              <a href="/testimonials.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <FaQuoteLeft size={16} />
               </a>
               <a href="https://linkedin.com/in/jav-lim" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaLinkedin size={16} />

@@ -119,7 +119,7 @@ export default function InteractiveObject({
       >
         {!isGLBFile && project.title}
       </Text>
-      {hovered && (
+      {/* {hovered && (
         <Html position={[0, 1.2, 0]} center>
           <div
             style={{
@@ -149,7 +149,7 @@ export default function InteractiveObject({
             </div>
           </div>
         </Html>
-      )}
+      )} */}
     </group>
   );
 }

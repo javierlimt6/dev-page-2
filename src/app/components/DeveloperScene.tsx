@@ -10,25 +10,229 @@
  * - Neural network and AI symbols
  * - Professional lighting with navy, blue, purple, and neon green accents
  * - Mobile-optimized performance with adaptive detail levels
- * - Modern color palette: #0a192f, #64ffda, #a259f7, #39ff14
+ * - Modern color palette: #0f172a, #7dd3fc, #c4b5fd, #4ade80
  * - Responsive laptop scaling for desktop and mobile viewports
  */
 
-import { Text } from '@react-three/drei';
+import { Text, Sky, Stars, useGLTF } from '@react-three/drei';
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useFrame, useLoader } from '@react-three/fiber';
-import { Mesh, Group, VideoTexture, TextureLoader } from 'three';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { Mesh, Group, VideoTexture, TextureLoader, Vector3, MathUtils, Color } from 'three';
 import InteractiveObject from './InteractiveObject';
 
+// Dynamic time-based sky component
+// CONFIG: Set to true to force permanent sunset state
+export const FORCE_SUNSET = true;
+
+function DynamicSky() {
+  const { scene } = useThree();
+  
+  const [sunPosition, setSunPosition] = useState<[number, number, number]>([0, 1, 0]);
+  const [overrideHour, setOverrideHour] = useState<number | null>(null);
+  const [skyParams, setSkyParams] = useState({
+    rayleigh: 5,
+    turbidity: 4,
+    mieCoefficient: 0.0005,
+    isNight: false,
+    lightColor: "#ffffffff"
+  });
+  
+  // Listen for time override events from the UI
+  useEffect(() => {
+    const handleTimeOverride = (e: CustomEvent) => {
+      setOverrideHour(e.detail.hour);
+    };
+    
+    window.addEventListener('timeOverride', handleTimeOverride as EventListener);
+    return () => window.removeEventListener('timeOverride', handleTimeOverride as EventListener);
+  }, []);
+  
+  // Update sky based on time (real or override)
+  useEffect(() => {
+    const updateSkyForTime = (hours: number) => {
+      // Force sunset mode if config is enabled
+      if (FORCE_SUNSET) {
+        hours = 18; // 7pm - peak sunset
+      }
+      
+      const timeOfDay = hours / 24;
+      const sunAngle = (timeOfDay - 0.25) * Math.PI * 2;
+      // Clamp elevation for flatter intensity curve
+      let elevation = Math.max(-20, Math.min(60, Math.sin(sunAngle) * 90));
+      
+      const isNightTime = elevation < -5;
+      if (isNightTime) {
+        elevation = -90;
+      }
+      
+      const azimuth = (timeOfDay * 360 - 90) % 360;
+      const normalizedElevation = Math.max(0, elevation) / 90;
+      
+      let rayleigh: number;
+      let turbidity: number;
+      let mieCoefficient: number;
+      let lightColor: string;
+      
+      // Use hours directly for stretched transitions
+      const isMorningTransition = hours >= 6 && hours < 12;     // 6am - 12pm
+      const isEveningTransition = hours >= 12 && hours < 20;    // 12pm - 8pm
+      
+      if (isNightTime) {
+        // Night
+        rayleigh = 0.01;
+        turbidity = 0.01;
+        mieCoefficient = 0.0001;
+        lightColor = "#3a5a7a"; // Cool moonlight
+        
+      } else if (isMorningTransition) {
+        // STRETCHED SUNRISE: 6am - 12pm (6 hour transition)
+        // Slowed 3x: what was at 8am now appears at 12pm
+        const morningProgress = (hours - 6) / 6; // 0 at 6am, 1 at 12pm
+        
+        rayleigh = 0.5 + morningProgress * 2.7;    // 0.5 → 3.2
+        turbidity = 15 - morningProgress * 4.8;    // 15 → 10.2
+        mieCoefficient = 0.02 - morningProgress * 0.006;
+        
+        // Warm golden → light yellow over the morning
+        const warmOrange = new Color(0xffaa60);
+        const lightYellow = new Color(0xffd080);
+        lightColor = '#' + warmOrange.clone().lerp(lightYellow, morningProgress).getHexString();
+        
+      } else if (isEveningTransition) {
+        // STRETCHED EVENING: 12pm - 8pm (8 hour transition)
+        const eveningProgress = (hours - 12) / 8; // 0 at 12pm, 1 at 8pm
+        
+        // Start where morning ends (3.2, 10.2) → sunset (0.5, 15)
+        rayleigh = 3.2 - eveningProgress * 2.7;    // 3.2 → 0.5
+        turbidity = 10.2 + eveningProgress * 4.8;  // 10.2 → 15
+        mieCoefficient = 0.014 + eveningProgress * 0.006;
+        
+        // Light yellow → warm golden as sun sets
+        const lightYellow = new Color(0xffd080);
+        const warmOrange = new Color(0xffaa60);
+        lightColor = '#' + lightYellow.clone().lerp(warmOrange, eveningProgress).getHexString();
+      } else {
+        // Fallback (shouldn't hit but needed for type safety)
+        rayleigh = 0.5;
+        turbidity = 15;
+        mieCoefficient = 0.02;
+        lightColor = "#ffaa60";
+      }
+      
+      const phi = MathUtils.degToRad(90 - elevation);
+      const theta = MathUtils.degToRad(azimuth);
+      
+      const sunVec = new Vector3();
+      sunVec.setFromSphericalCoords(1, phi, theta);
+      
+      if (isNightTime) {
+        scene.background = new Color(0x01121c);
+      } else {
+        scene.background = null;
+      }
+      
+      setSunPosition([sunVec.x, sunVec.y, sunVec.z]);
+      setSkyParams({ 
+        rayleigh, 
+        turbidity, 
+        mieCoefficient, 
+        isNight: isNightTime,
+        lightColor
+      });
+    };
+    
+    // Use override or real time
+    if (overrideHour !== null) {
+      updateSkyForTime(overrideHour);
+    } else {
+      const now = new Date();
+      const hours = now.getHours() + now.getMinutes() / 60;
+      updateSkyForTime(hours);
+    }
+    
+    // Only set interval if not overriding
+    if (overrideHour === null) {
+      const interval = setInterval(() => {
+        const now = new Date();
+        const hours = now.getHours() + now.getMinutes() / 60;
+        updateSkyForTime(hours);
+      }, 60000);
+      return () => clearInterval(interval);
+    }
+  }, [scene, overrideHour]);
+  
+  return (
+    <>
+      {!skyParams.isNight && (
+        <Sky
+          distance={450000}
+          sunPosition={sunPosition}
+          mieCoefficient={skyParams.mieCoefficient}
+          mieDirectionalG={0.7}
+          rayleigh={skyParams.rayleigh}
+          turbidity={skyParams.turbidity}
+        />
+      )}
+      
+      {skyParams.isNight && (
+        <Stars
+          radius={300}
+          depth={50}
+          count={5000}
+          factor={3}
+          saturation={0}
+          fade
+          speed={1}
+        />
+      )}
+      
+      {/* Dynamic light color based on time */}
+      <directionalLight
+        position={sunPosition}
+        intensity={
+          skyParams.isNight 
+            ? 0.15
+            : 0.3 + Math.max(0, sunPosition[1]) * 0.6
+        }
+        color={skyParams.lightColor}
+        castShadow
+      />
+      
+      <ambientLight 
+        intensity={skyParams.isNight ? 0.15 : 0.4}
+        color={skyParams.isNight ? "#0a0a20" : "#e8f0ff"}
+      />
+    </>
+  );
+}
+
+// Beach environment model
+// Attribution (CC-BY License - required):
+// "Little Private Beach" by Carson Lam [CC-BY] (https://creativecommons.org/licenses/by/3.0/)
+// via Poly Pizza (https://poly.pizza/m/2AeF-fuFHNu)
+function Beach() {
+  const { scene } = useGLTF('/beach.glb');
+  
+  return (
+    <primitive 
+      object={scene} 
+      position={[-20, 8, 15]}  // Behind and below laptop
+      scale={250}                // Adjust size as needed
+      rotation={[0, -Math.PI / 2, 0]}
+    />
+  );
+}
+
+// Keep the old SkyboxSphere as a fallback option
 function SkyboxSphere() {
-  const skyTexture = useLoader(TextureLoader, '/panoramic-tech.png'); // Put sky.jpg in your public folder
+  const skyTexture = useLoader(TextureLoader, '/panoramic-tech.png');
   
   return (
     <mesh>
       <sphereGeometry args={[500, 60, 40]} />
       <meshBasicMaterial 
         map={skyTexture} 
-        side={2} // THREE.BackSide = 2
+        side={2}
       />
     </mesh>
   );
@@ -83,7 +287,7 @@ function LaptopEnvironment() {
         <planeGeometry args={[keyboardWidth, keyboardHeight]} />
         <meshStandardMaterial 
           color="#1a1a1a" 
-          emissive="#0a192f"
+          emissive="#0f172a"
           emissiveIntensity={0.1}
           roughness={0.3}
           metalness={0.7}
@@ -111,7 +315,7 @@ function LaptopEnvironment() {
         <planeGeometry args={[1, 1]} />
         <meshStandardMaterial 
           color="#2c3e50" 
-          emissive="#0a192f"
+          emissive="#0f172a"
           emissiveIntensity={0.02}
           roughness={0.1}
           metalness={0.9}
@@ -119,14 +323,14 @@ function LaptopEnvironment() {
       </mesh>
       
       {/* Keyboard Keys */}
-      <KeyboardKeys isMobile={isMobile} />
+      {/* <KeyboardKeys isMobile={isMobile} /> */}
       
       {/* Laptop Base/Hinge */}
       <mesh position={[0, 0, -4]} rotation={[-Math.PI / 8, 0, 0]}>
         <boxGeometry args={[keyboardWidth * 0.9, 0.3, 1]} />
         <meshStandardMaterial 
           color="#2c3e50" 
-          emissive="#0a192f"
+          emissive="#0f172a"
           emissiveIntensity={0.05}
           roughness={0.1}
           metalness={0.8}
@@ -188,8 +392,8 @@ function KeyboardKey({ position, scale, delay }: {
     <mesh ref={keyRef} position={position} scale={scale}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial
-        color="#64ffda"
-        emissive="#64ffda"
+        color="#7dd3fc"
+        emissive="#7dd3fc"
         emissiveIntensity={0.1}
         roughness={0.2}
         metalness={0.8}
@@ -277,7 +481,7 @@ function FloatingText({ text, position, delay }: { text: string; position: [numb
       ref={textRef}
       position={position}
       fontSize={0.15}
-      color="#00ffff"
+      color="#67e8f9"
       anchorX="center"
       anchorY="middle"
       material-transparent
@@ -329,8 +533,8 @@ function DataNode({ position, delay }: { position: [number, number, number]; del
     <mesh ref={meshRef} position={position}>
       <octahedronGeometry args={[0.3, 0]} />
       <meshStandardMaterial
-        color="#ff00ff"
-        emissive="#440044"
+        color="#f0abfc"
+        emissive="#3b1f47"
         transparent
         opacity={0.7}
       />
@@ -388,8 +592,8 @@ function CircuitLine({ start, end, delay }: {
     <mesh ref={lineRef} position={midpoint}>
       <cylinderGeometry args={[0.02, 0.02, distance]} />
       <meshStandardMaterial
-        color="#00ffff"
-        emissive="#003333"
+        color="#67e8f9"
+        emissive="#1e3a3a"
         emissiveIntensity={0.5}
       />
     </mesh>
@@ -452,7 +656,7 @@ function TechParticle({ position, delay }: { position: [number, number, number];
       <sphereGeometry args={[0.05, 8, 8]} />
       <meshStandardMaterial
         color="#ffffff"
-        emissive="#0088ff"
+        emissive="#3b82f6"
         transparent
         opacity={0.6}
       />
@@ -473,8 +677,8 @@ function Cube() {
         <mesh ref={meshRef} position={[0, 1, 0]}>
             <boxGeometry args={[1, 1, 1]} />
             <meshStandardMaterial 
-              color="#ff00ff" 
-              emissive="#330033"
+              color="#f0abfc" 
+              emissive="#3b1f47"
               roughness={0.3}
               metalness={0.7}
             />
@@ -495,8 +699,8 @@ function Sphere() {
         <mesh ref={meshRef} position={[-2, 1, -2]}>
             <sphereGeometry args={[0.5, 32, 32]} />
             <meshStandardMaterial 
-              color="#00ffff" 
-              emissive="#003333"
+              color="#67e8f9" 
+              emissive="#1e3a3a"
               roughness={0.2}
               metalness={0.8}
             />
@@ -535,38 +739,39 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
   return (
     <>
       {/* Immersive Tech Background */}
-      <SkyboxSphere />
+      <DynamicSky />
+      <Beach />
       <LaptopEnvironment />
       
       {/* Enhanced Developer Lighting with screen glow */}
-      <ambientLight intensity={0.15} color="#0a192f" />
+      <ambientLight intensity={0.15} color="#0f172a" />
       <directionalLight position={[8, 8, 5]} intensity={0.7} color="#ffffff" />
-      <pointLight position={[-6, 4, -3]} intensity={0.5} color="#64ffda" />
-      <pointLight position={[6, 3, 4]} intensity={0.4} color="#a259f7" />
-      <pointLight position={[0, 5, 0]} intensity={0.3} color="#39ff14" />
+      <pointLight position={[-6, 4, -3]} intensity={0.5} color="#7dd3fc" />
+      <pointLight position={[6, 3, 4]} intensity={0.4} color="#c4b5fd" />
+      <pointLight position={[0, 5, 0]} intensity={0.3} color="#4ade80" />
       {/* Screen glow lighting from laptop display */}
-      <pointLight position={[0, 4, -7]} intensity={0.6} color="#64ffda" />
-      <hemisphereLight args={["#64ffda", "#0a192f", 0.2]} />
+      <pointLight position={[0, 4, -7]} intensity={0.6} color="#7dd3fc" />
+      <hemisphereLight args={["#7dd3fc", "#0f172a", 0.2]} />
       
       {/* Developer Workspace Elements */}
-      <TechWorkspace />
-      <DevToolIcons />
+      {/* <TechWorkspace />
+      <DevToolIcons /> */}
       {/* <NetworkGrid /> */}
-      <AIElements />
+      {/* <AIElements /> */}
       
       {/* Enhanced Animated Background Elements */}
-      <FloatingCode />
-      <CodeParticles />
-      {!isMobile && <DataNodes />}
+      {/* <FloatingCode />
+      <CodeParticles /> */}
+      {/* {!isMobile && <DataNodes />} */}
       {/* {!isMobile && <CircuitPatterns />} */}
-      <TechParticles />
+      {/* <TechParticles /> */}
       
       {/* Scene Title */}
-      <Text position={[0, 4, 0]} fontSize={0.6} color="#64ffda" fontWeight="bold">
-        Computer Science
-      </Text>
-      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#a259f7">
+      <Text position={[0, 4, 0]} fontSize={0.6} color="#7dd3fc" fontWeight="bold">
         Javier Lim
+      </Text>
+      <Text position={[0, 3.5, 0]} fontSize={0.3} color="#c4b5fd">
+        building!
       </Text>
       
       {/* Core Tech Objects */}
@@ -718,8 +923,8 @@ function DeveloperDesk({ position, rotation }: {
       >
         <planeGeometry args={[0.7, 0.4]} />
         <meshStandardMaterial
-          color="#64ffda"
-          emissive="#64ffda"
+          color="#7dd3fc"
+          emissive="#7dd3fc"
           emissiveIntensity={0.4}
         />
       </mesh>
@@ -738,8 +943,8 @@ function DeveloperDesk({ position, rotation }: {
       >
         <planeGeometry args={[0.5, 0.3]} />
         <meshStandardMaterial
-          color="#a259f7"
-          emissive="#a259f7"
+          color="#c4b5fd"
+          emissive="#c4b5fd"
           emissiveIntensity={0.3}
         />
       </mesh>
@@ -765,8 +970,8 @@ function DeveloperDesk({ position, rotation }: {
           >
             <boxGeometry args={[0.08, 0.01, 0.04]} />
             <meshStandardMaterial
-              color="#39ff14"
-              emissive="#39ff14"
+              color="#4ade80"
+              emissive="#4ade80"
               emissiveIntensity={0.2}
             />
           </mesh>
@@ -776,7 +981,7 @@ function DeveloperDesk({ position, rotation }: {
       {/* Mouse */}
       <mesh position={[0.4, 0.13, 0.4]}>
         <boxGeometry args={[0.08, 0.02, 0.12]} />
-        <meshStandardMaterial color="#64ffda" emissive="#64ffda" emissiveIntensity={0.2} />
+        <meshStandardMaterial color="#7dd3fc" emissive="#7dd3fc" emissiveIntensity={0.2} />
       </mesh>
       
       {/* Coffee cup */}
@@ -955,8 +1160,8 @@ function NetworkNode({ position, delay }: {
     <mesh ref={nodeRef} position={position}>
       <icosahedronGeometry args={[0.1, 0]} />
       <meshStandardMaterial
-        color="#39ff14"
-        emissive="#39ff14"
+        color="#4ade80"
+        emissive="#4ade80"
         emissiveIntensity={0.3}
         transparent
         opacity={0.7}
@@ -999,8 +1204,8 @@ function DataStream({ start, end, delay }: {
     <mesh ref={streamRef} position={midpoint}>
       <cylinderGeometry args={[0.008, 0.008, distance]} />
       <meshStandardMaterial
-        color="#64ffda"
-        emissive="#64ffda"
+        color="#7dd3fc"
+        emissive="#7dd3fc"
         emissiveIntensity={0.2}
         transparent
         opacity={0.5}
@@ -1072,7 +1277,7 @@ function CodeParticle({ position, symbol, delay }: {
       ref={particleRef}
       position={position}
       fontSize={0.12}
-      color="#39ff14"
+      color="#4ade80"
       anchorX="center"
       anchorY="middle"
       material-transparent
@@ -1116,8 +1321,8 @@ function NeuralNetwork({ position }: { position: [number, number, number] }) {
           >
             <sphereGeometry args={[0.1, 8, 8]} />
             <meshStandardMaterial
-              color="#a259f7"
-              emissive="#a259f7"
+              color="#c4b5fd"
+              emissive="#c4b5fd"
               emissiveIntensity={0.4}
             />
           </mesh>
@@ -1133,8 +1338,8 @@ function NeuralNetwork({ position }: { position: [number, number, number] }) {
         >
           <cylinderGeometry args={[0.02, 0.02, 1.4]} />
           <meshStandardMaterial
-            color="#64ffda"
-            emissive="#64ffda"
+            color="#7dd3fc"
+            emissive="#7dd3fc"
             emissiveIntensity={0.2}
           />
         </mesh>
@@ -1162,8 +1367,8 @@ function AIBrain({ position }: { position: [number, number, number] }) {
     <mesh ref={brainRef} position={position}>
       <dodecahedronGeometry args={[0.4, 1]} />
       <meshStandardMaterial
-        color="#a259f7"
-        emissive="#a259f7"
+        color="#c4b5fd"
+        emissive="#c4b5fd"
         emissiveIntensity={0.5}
         wireframe
       />
@@ -1192,8 +1397,8 @@ function MicrochipCluster({ position }: { position: [number, number, number] }) 
           >
             <boxGeometry args={[0.15, 0.02, 0.1]} />
             <meshStandardMaterial
-              color="#39ff14"
-              emissive="#39ff14"
+              color="#4ade80"
+              emissive="#4ade80"
               emissiveIntensity={0.3}
             />
           </mesh>

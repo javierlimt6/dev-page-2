@@ -54,7 +54,7 @@ export default function ProjectModal({
       return (
         <div style={{ padding: '20px', color: 'white' }}>
           <h2 style={{ 
-            color: themeColors?.one || '#64ffda',
+            color: themeColors?.one || '#7dd3fc',
             marginBottom: '15px',
             fontSize: '1.8rem'
           }}>
@@ -71,7 +71,7 @@ export default function ProjectModal({
                   maxWidth: '100%', 
                   height: 'auto',
                   borderRadius: '10px',
-                  border: `2px solid ${themeColors?.two || '#a259f7'}`
+                  border: `2px solid ${themeColors?.two || '#c4b5fd'}`
                 }} 
               />
             </div>
@@ -83,24 +83,24 @@ export default function ProjectModal({
                 target="_blank" 
                 rel="noopener noreferrer"
                 style={{ 
-                  color: themeColors?.one || '#64ffda',
+                  color: themeColors?.one || '#7dd3fc',
                   textDecoration: 'none',
                   fontSize: '1.1rem',
                   fontWeight: 'bold',
                   padding: '10px 20px',
-                  border: `2px solid ${themeColors?.one || '#64ffda'}`,
+                  border: `2px solid ${themeColors?.one || '#7dd3fc'}`,
                   borderRadius: '8px',
                   display: 'inline-block',
                   transition: 'all 0.3s ease',
                   backgroundColor: 'rgba(0, 0, 0, 0.3)'
                 }}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = themeColors?.one || '#64ffda';
+                  e.currentTarget.style.backgroundColor = themeColors?.one || '#7dd3fc';
                   e.currentTarget.style.color = '#000';
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-                  e.currentTarget.style.color = themeColors?.one || '#64ffda';
+                  e.currentTarget.style.color = themeColors?.one || '#7dd3fc';
                 }}
               >
                 View
@@ -176,11 +176,11 @@ export default function ProjectModal({
           style={{
             background: project?.componentType 
               ? 'rgba(0, 0, 0, 0.95)'
-              : `linear-gradient(135deg, ${themeColors?.one || '#64ffda'}20, ${themeColors?.two || '#a259f7'}20)`,
+              : `linear-gradient(135deg, ${themeColors?.one || '#7dd3fc'}20, ${themeColors?.two || '#c4b5fd'}20)`,
             backdropFilter: 'blur(15px)',
             border: project?.componentType 
               ? '1px solid rgba(255, 255, 255, 0.1)'
-              : `2px solid ${themeColors?.one || '#64ffda'}`,
+              : `2px solid ${themeColors?.one || '#7dd3fc'}`,
             borderRadius: '15px',
             maxWidth: project?.componentType ? '95vw' : '600px',
             maxHeight: project?.componentType ? '95vh' : '80vh',
@@ -189,7 +189,7 @@ export default function ProjectModal({
             position: 'relative',
             boxShadow: project?.componentType 
               ? '0 0 50px rgba(0, 0, 0, 0.8)'
-              : `0 0 30px ${themeColors?.one || '#64ffda'}40`,
+              : `0 0 30px ${themeColors?.one || '#7dd3fc'}40`,
             overflow: 'auto',
           }}
           onClick={(e) => e.stopPropagation()}

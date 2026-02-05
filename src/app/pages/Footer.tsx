@@ -18,9 +18,20 @@ const Footer = () => {
           wrap="wrap"
           gap={16}
         >
-          <Text style={{ color: '#718096' }}>
-            © {currentYear} Javier Lim Jun Yi. All rights reserved.
-          </Text>
+          <Flex vertical gap={4}>
+            <Text style={{ color: '#718096' }}>
+              © {currentYear} Javier Lim Jun Yi. All rights reserved.
+            </Text>
+            <Text style={{ color: '#4a5568', fontSize: 11 }}>
+              3D Model: "Little Private Beach" by{' '}
+              <Link href="https://poly.pizza/m/2AeF-fuFHNu" target="_blank" style={{ color: '#4a5568' }}>
+                Carson Lam
+              </Link>{' '}
+              <Link href="https://creativecommons.org/licenses/by/3.0/" target="_blank" style={{ color: '#4a5568' }}>
+                [CC-BY]
+              </Link>
+            </Text>
+          </Flex>
           
           <Flex gap={24}>
             <Link 
