@@ -323,10 +323,10 @@ function LaptopEnvironment() {
       </mesh>
       
       {/* Keyboard Keys */}
-      {/* <KeyboardKeys isMobile={isMobile} /> */}
+      <KeyboardKeys isMobile={isMobile} />
       
-      {/* Laptop Base/Hinge */}
-      <mesh position={[0, 0, -4]} rotation={[-Math.PI / 8, 0, 0]}>
+      {/* Laptop Base/Hinge - commented out */}
+      {/* <mesh position={[0, 0, -4]} rotation={[-Math.PI / 8, 0, 0]}>
         <boxGeometry args={[keyboardWidth * 0.9, 0.3, 1]} />
         <meshStandardMaterial 
           color="#2c3e50" 
@@ -335,38 +335,28 @@ function LaptopEnvironment() {
           roughness={0.1}
           metalness={0.8}
         />
-      </mesh>
+      </mesh> */}
     </group>
   );
 }
 
-// Individual keyboard keys for realism
+// Keyboard model loaded from GLB
+// Attribution (CC-BY License - required):
+// "Keyboard" by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/)
+// via Poly Pizza (https://poly.pizza/m/3oFfQCSsUmQ)
 function KeyboardKeys({ isMobile }: { isMobile: boolean }) {
-  const keyCount = isMobile ? 40 : 80;
-  const keyWidth = isMobile ? 0.4 : 0.6;
-  const keyHeight = isMobile ? 0.4 : 0.6;
-  const spacing = isMobile ? 0.5 : 0.7;
-  const rows = isMobile ? 4 : 6;
-  const cols = isMobile ? 10 : 14;
+  const { scene } = useGLTF('/keyboard.glb');
+  
+  // Scale down for mobile
+  const baseScale = 0.04
   
   return (
-    <group position={[0, 0.05, 0]}>
-      {Array.from({ length: keyCount }, (_, i) => {
-        const row = Math.floor(i / cols);
-        const col = i % cols;
-        const x = (col - cols / 2) * spacing;
-        const z = (row - rows / 2) * spacing;
-        
-        return (
-          <KeyboardKey
-            key={i}
-            position={[x, 0, z]}
-            scale={[keyWidth, 0.1, keyHeight]}
-            delay={i * 0.01}
-          />
-        );
-      })}
-    </group>
+    <primitive 
+      object={scene} 
+      position={[0, -0.2, -0.7]}
+      scale={[baseScale, baseScale, baseScale]}  // Adjust scale as needed
+      rotation={[0, 0, 0]}
+    />
   );
 }
 

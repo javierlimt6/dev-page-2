@@ -23,9 +23,12 @@ const Footer = () => {
               © {currentYear} Javier Lim Jun Yi. All rights reserved.
             </Text>
             <Text style={{ color: '#4a5568', fontSize: 11 }}>
-              3D Model: "Little Private Beach" by{' '}
+              3D Models:{' '}
               <Link href="https://poly.pizza/m/2AeF-fuFHNu" target="_blank" style={{ color: '#4a5568' }}>
-                Carson Lam
+                "Little Private Beach" by Carson Lam
+              </Link>,{' '}
+              <Link href="https://poly.pizza/m/3oFfQCSsUmQ" target="_blank" style={{ color: '#4a5568' }}>
+                "Keyboard" by Poly by Google
               </Link>{' '}
               <Link href="https://creativecommons.org/licenses/by/3.0/" target="_blank" style={{ color: '#4a5568' }}>
                 [CC-BY]
