@@ -68,14 +68,16 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       <LaptopEnvironment />
       
       {/* Enhanced Developer Lighting with screen glow */}
-      <ambientLight intensity={0.15} color="#0f172a" />
-      <directionalLight position={[8, 8, 5]} intensity={0.7} color="#ffffff" />
-      <pointLight position={[-6, 4, -3]} intensity={0.5} color="#7dd3fc" />
-      <pointLight position={[6, 3, 4]} intensity={0.4} color="#c4b5fd" />
-      <pointLight position={[0, 5, 0]} intensity={0.3} color="#4ade80" />
+      <ambientLight intensity={0.35} color="#e8f0ff" />
+      <directionalLight position={[8, 8, 5]} intensity={1.0} color="#ffffff" />
+      <pointLight position={[-6, 4, -3]} intensity={0.6} color="#7dd3fc" />
+      <pointLight position={[6, 3, 4]} intensity={0.5} color="#c4b5fd" />
+      <pointLight position={[0, 5, 0]} intensity={0.4} color="#4ade80" />
+      {/* Fill light directly above keyboard to illuminate models */}
+      <pointLight position={[0, 3, 2]} intensity={0.8} color="#ffffff" />
       {/* Screen glow lighting from laptop display */}
       <pointLight position={[0, 4, -7]} intensity={0.6} color="#7dd3fc" />
-      <hemisphereLight args={["#7dd3fc", "#0f172a", 0.2]} />
+      <hemisphereLight args={["#7dd3fc", "#0f172a", 0.4]} />
       
       {/* Developer Workspace Elements */}
       {/* <TechWorkspace />
@@ -92,7 +94,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#7dd3fc" fontWeight="bold">
-        Javier Lim
+        About
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#c4b5fd">
         building!
@@ -134,7 +136,8 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       />
       <InteractiveObject
         position={[-3, 1, 4]}
-        scale={0.1}
+        scale={0.07}
+        rotation={[Math.PI / 2, 0, 0]}
         project={{
           id: "dev-project-2",
           title: "Projects",
@@ -161,13 +164,13 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       /> */}
       <InteractiveObject
-        position={[-3, 4, 1]}
-        scale={1.5}
+        position={[-2, 3, 3]}
+        scale={1}
         project={{
           id: "dev-project-3",
           title: "Activites",
           description: "Check out my achievements and accolades.",
-          imageUrl: "/vercel.svg",
+          imageUrl: "/target.glb",
           geometryType: "tetrahedron",
           componentType: "awards" // This will render the Awards component
         }}

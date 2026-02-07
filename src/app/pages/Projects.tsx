@@ -95,21 +95,23 @@ const Projects = () => {
                   style={{
                     background: cardBg,
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 12,
+                    borderRadius: 16,
                     overflow: 'hidden',
                     border: `1px solid ${cardBorder}`,
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    transition: 'all 0.3s ease',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.2)';
+                    e.currentTarget.style.transform = 'translateY(-6px)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 188, 212, 0.15), 0 4px 12px rgba(0,0,0,0.3)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 188, 212, 0.3)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.borderColor = cardBorder;
                   }}
                 >
                   {/* Project Image */}
@@ -127,7 +129,7 @@ const Projects = () => {
                   </div>
 
                   {/* Project Content */}
-                  <div style={{ padding: 20, flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <Title level={4} style={{ marginBottom: 8 }}>{project.title}</Title>
                     <Text style={{ color: '#a0aec0', marginBottom: 16, flex: 1 }}>{project.description}</Text>
 

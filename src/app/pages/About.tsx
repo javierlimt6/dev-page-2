@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography, Row, Col, Flex, ConfigProvider, theme, Tag } from "antd";
+import { Button, Typography, Row, Col, Flex, ConfigProvider, theme, Tag, Avatar } from "antd";
 import {
   FaFileAlt,
   FaCode,
@@ -11,7 +11,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { darkTheme, colors } from "../antd-theme";
 
-const { Title, Text } = Typography;
+const { Title, Text, Link } = Typography;
 
 // Motion components
 const MotionDiv = motion.div;
@@ -147,7 +147,7 @@ const TextStream = ({
             whileHover={{ scale: 1.05, textShadow: "0 0 20px rgba(100, 255, 218, 0.8)" }}
             transition={{ duration: 0.3 }}
           >
-            <span style={{
+            <MotionSpan style={{
               fontSize: '1.25rem',
               fontWeight: 'bold',
               background: 'linear-gradient(45deg, #64ffda, #a259f7, #ff6b6b)',
@@ -156,7 +156,7 @@ const TextStream = ({
               WebkitTextFillColor: 'transparent'
             }}>
               {item}
-            </span>
+            </MotionSpan>
           </MotionDiv>
         ))}
       </MotionDiv>
@@ -255,7 +255,7 @@ const BioHeader = () => {
           transition={{ delay: 0.8, duration: 0.8, ease: "backOut" }}
           whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
         >
-          <span style={{
+          <MotionSpan style={{
             fontSize: '3rem',
             fontWeight: 'bold',
             background: 'linear-gradient(45deg, #64ffda, #a259f7, #ff6b6b)',
@@ -268,7 +268,7 @@ const BioHeader = () => {
             top: '-31px'
           }}>
             Javier
-          </span>
+          </MotionSpan>
         </MotionDiv>
       </Flex>
 
@@ -343,18 +343,18 @@ const About = () => {
 
                   <MotionDiv initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.8 }}>
                     <Flex align="center" gap={16}>
-                      <a href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
+                      <Link href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                         <Button type="primary" size="large" style={{ backgroundColor: colors.cyan.primary, borderColor: colors.cyan.primary }}>
                           <FaFileAlt style={{ marginRight: 8 }} />
                           Resume
                         </Button>
-                      </a>
-                      <a href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
+                      </Link>
+                      <Link href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                         <Button type="primary" size="large" style={{ backgroundColor: colors.teal.primary, borderColor: colors.teal.primary }}>
                           <FaQuoteLeft style={{ marginRight: 8 }} />
                           Testimonials
                         </Button>
-                      </a>
+                      </Link>
                     </Flex>
                   </MotionDiv>
                 </Flex>

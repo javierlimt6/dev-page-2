@@ -1,20 +1,12 @@
 import React from 'react';
 import { Typography, Row, Col, Tag, Flex, ConfigProvider, theme } from 'antd';
-import { FaGraduationCap, FaCode, FaUsers, FaTrophy } from 'react-icons/fa';
+import { FaGraduationCap, FaCode, FaTrophy, FaGlobe } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+import Image from 'next/image';
 
 const { Title, Text } = Typography;
 
-const educationDetails = [
-  {
-    id: "degree",
-    title: "Bachelor of Computer Science",
-    institution: "National University of Singapore",
-    period: "2024 onwards",
-    icon: FaGraduationCap,
-    color: "#3b82f6",
-    description: "Pursuing a comprehensive degree in Computer Science with focus on software engineering, algorithms, and system design."
-  },
+const detailCards = [
   {
     id: "coursework",
     title: "Core Coursework",
@@ -30,28 +22,44 @@ const educationDetails = [
     color: "#22c55e"
   },
   {
-    id: "activities",
-    title: "Academic Activities",
-    items: [
-      "Notion Campus Leader",
-      "2x NUS SoC Teaching Assistant for Computer Science Modules",
-      "Software Engineering Lead @ RC4 CSC Tech",
-      "Avid Hackathon Participant",
-      "Winter School @ Korea University"
-    ],
-    icon: FaUsers,
-    color: "#a855f7"
-  },
-  {
     id: "achievements",
     title: "Academic Achievements",
     items: [
       "Recipient of Kwan Im Thong Hood Cho Temple Scholarship Award",
-      "First Class Honours",
       "Testimonials from >5 NUS Professors"
     ],
     icon: FaTrophy,
     color: "#f97316"
+  }
+];
+
+const otherUniversities = [
+  {
+    id: "korea",
+    name: "Korea University",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Korea_University_Global_Symbol.svg/1200px-Korea_University_Global_Symbol.svg.png",
+    program: "International Winter Campus",
+    period: "Dec 2024 – Jan 2025",
+    description: "IWC112: Linear Algebra",
+    color: "#dc2626"
+  },
+  {
+    id: "malaya",
+    name: "University of Malaya",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/8/87/University_of_Malaya_coat_of_arms.svg/1200px-University_of_Malaya_coat_of_arms.svg.png",
+    program: "Entrepreneurship / Entrepreneurial Studies",
+    period: "May 2025 – Jul 2025",
+    description: "Taken as part of the NOC Malaysia AY24/25 Programme",
+    color: "#7c3aed"
+  },
+  {
+    id: "nyjc",
+    name: "Nanyang Junior College",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Nanyang_Junior_College_logo.png/150px-Nanyang_Junior_College_logo.png",
+    program: "GCE 'A' Levels",
+    period: "Feb 2020 – Dec 2021",
+    description: "4 Distinctions in Physics, Computing, Mathematics, and Economics",
+    color: "#e11d48"
   }
 ];
 
@@ -80,20 +88,36 @@ const Education = () => {
               </Text>
             </Flex>
 
-            {/* Main Education Card */}
+            {/* Main NUS Card */}
             <div
               style={{
                 background: cardBg,
                 backdropFilter: 'blur(20px)',
                 padding: 32,
-                borderRadius: 12,
+                borderRadius: 16,
                 border: `1px solid ${cardBorder}`,
-                transition: 'all 0.3s ease',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0,0,0,0.3)';
+                e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.borderColor = cardBorder;
               }}
             >
-              <Flex vertical gap={24}>
+              <Flex vertical gap={20}>
                 <Flex align="center" gap={16}>
-                  <FaGraduationCap style={{ color: '#3b82f6', fontSize: 40 }} />
+                  <Image
+                    src="/images/soc-logo.png"
+                    alt="NUS School of Computing"
+                    width={56}
+                    height={56}
+                    style={{ borderRadius: 8, objectFit: 'contain' }}
+                  />
                   <Flex vertical gap={4}>
                     <Title level={3} style={{ margin: 0, color: '#3b82f6' }}>
                       Bachelor of Computer Science
@@ -101,37 +125,60 @@ const Education = () => {
                     <Text style={{ fontSize: '1.125rem', color: '#a0aec0', fontWeight: 600 }}>
                       National University of Singapore
                     </Text>
-                    <Tag color="blue">Since 2024</Tag>
+                    <Tag color="blue" style={{ width: 'fit-content' }}>Since 2024</Tag>
                   </Flex>
                 </Flex>
                 
-                <Text style={{ color: '#a0aec0', textAlign: 'center', lineHeight: 1.6 }}>
+                <Text style={{ color: '#a0aec0', lineHeight: 1.6 }}>
                   Pursuing a comprehensive degree in Computer Science with focus on software engineering, 
-                  algorithms, and system design.
+                  algorithms, and system design. Ranked #1 in Asia and #8 globally on the QS Rankings, 
+                  NUS provides world-class education, cutting-edge research opportunities, and a vibrant 
+                  tech ecosystem in Singapore.
                 </Text>
               </Flex>
             </div>
 
             {/* Education Details Grid */}
             <Row gutter={[24, 24]}>
-              {educationDetails.slice(1).map((detail) => {
+              {detailCards.map((detail) => {
                 const IconComponent = detail.icon;
                 return (
-                  <Col xs={24} md={12} lg={8} key={detail.id}>
+                  <Col xs={24} md={12} key={detail.id}>
                     <div
                       style={{
                         background: cardBg,
                         backdropFilter: 'blur(20px)',
-                        padding: 24,
-                        borderRadius: 12,
+                        padding: 28,
+                        borderRadius: 16,
                         border: `1px solid ${cardBorder}`,
                         height: '100%',
-                        transition: 'all 0.3s ease',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = `0 12px 40px ${detail.color}20, 0 4px 12px rgba(0,0,0,0.3)`;
+                        e.currentTarget.style.borderColor = `${detail.color}40`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.borderColor = cardBorder;
                       }}
                     >
                       <Flex vertical gap={16}>
-                        <Flex align="center" gap={12}>
-                          <IconComponent style={{ color: detail.color, fontSize: 24 }} />
+                        <Flex align="center" gap={14}>
+                          <div style={{
+                            width: 44,
+                            height: 44,
+                            borderRadius: 12,
+                            background: `${detail.color}18`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                          }}>
+                            <IconComponent style={{ color: detail.color, fontSize: 20 }} />
+                          </div>
                           <Title level={4} style={{ margin: 0, color: detail.color }}>
                             {detail.title}
                           </Title>
@@ -151,27 +198,71 @@ const Education = () => {
               })}
             </Row>
 
-            {/* NUS Highlight */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1))',
-                backdropFilter: 'blur(20px)',
-                padding: 24,
-                borderRadius: 12,
-                border: `1px solid ${cardBorder}`,
-                textAlign: 'center',
-              }}
-            >
-              <Flex vertical gap={12}>
-                <Title level={3} style={{ margin: 0, color: 'white' }}>
-                  Why NUS?
+            {/* Other Universities */}
+            <Flex vertical gap={8}>
+              <Flex align="center" gap={8} style={{ marginBottom: 8 }}>
+                <FaGlobe style={{ color: '#64ffda', fontSize: 18 }} />
+                <Title level={4} style={{ margin: 0, color: '#64ffda' }}>
+                  Other Education
                 </Title>
-                <Text style={{ color: '#a0aec0', lineHeight: 1.6 }}>
-                  Ranked #1 in Asia and #8 globally on the QS Rankings, NUS provides world-class education, 
-                  cutting-edge research opportunities, and a vibrant tech ecosystem in Singapore.
-                </Text>
               </Flex>
-            </div>
+              <Row gutter={[24, 24]}>
+                {otherUniversities.map((uni) => (
+                  <Col xs={24} md={12} key={uni.id}>
+                    <div
+                      style={{
+                        background: cardBg,
+                        backdropFilter: 'blur(20px)',
+                        padding: 24,
+                        borderRadius: 16,
+                        border: `1px solid ${cardBorder}`,
+                        height: '100%',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = `0 12px 40px ${uni.color}20, 0 4px 12px rgba(0,0,0,0.3)`;
+                        e.currentTarget.style.borderColor = `${uni.color}40`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.borderColor = cardBorder;
+                      }}
+                    >
+                      <Flex align="flex-start" gap={16}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={uni.logo}
+                          alt={uni.name}
+                          style={{ 
+                            width: 48, 
+                            height: 48, 
+                            borderRadius: 8, 
+                            objectFit: 'contain',
+                            flexShrink: 0,
+                            backgroundColor: 'rgba(255,255,255,0.9)',
+                            padding: 4
+                          }}
+                        />
+                        <Flex vertical gap={4}>
+                          <Title level={5} style={{ margin: 0, color: 'white' }}>
+                            {uni.name}
+                          </Title>
+                          <Text style={{ color: uni.color, fontSize: 13, fontWeight: 500 }}>
+                            {uni.program}
+                          </Text>
+                          <Tag style={{ width: 'fit-content', fontSize: 11 }}>{uni.period}</Tag>
+                          <Text style={{ color: '#a0aec0', fontSize: 13, marginTop: 4 }}>
+                            {uni.description}
+                          </Text>
+                        </Flex>
+                      </Flex>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            </Flex>
           </Flex>
         </div>
       </section>

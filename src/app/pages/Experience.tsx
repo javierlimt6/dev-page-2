@@ -118,20 +118,22 @@ const Experience = () => {
                 style={{
                   background: cardBg,
                   backdropFilter: 'blur(10px)',
-                  borderRadius: 12,
+                  borderRadius: 16,
                   overflow: 'hidden',
-                  border: '1px solid rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.12)',
                   display: 'flex',
                   flexDirection: 'row',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0,0,0,0.3)';
+                  e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
                 }}
               >
                 <Flex
@@ -139,9 +141,9 @@ const Experience = () => {
                   align="center"
                   justify="center"
                   style={{
-                    padding: 24,
-                    background: 'rgba(0,0,0,0.1)',
-                    borderRight: '1px solid rgba(255,255,255,0.2)',
+                    padding: 28,
+                    background: 'rgba(0,0,0,0.15)',
+                    borderRight: '1px solid rgba(255,255,255,0.1)',
                     minWidth: 200,
                     textAlign: 'center'
                   }}
@@ -153,6 +155,8 @@ const Experience = () => {
                       marginBottom: 16,
                       borderRadius: '50%',
                       overflow: 'hidden',
+                      background: 'rgba(255,255,255,0.06)',
+                      padding: 4,
                     }}
                   >
                     <img

@@ -5,6 +5,7 @@ import { Canvas, useThree, } from '@react-three/fiber';
 import { OrbitControls, Loader } from '@react-three/drei';
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { Color } from 'three';
+import { Spin, Typography, Button as AntButton, Flex } from 'antd';
 import ProjectModal from './components/ProjectModal';
 import Sidebar from './pages/Sidebar';
 import Page2D from './pages/Page2D';
@@ -175,6 +176,7 @@ export default function Home() {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isCanvasLoading, setIsCanvasLoading] = useState(true);
+  const [showNavHelp, setShowNavHelp] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d');
   // const [showMobileWarning, setShowMobileWarning] = useState(false);
@@ -264,9 +266,12 @@ export default function Home() {
           justifyContent: 'center',
           zIndex: 1000
         }}>
-          <div style={{ color: 'white', fontSize: '1.5rem' }}>
-            patience...
-          </div>
+          <Flex vertical align="center" gap={16}>
+            <Spin size="large" />
+            <Typography.Text style={{ color: 'white', fontSize: '1.2rem' }}>
+              patience...
+            </Typography.Text>
+          </Flex>
         </div>
       )}
 
@@ -335,6 +340,65 @@ export default function Home() {
           
           {/* Dynamic Time Indicator - hidden when FORCE_SUNSET is enabled */}
           {!FORCE_SUNSET && <DynamicTimeIndicator />}
+
+          {/* Navigation Help Popup */}
+          {showNavHelp && !isCanvasLoading && (
+            <div
+              style={{
+                position: 'fixed',
+                bottom: 24,
+                right: 24,
+                background: 'rgba(15, 15, 20, 0.9)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                borderRadius: 14,
+                padding: '16px 20px',
+                zIndex: 50,
+                maxWidth: 260,
+                color: '#c8d0db',
+                fontSize: 13,
+                lineHeight: 1.6,
+                animation: 'fadeInUp 0.4s ease',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <Typography.Text strong style={{ color: '#7dd3fc', fontSize: 14 }}>Controls</Typography.Text>
+                <AntButton
+                  type="text"
+                  size="small"
+                  onClick={() => setShowNavHelp(false)}
+                  style={{
+                    color: '#718096',
+                    padding: '0 2px',
+                    minWidth: 'auto',
+                    height: 'auto',
+                  }}
+                  aria-label="Close help"
+                >
+                  ✕
+                </AntButton>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <Typography.Text style={{ color: '#c8d0db', fontSize: 13 }}><strong>Left click + drag</strong> to Rotate</Typography.Text>
+                <Typography.Text style={{ color: '#c8d0db', fontSize: 13 }}><strong>Right click + drag</strong> to Pan</Typography.Text>
+                <Typography.Text style={{ color: '#c8d0db', fontSize: 13 }}><strong>Scroll</strong> to Zoom</Typography.Text>
+                <Typography.Text style={{ color: '#c8d0db', fontSize: 13 }}><strong>Click object</strong> to Open details</Typography.Text>
+              </div>
+            </div>
+          )}
+
+          <style jsx global>{`
+            @keyframes fadeInUp {
+              from {
+                opacity: 0;
+                transform: translateY(12px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
         </ErrorBoundary>
       </div>
 

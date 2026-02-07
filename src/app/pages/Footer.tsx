@@ -25,10 +25,10 @@ const Footer = () => {
             <Text style={{ color: '#4a5568', fontSize: 11 }}>
               3D Models:{' '}
               <Link href="https://poly.pizza/m/2AeF-fuFHNu" target="_blank" style={{ color: '#4a5568' }}>
-                "Little Private Beach" by Carson Lam
+                &quot;Little Private Beach&quot; by Carson Lam
               </Link>,{' '}
               <Link href="https://poly.pizza/m/3oFfQCSsUmQ" target="_blank" style={{ color: '#4a5568' }}>
-                "Keyboard" by Poly by Google
+                &quot;Keyboard&quot; by Poly by Google
               </Link>{' '}
               <Link href="https://creativecommons.org/licenses/by/3.0/" target="_blank" style={{ color: '#4a5568' }}>
                 [CC-BY]

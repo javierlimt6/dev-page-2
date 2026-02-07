@@ -10,6 +10,7 @@ export default function InteractiveObject({
   onProjectActivate,
   themeColors,
   scale = 1,
+  rotation = [0, 0, 0],
   hideTitle = false,
   noSpin = false,
 }: InteractiveObjectProps) {
@@ -103,7 +104,7 @@ export default function InteractiveObject({
   return (
     <group position={position}>
       {/* Scaled model/mesh group */}
-      <group scale={scale}>
+      <group scale={scale} rotation={rotation}>
         {/* Render GLB model if imageUrl is a .glb file */}
         {isGLBFile ? (
           <group

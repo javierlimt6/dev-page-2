@@ -11,13 +11,14 @@ import {
   FaBars,
   FaTimes,
   FaCube,
-  FaSquare
+  FaSquare,
+  FaRocket
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import About from './About';
 import { darkTheme, colors } from '../antd-theme';
 
-const { Title, Text } = Typography;
+const { Title, Text, Link } = Typography;
 
 interface SidebarProps {
   persona: string;
@@ -40,31 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [showAboutModal, setShowAboutModal] = useState(false);
 
-  const sidebarWidth = collapsed ? 60 : 240;
-
-  const menuItems = [
-    { 
-      key: 'developer', 
-      label: 'Computer Science', 
-      icon: FaCode, 
-      color: colors.purple.primary,
-      disabled: false 
-    },
-    { 
-      key: 'entrepreneur', 
-      label: 'Entrepreneurship', 
-      icon: FaBriefcase, 
-      color: colors.orange.primary,
-      disabled: true  // Disabled for now
-    },
-    { 
-      key: 'video-creator', 
-      label: 'Hobbies & Others', 
-      icon: FaGamepad, 
-      color: colors.green.primary,
-      disabled: true  // Disabled for now
-    },
-  ];
+  const sidebarWidth = collapsed ? 60 : 170;
 
   return (
     <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
@@ -92,10 +69,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         <Flex 
           align="center" 
           justify={collapsed ? 'center' : 'space-between'} 
-          style={{ padding: collapsed ? '16px 8px' : '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
+          style={{ padding: collapsed ? '16px 8px' : '16px' }}
         >
           {!collapsed && (
-            <a 
+            <Link 
               href="#" 
               onClick={(e) => {
                 e.preventDefault();
@@ -113,9 +90,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                   whiteSpace: 'nowrap'
                 }}
               >
-                Javier's Portfolio
+                javier&apos;s website
               </Title>
-            </a>
+            </Link>
           )}
           <Button
             type="text"
@@ -128,18 +105,18 @@ const Sidebar: React.FC<SidebarProps> = ({
         </Flex>
 
         {/* Navigation */}
-        <Flex vertical style={{ padding: '16px 8px', flex: 1 }}>
+        <Flex vertical style={{ padding: '16px 8px' }}>
           {/* 2D/3D Toggle */}
           <Flex 
+            vertical={collapsed}
             gap={4}
             style={{
               marginBottom: 16,
               width: '100%'
             }}
           >
-            {/* Show 2D button: always when expanded, only when active when collapsed */}
-            {(!collapsed || viewMode === '2d') && (
-              <Button
+            {/* 2D button */}
+            <Button
                 type="text"
                 size="small"
                 onClick={() => onViewModeChange('2d')}
@@ -157,12 +134,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 }}
               >
                 <FaSquare size={12} />
-                {!collapsed && <span style={{ fontSize: 13 }}>2D</span>}
+                {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>2D</Text>}
               </Button>
-            )}
-            {/* Show 3D button: always when expanded, only when active when collapsed */}
-            {(!collapsed || viewMode === '3d') && (
-              <Button
+            {/* 3D button */}
+            <Button
                 type="text"
                 size="small"
                 onClick={() => onViewModeChange('3d')}
@@ -180,59 +155,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 }}
               >
                 <FaCube size={12} />
-                {!collapsed && <span style={{ fontSize: 13 }}>3D</span>}
+                {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>3D</Text>}
               </Button>
-            )}
           </Flex>
 
-
-          {/* Persona Items - only show in 3D mode */}
-          {viewMode === '3d' && menuItems.map((item) => {
-            const IconComponent = item.icon;
-            const isActive = persona === item.key;
-            
-            return (
-              <Button
-                key={item.key}
-                type="text"
-                disabled={item.disabled}
-                onClick={() => !item.disabled && onPersonaChange(item.key)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: collapsed ? 'center' : 'flex-start',
-                  gap: 12,
-                  padding: collapsed ? '12px' : '12px 16px',
-                  marginBottom: 4,
-                  borderRadius: 8,
-                  backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
-                  borderLeft: isActive ? `3px solid ${item.color}` : '3px solid transparent',
-                  opacity: item.disabled ? 0.4 : 1,
-                  cursor: item.disabled ? 'not-allowed' : 'pointer',
-                  height: 'auto',
-                  width: '100%'
-                }}
-              >
-                <IconComponent 
-                  style={{ 
-                    color: isActive ? item.color : 'rgba(255,255,255,0.6)', 
-                    fontSize: 18,
-                    flexShrink: 0
-                  }} 
-                />
-                {!collapsed && (
-                  <Text style={{ 
-                    color: isActive ? 'white' : 'rgba(255,255,255,0.7)', 
-                    fontSize: 14,
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {item.label}
-                    {item.disabled && <Text style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginLeft: 4 }}>(soon)</Text>}
-                  </Text>
-                )}
-              </Button>
-            );
-          })}
         </Flex>
 
         {/* Footer Links */}
@@ -240,13 +166,27 @@ const Sidebar: React.FC<SidebarProps> = ({
           vertical 
           gap={8} 
           style={{ 
-            padding: collapsed ? '16px 8px' : '16px', 
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)' 
+            padding: collapsed ? '16px 8px' : '16px'
           }}
         >
           {!collapsed ? (
             <>
-              <a href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
+              <Link href="https://path.javlim.dev" target="_blank" style={{ textDecoration: 'none' }}>
+                <Button 
+                  type="text"
+                  block
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    gap: 8,
+                    color: 'rgba(255,255,255,0.7)'
+                  }}
+                >
+                  <FaRocket /> My Roadmap
+                </Button>
+              </Link>
+              <Link href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                 <Button 
                   type="text"
                   block
@@ -260,8 +200,8 @@ const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <FaFileAlt /> Resume
                 </Button>
-              </a>
-              <a href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
+              </Link>
+              <Link href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
                 <Button 
                   type="text"
                   block
@@ -275,31 +215,33 @@ const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <FaQuoteLeft /> Testimonials
                 </Button>
-              </a>
-              <Divider style={{ margin: '8px 0', borderColor: 'rgba(255,255,255,0.1)' }} />
-              <Flex gap={16} justify="center">
-                <a href="https://linkedin.com/in/jav-lim" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              </Link>
+              <Flex gap={16} justify="center" style={{ marginTop: 8 }}>
+                <Link href="https://linkedin.com/in/jav-lim" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <FaLinkedin size={18} />
-                </a>
-                <a href="https://github.com/javierlimt6" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                </Link>
+                <Link href="https://github.com/javierlimt6" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <FaGithub size={18} />
-                </a>
+                </Link>
               </Flex>
             </>
           ) : (
             <Flex vertical align="center" gap={12}>
-              <a href="/resume.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <Link href="https://path.javlim.dev" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <FaRocket size={16} />
+              </Link>
+              <Link href="/resume.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaFileAlt size={16} />
-              </a>
-              <a href="/testimonials.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              </Link>
+              <Link href="/testimonials.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaQuoteLeft size={16} />
-              </a>
-              <a href="https://linkedin.com/in/jav-lim" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              </Link>
+              <Link href="https://linkedin.com/in/jav-lim" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaLinkedin size={16} />
-              </a>
-              <a href="https://github.com/javierlimt6" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              </Link>
+              <Link href="https://github.com/javierlimt6" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <FaGithub size={16} />
-              </a>
+              </Link>
             </Flex>
           )}
         </Flex>

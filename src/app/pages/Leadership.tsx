@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Row, Col, Flex, ConfigProvider, theme } from 'antd';
-import { FaMedal, FaLaptopCode, FaChartLine, FaHandshake, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaMedal, FaLaptopCode, FaChartLine, FaHandshake, FaExternalLinkAlt, FaChalkboardTeacher, FaUsers, FaLightbulb } from 'react-icons/fa';
+import { SiNotion } from 'react-icons/si';
 import { darkTheme } from '../antd-theme';
 
 const { Title, Text, Link } = Typography;
@@ -32,6 +33,30 @@ const leadershipItems = [
     icon: FaHandshake,
     link: "https://www.linkedin.com/posts/nusentresoc_nus-entrepreneurship-societys-nes-partnerships-activity-7299824429650382850-F90N?utm_source=share&utm_medium=member_desktop&rcm=ACoAADvJz1ABqDtwMiYc8SS8kXGVbDXhzvviY_A",
     linktext: "Details"
+  },
+  {
+    id: "notion-leader",
+    title: "Notion Campus Leader",
+    description: "Selected by Notion as a Campus Leader to promote productivity and collaboration tools across campus, organising workshops and building a community of Notion users.",
+    icon: SiNotion,
+  },
+  {
+    id: "nus-ta",
+    title: "2x NUS SoC Teaching Assistant",
+    description: "Teaching Assistant for Computer Science modules at the NUS School of Computing, guiding students through programming concepts, grading assignments, and conducting lab sessions.",
+    icon: FaChalkboardTeacher,
+  },
+  {
+    id: "rc4-csc-tech",
+    title: "Software Engineering Lead @ RC4 CSC Tech",
+    description: "Leading the software engineering team at RC4 CSC Tech, building and maintaining applications for the residential college community.",
+    icon: FaLaptopCode,
+  },
+  {
+    id: "hackathons",
+    title: "Avid Hackathon Participant",
+    description: "Active participant in hackathons, consistently building innovative solutions under time constraints and collaborating with diverse teams to solve real-world problems.",
+    icon: FaLightbulb,
   }
 ];
 
@@ -42,7 +67,7 @@ const Leadership = () => {
     <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
       <section id="leadership" style={{ padding: '80px 0' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
-          <Title level={1} style={{ textAlign: 'center', marginBottom: 16 }}>Entrepreneurial Activities</Title>
+          <Title level={1} style={{ textAlign: 'center', marginBottom: 16 }}>Activities</Title>
           <Text style={{ fontSize: '1.125rem', textAlign: 'center', display: 'block', marginBottom: 48 }}>Putting my skills to impact the world</Text>
           
           <Row gutter={[32, 32]}>

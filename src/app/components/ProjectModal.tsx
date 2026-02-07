@@ -1,9 +1,11 @@
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import React from 'react';
-import { Button, ConfigProvider, theme } from 'antd';
+import { Button, ConfigProvider, theme, Typography } from 'antd';
 import { FaTimes } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+
+const { Title, Text, Paragraph, Link } = Typography;
 
 // Import page components
 import About from '../pages/About';
@@ -53,13 +55,12 @@ export default function ProjectModal({
       // Default modal content if no component type specified
       return (
         <div style={{ padding: '20px', color: 'white' }}>
-          <h2 style={{ 
+          <Title level={2} style={{ 
             color: themeColors?.one || '#7dd3fc',
-            marginBottom: '15px',
-            fontSize: '1.8rem'
+            marginBottom: 15,
           }}>
             {title}
-          </h2>
+          </Title>
           {imageUrl && (
             <div style={{ marginBottom: '15px', textAlign: 'center' }}>
               <Image 
@@ -78,42 +79,31 @@ export default function ProjectModal({
           )}
           {link && (
             <div style={{ marginBottom: '15px', textAlign: 'center' }}>
-              <a 
+              <Link 
                 href={link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ 
-                  color: themeColors?.one || '#7dd3fc',
-                  textDecoration: 'none',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  padding: '10px 20px',
-                  border: `2px solid ${themeColors?.one || '#7dd3fc'}`,
-                  borderRadius: '8px',
-                  display: 'inline-block',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(0, 0, 0, 0.3)'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = themeColors?.one || '#7dd3fc';
-                  e.currentTarget.style.color = '#000';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-                  e.currentTarget.style.color = themeColors?.one || '#7dd3fc';
-                }}
+                target="_blank"
               >
-                View
-              </a>
+                <Button
+                  type="primary"
+                  size="large"
+                  style={{ 
+                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                    borderColor: themeColors?.one || '#7dd3fc',
+                    color: themeColors?.one || '#7dd3fc',
+                  }}
+                >
+                  View
+                </Button>
+              </Link>
             </div>
           )}
-          <p style={{ 
+          <Paragraph style={{ 
             lineHeight: '1.6',
             fontSize: '1.1rem',
             color: '#f0f0f0'
           }}>
             {description}
-          </p>
+          </Paragraph>
         </div>
       );
     }
@@ -147,8 +137,8 @@ export default function ProjectModal({
       default:
         return (
           <div style={{ padding: '20px', color: 'white' }}>
-            <h2>Component not found: {project.componentType}</h2>
-            <p>Available components: About, Awards, Leadership, Life, Experience, Projects, Contact, Hero, Name, Photo</p>
+            <Title level={2}>Component not found: {project.componentType}</Title>
+            <Text style={{ color: '#a0aec0' }}>Available components: About, Awards, Leadership, Life, Experience, Projects, Contact, Hero, Name, Photo</Text>
           </div>
         );
     }
