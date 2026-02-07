@@ -15,4 +15,6 @@ export interface InteractiveObjectProps {
   onProjectActivate: (project: Project) => void;
   themeColors: { [key: string]: string };
   scale?: number;
+  hideTitle?: boolean;
+  noSpin?: boolean;
 }

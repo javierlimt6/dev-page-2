@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, useGLTF } from '@react-three/drei';
-import { Mesh, Group } from 'three';
+import { Mesh, Group, MathUtils } from 'three';
 import { InteractiveObjectProps } from '../../types';
 
 export default function InteractiveObject({
@@ -9,11 +9,15 @@ export default function InteractiveObject({
   project,
   onProjectActivate,
   themeColors,
-  scale = 1, // ← Add scale parameter with default value of 1
+  scale = 1,
+  hideTitle = false,
+  noSpin = false,
 }: InteractiveObjectProps) {
   const meshRef = useRef<Mesh>(null);
   const modelRef = useRef<Group>(null);
   const [hovered, setHovered] = useState(false);
+  const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const currentScale = useRef(1);
 
   // Load GLB model if the imageUrl is a .glb file
   const isGLBFile = project.imageUrl?.endsWith('.glb');
@@ -21,12 +25,32 @@ export default function InteractiveObject({
   const gltfResult = useGLTF(gltfPath);
   const gltfScene = Array.isArray(gltfResult) ? gltfResult[0].scene : gltfResult.scene;
 
+  // Debounced hover handlers to prevent jitter
+  const handlePointerOver = useCallback(() => {
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    setHovered(true);
+  }, []);
+
+  const handlePointerOut = useCallback(() => {
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    hoverTimeout.current = setTimeout(() => setHovered(false), 200);
+  }, []);
+
   useFrame(() => {
-    // Only spin geometric shapes, not GLB models
-    if (meshRef.current && !isGLBFile) {
-      meshRef.current.rotation.y += 0.005;
+    // Smooth scale interpolation
+    const targetScale = hovered ? 1.15 : 1;
+    currentScale.current = MathUtils.lerp(currentScale.current, targetScale, 0.08);
+
+    // Apply smooth scale + spin to GLB model group
+    if (modelRef.current) {
+      modelRef.current.scale.setScalar(currentScale.current);
+      if (!noSpin) modelRef.current.rotation.y += 0.005;
     }
-    // GLB models don't spin - remove this section or add custom animations here
+    // Apply smooth scale + spin to mesh shapes
+    if (meshRef.current) {
+      meshRef.current.scale.setScalar(currentScale.current);
+      if (!noSpin) meshRef.current.rotation.y += 0.005;
+    }
   });
   
   // Choose geometry based on project type or ID for variety
@@ -77,79 +101,52 @@ export default function InteractiveObject({
   };
 
   return (
-    <group position={position} scale={scale}> {/* ← Apply scale to the entire group */}
-      {/* Render GLB model if imageUrl is a .glb file */}
-      {isGLBFile ? (
-        <group
-          ref={modelRef}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-          onClick={() => onProjectActivate(project)}
-          scale={hovered ? 1.2 : 1} // ← This is the hover scale effect
-        >
-          <primitive 
-            object={gltfScene.clone()} 
-            scale={1.5}  // ← This is the internal GLB model scale
-            position={[0, 0, 0]}
-            castShadow
-            receiveShadow
-          />
-        </group>
-      ) : (
-        /* Render geometric shape if not a GLB file */
-        <mesh
-          ref={meshRef}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-          onClick={() => onProjectActivate(project)}
-          scale={hovered ? 1.2 : 1} // ← This is the hover scale effect
-        >
-          {getGeometry()}
-          <meshStandardMaterial color={hovered ? themeColors.two : themeColors.one} />
-        </mesh>
-      )}
-      
-      <Text
-        position={[0, 0.7, 0]} // Position above the object
-        color={themeColors.three}
-        anchorX="center"
-        anchorY="middle"
-        fontSize={0.2}
-        fontWeight="bold"
-      >
-        {!isGLBFile && project.title}
-      </Text>
-      {/* {hovered && (
-        <Html position={[0, 1.2, 0]} center>
-          <div
-            style={{
-              background: 'rgba(0, 0, 0, 0.9)',
-              padding: '10px 15px',
-              borderRadius: '8px',
-              color: 'white',
-              fontSize: '13px',
-              maxWidth: '250px',
-              border: `2px solid ${themeColors.two}`,
-              boxShadow: `0 0 15px ${themeColors.two}40`,
-            }}
+    <group position={position}>
+      {/* Scaled model/mesh group */}
+      <group scale={scale}>
+        {/* Render GLB model if imageUrl is a .glb file */}
+        {isGLBFile ? (
+          <group
+            ref={modelRef}
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+            onClick={() => onProjectActivate(project)}
           >
-            <div style={{ 
-              fontWeight: 'bold', 
-              marginBottom: '5px',
-              color: themeColors.one
-            }}>
-              {project.title}
-            </div>
-            <div style={{ 
-              fontSize: '11px',
-              color: themeColors.three,
-              fontStyle: 'italic'
-            }}>
-              Click Me!
-            </div>
-          </div>
-        </Html>
-      )} */}
+            <primitive 
+              object={gltfScene.clone()} 
+              scale={1.5}
+              position={[0, 0, 0]}
+              castShadow
+              receiveShadow
+            />
+          </group>
+        ) : (
+          /* Render geometric shape if not a GLB file */
+          <mesh
+            ref={meshRef}
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+            onClick={() => onProjectActivate(project)}
+          >
+            {getGeometry()}
+            <meshStandardMaterial color={hovered ? themeColors.two : themeColors.one} />
+          </mesh>
+        )}
+      </group>
+      
+      {/* Title rendered outside the scale group so it stays readable */}
+      {!hideTitle && (
+        <Text
+          position={[0, 1.2, 0]}
+          color={themeColors.three}
+          anchorX="center"
+          anchorY="middle"
+          fontSize={0.25}
+          fontWeight="bold"
+        >
+          {project.title}
+        </Text>
+      )}
     </group>
   );
 }

@@ -768,6 +768,8 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       <InteractiveObject
         position={[0, 1.5, 0]}
         scale={1}
+        hideTitle
+        noSpin
         project={{
           id: "dev-about-me",
           title: "About Javier",
@@ -783,13 +785,13 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       
       {/* Interactive Developer Project Objects - Updated with page components */}
       <InteractiveObject
-        position={[3, 1, 3]}
-        scale={1.5}
+        position={[3, 0, 4]}
+        scale={0.17}
         project={{
           id: "dev-project-1",
           title: "Experience",
           description: "Explore my professional experience and technical background.",
-          imageUrl: "/next.svg",
+          imageUrl: "/briefcase.glb",
           geometryType: "icosahedron",
           componentType: "experience" // This will render the Experience component
         }}
@@ -825,7 +827,7 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       /> */}
       <InteractiveObject
-        position={[-4, 4, 1]}
+        position={[-3, 4, 1]}
         scale={1.5}
         project={{
           id: "dev-project-3",
@@ -839,13 +841,13 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         themeColors={themeColors}
       />
       <InteractiveObject
-        position={[5, 3, 1]}
-        scale={1.5}
+        position={[3.5, 3, 1]}
+        scale={0.008}
         project={{
           id: "dev-project-4",
           title: "Education",
           description: "Understand my current education and interests in Computer Science.",
-          imageUrl: "/window.svg",
+          imageUrl: "/education.glb",
           geometryType: "octahedron",
           componentType: "education" // This will render the Life component
         }}
