@@ -1,0 +1,331 @@
+{
+  "about": {
+    "name": "Javier",
+    "tagline": "Building innovative digital solutions with purpose",
+    "roleSkills": [
+      "Entrepreneur", "Software Engineer", "Leader", "Full Stack",
+      "Mobile Development", "Databases", "System Design", "Media Production"
+    ],
+    "bio": [
+      "Welcome to my page! I am an entrepreneur & software engineer with expertise in building innovative digital solutions. I combine technical skills with product development to create solutions for real-world problems.",
+      "With experience in both startups and established companies, I have developed a keen eye for identifying opportunities and turning them into successful ventures. My technical background allows me to understand the complexities of development, while my entrepreneurial mindset helps me see the bigger picture.",
+      "I am constantly learning and exploring new technologies to stay ahead of the curve. When I am not building and realising ideas, you will find me playing floorball, traveling, or trying something new and exciting."
+    ],
+    "techStacks": {
+      "languages": [
+        { "name": "Python", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+        { "name": "JavaScript", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+        { "name": "TypeScript", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+        { "name": "Java", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+        { "name": "Swift", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" },
+        { "name": "C/C++", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+        { "name": "PHP", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+        { "name": "SQL", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+        { "name": "HTML", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+        { "name": "CSS", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" }
+      ],
+      "frameworks": [
+        { "name": "React", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+        { "name": "Next.js", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+        { "name": "Laravel", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/laravel.svg" },
+        { "name": "Flask", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" },
+        { "name": "Django", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
+        { "name": "FastAPI", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+        { "name": "Vite", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" },
+        { "name": "React Native", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" }
+      ],
+      "devops": [
+        { "name": "MySQL", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+        { "name": "MongoDB", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+        { "name": "PostgreSQL", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+        { "name": "Docker", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+        { "name": "AWS", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" },
+        { "name": "GCP", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" },
+        { "name": "Git", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+        { "name": "Xcode", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xcode/xcode-original.svg" }
+      ],
+      "libraries": [
+        { "name": "Matplotlib", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" },
+        { "name": "NumPy", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" },
+        { "name": "pandas", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
+        { "name": "Pygame", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+        { "name": "SwiftUI", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" },
+        { "name": "Three.js", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg" },
+        { "name": "Inertia", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@14.11.0/icons/inertia.svg" },
+        { "name": "p5.js", "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/p5js/p5js-original.svg" }
+      ]
+    }
+  },
+  "experience": [
+    {
+      "id": 8,
+      "title": "Software Engineer Intern",
+      "company": "ByteDance",
+      "period": "Jan 2026 - Jun 2026",
+      "description": "Interning at ByteDance, the global technology company behind TikTok and a suite of content platforms. Working on scalable backend systems and infrastructure powering products used by billions of users worldwide.",
+      "technologies": ["Go", "Python", "Microservices", "Kubernetes"],
+      "photoUrl": "/images/bytedance-logo.png",
+      "link": "https://www.bytedance.com/",
+      "linktext": "Website"
+    },
+    {
+      "id": 9,
+      "title": "Backend Engineer Intern",
+      "company": "Indigo",
+      "period": "Jan 2026 - Apr 2026",
+      "description": "Interning at Indigo, building backend infrastructure and APIs to support the platform's core services.",
+      "technologies": ["TypeScript", "Node.js", "PostgreSQL", "AWS"],
+      "photoUrl": "/images/indigo-logo.png",
+      "link": "https://www.indigo.co/",
+      "linktext": "Website"
+    },
+    {
+      "id": 1,
+      "title": "Full Stack Developer Intern",
+      "company": "IBM",
+      "period": "Sep 2025 - Dec 2025",
+      "description": "IBM is a global technology and innovation company that offers a wide range of products and services, including cloud computing, artificial intelligence, and enterprise solutions. As a Full Stack Developer Intern at IBM, I am involved in developing and maintaining web applications, collaborating with cross-functional teams to design scalable solutions, and utilizing modern frameworks and technologies to enhance user experiences.",
+      "technologies": ["React", "Java", "Spring Boot", "AWS"],
+      "photoUrl": "/images/ibm.png",
+      "link": "https://www.ibm.com/",
+      "linktext": "Website"
+    },
+    {
+      "id": 2,
+      "title": "Full Stack Software Engineering Intern",
+      "company": "CloudJoi",
+      "period": "May 2025 - Aug 2025",
+      "description": "Under the NUS Overseas College Malaysia program, CloudJoi is the largest ticketing platform for performing arts in Malaysia dedicated to making shows accessible for all.",
+      "technologies": ["JavaScript", "PHP", "React", "Laravel"],
+      "photoUrl": "/images/cloudjoi-logo.png",
+      "link": "https://www.linkedin.com/company/cloudjoi/",
+      "linktext": "Linkedin"
+    },
+    {
+      "id": 3,
+      "title": "Teaching Assistant for CS1010X: Programming Methodology",
+      "company": "NUS School Of Computing",
+      "period": "Jan 2025 - Jun 2025",
+      "description": "Given sole responsibility of rebuilding lesson materials and assignment files. Updated deprecated content from Python 3.7 to 3.13, improving GUI and translating code from Cocos to Pygame, utilising GIMPS to rectify faulty sRGB profiles, removing problematic metadata. 2D Runes Contest Head IC.",
+      "technologies": ["Python", "Pygame", "Cocos", "GIMPS", "PIM"],
+      "photoUrl": "/images/soc-logo.png",
+      "link": "https://nusmods.com/courses/CS1010X/programming-methodology",
+      "linktext": "Module"
+    },
+    {
+      "id": 4,
+      "title": "Teaching Assistant for SWS3001: Solving Real World Problems with Computational Thinking",
+      "company": "NUS School Of Computing",
+      "period": "May 2024 - July 2024",
+      "description": "SWS3001 is a course under the NUS School of Computing Summer Workshop, an annual program designed for undergraduate students in fields like Computer Science. It is a project-based, hands-on course aimed at equipping participants with knowledge on how to solve problems computationally. Mentored a class of 20+ Y3 International students, conducted tutorials and graded projects and presentations.",
+      "technologies": ["Teaching", "Graphs", "Computational Intelligence"],
+      "photoUrl": "/images/soc-logo.png",
+      "link": "https://sws.comp.nus.edu.sg/Solving-with-CT.html",
+      "linktext": "Module"
+    },
+    {
+      "id": 5,
+      "title": "Software Engineering Intern",
+      "company": "Strive Math (YC S21)",
+      "period": "Jan 2024 - Jun 2024",
+      "description": "Worked with YC S21-backed, Forbes 30 Under 30 Asia 2024-recognised EdTech startup. Developed interactive simulations with p5.js illustrating Grade 8 math concepts for 10k students. Leveraged TinaCMS to integrate content management with modern development practices. Developed modular and reusable codebases for educational games, incorporating OOP, FP, event-driven programming, and real-time user interaction handling. Designed and executed structured Python programming workshops across multiple international schools",
+      "technologies": ["Python", "JavaScript", "p5", "Game Development", "Startup Development", "OOP", "CMS", "FP"],
+      "photoUrl": "/images/strive-logo.png",
+      "link": "https://www.linkedin.com/company/strivemath",
+      "linktext": "LinkedIn"
+    },
+    {
+      "id": 7,
+      "title": "AI Researcher",
+      "company": "A*Star Institute for Infocomm Research",
+      "period": "Nov 2020 - Jan 2021",
+      "description": "Research attachment at Singapore's leading research organisation to enhance PCR result detection Extracted and analysed datasets via Matplotlib, NumPy, & pandas, and used EMA to determine sigmoidal curves from plot points and establish thresholds. Produced numerous algorithms with 100% detection accuracy, tested with evaluation datasets.",
+      "technologies": ["Python", "matplotlib", "numPy", "pandas", "Jupyter Notebook", "Artificial Intelligence Models"],
+      "photoUrl": "/images/astar-logo.png",
+      "link": "https://docs.google.com/document/d/1U8SppCYAukq6ENivelJUjRhaeYUOyQ706bFg3vP2BOA/edit?usp=sharing",
+      "linktext": "Report"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Lokode (iOS Scan to Focus App In Beta)",
+      "description": "Scan the QR code to instantly lock yourself out of all your distracting apps, helping you focus. Unlock by scanning back, or let the timer run out.",
+      "technologies": ["Swift", "TypeScript", "Next.js", "Supabase", "OAuth"],
+      "demoLink": "https://lokode.chimera.sg",
+      "githubLink": "#",
+      "image": "/images/lokode-banner.png"
+    },
+    {
+      "id": 2,
+      "title": "DrawMyRoute | GPS Art Generator",
+      "description": "AI-powered GPS Art Generator. Generate, preview, and export routes as GPX files for any shape, image, or prompt. Hackathon Winner.",
+      "technologies": ["TypeScript", "Next.js", "FastAPI", "OSRM", "Gemini"],
+      "demoLink": "https://drawmyroute.org",
+      "githubLink": "https://github.com/javierlimt6/drawmyroute",
+      "image": "/images/dmr-banner.png"
+    },
+    {
+      "id": 3,
+      "title": "CloudJoi Knowledgebase",
+      "description": "Collaborative project to transform internal knowledge into an AI-powered RAG chatbot.",
+      "technologies": ["TypeScript", "Next.js", "Laravel", "Pinecone", "AWS"],
+      "demoLink": "https://knowledgebase.cloudjoi.com",
+      "githubLink": "#",
+      "image": "/images/knowledgebase.png"
+    },
+    {
+      "id": 4,
+      "title": "2048 AI Solver",
+      "description": "An AI-powered solver for the popular 2048 game using expectimax algorithm.",
+      "technologies": ["Python", "Pygame", "AI/ML"],
+      "demoLink": "#",
+      "githubLink": "https://github.com/javierlimt6/2048-AI",
+      "image": "https://placehold.co/600x400/1f1f23/ffffff?text=2048+AI"
+    },
+    {
+      "id": 5,
+      "title": "Chimera",
+      "description": "A community platform for event organization and group activities.",
+      "technologies": ["React", "TypeScript", "Supabase", "Vercel"],
+      "demoLink": "chimeraapp.net",
+      "githubLink": "https://github.com/javierlimt6/chimera-gathering-grove",
+      "image": "/images/chimera-banner.png"
+    },
+    {
+      "id": 6,
+      "title": "HalloweenBot",
+      "description": "A fun Discord bot for Halloween-themed events and activities.",
+      "technologies": ["React", "Supabase", "TypeScript"],
+      "demoLink": "#",
+      "githubLink": "https://github.com/javierlimt6/chimera-gathering-grove",
+      "image": "/images/portfolio-banner.png"
+    },
+    {
+      "id": 8,
+      "title": "NYSecure | code4.ny",
+      "description": "Security-focused application developed for the code4.ny hackathon.",
+      "technologies": ["Python", "JavaScript", "Airtable", "Flask"],
+      "demoLink": "#",
+      "githubLink": "https://github.com/javierlimt6/NYSecure",
+      "image": "https://placehold.co/600x400/1f1f23/ffffff?text=NYSecure"
+    }
+  ],
+  "education": {
+    "main": {
+      "degree": "Bachelor's of Computing in Computer Science",
+      "university": "National University of Singapore",
+      "logo": "/nus.png",
+      "period": "Since 2024",
+      "description": "Pursuing a comprehensive degree in Computer Science with focus on software engineering, algorithms, and system design. Ranked #1 in Asia and #8 globally on the QS Rankings, NUS provides world-class education, cutting-edge research opportunities, and a vibrant tech ecosystem in Singapore."
+    },
+    "details": [
+      {
+        "id": "coursework",
+        "title": "Core Coursework",
+        "items": [
+          "Data Structures & Algorithms",
+          "Software Engineering",
+          "Database Systems",
+          "Computer Organisation",
+          "Artificial Intelligence",
+          "Programming Methodology"
+        ],
+        "iconName": "FaCode",
+        "color": "#22c55e"
+      },
+      {
+        "id": "achievements",
+        "title": "Academic Achievements",
+        "items": [
+          "Recipient of Kwan Im Thong Hood Cho Temple Scholarship Award",
+          "Testimonials from >5 NUS Professors"
+        ],
+        "iconName": "FaTrophy",
+        "color": "#f97316"
+      }
+    ],
+    "otherInstitutions": [
+      {
+        "id": "korea",
+        "name": "Korea University",
+        "logo": "/korea_university.png",
+        "program": "International Winter Campus",
+        "period": "Dec 2024 – Jan 2025",
+        "description": "IWC112: Linear Algebra",
+        "color": "#dc2626"
+      },
+      {
+        "id": "malaya",
+        "name": "University of Malaya",
+        "logo": "/university_malaya.png",
+        "program": "Entrepreneurship / Entrepreneurial Studies",
+        "period": "May 2025 – Jul 2025",
+        "description": "Taken as part of the NOC Malaysia AY24/25 Programme",
+        "color": "#7c3aed"
+      },
+      {
+        "id": "nyjc",
+        "name": "Nanyang Junior College",
+        "logo": "/nyjc.png",
+        "program": "GCE 'A' Levels",
+        "period": "Feb 2020 – Dec 2021",
+        "description": "4 Distinctions in Physics, Computing, Mathematics, and Economics",
+        "color": "#e11d48"
+      }
+    ]
+  },
+  "activities": [
+    {
+      "id": "rc4-entre",
+      "title": "President @ RC4 Entrepreneurship Club",
+      "description": "Promoting entrepreneurship in Resident College 4. Organised events like the Startup Carnival, connecting RC4 residents with startups based in NUS, and a Pitching Clinic where over 40 participants gained valuable insights on crafting compelling pitches, capturing investor interest, and scaling big ideas. 🚀🌱",
+      "iconName": "FaChartLine",
+      "link": "https://www.linkedin.com/company/rc4-entre/"
+    },
+    {
+      "id": "rc4-pitch",
+      "title": "Top 4 @ RC4 Pitching Competition",
+      "description": "Selected as one of the top 4 teams in the RC4 Pitching Competition, presenting an innovative startup idea to a panel of industry judges. Demonstrated strong communication, teamwork, and entrepreneurial skills while competing against talented peers from across the college.",
+      "iconName": "FaMedal"
+    },
+    {
+      "id": "csc-swe",
+      "title": "Building a Startup",
+      "description": "Mentored by Professors from NUS, UM, supported by RC4, NOC, NES. (see Startup?)",
+      "iconName": "FaLaptopCode"
+    },
+    {
+      "id": "startup-nes",
+      "title": "Startup Member at NUS Entrepreneurship Society",
+      "description": "Engages in a vibrant entrepreneurial community, leveraging mentorship, exclusive events, and resources to develop and scale Chimera. 💪🏼",
+      "iconName": "FaHandshake",
+      "link": "https://www.linkedin.com/posts/nusentresoc_nus-entrepreneurship-societys-nes-partnerships-activity-7299824429650382850-F90N?utm_source=share&utm_medium=member_desktop&rcm=ACoAADvJz1ABqDtwMiYc8SS8kXGVbDXhzvviY_A",
+      "linktext": "Details"
+    },
+    {
+      "id": "notion-leader",
+      "title": "Notion Campus Leader",
+      "description": "Selected by Notion as a Campus Leader to promote productivity and collaboration tools across campus, organising workshops and building a community of Notion users.",
+      "iconName": "SiNotion"
+    },
+    {
+      "id": "nus-ta",
+      "title": "2x NUS SoC Teaching Assistant",
+      "description": "Teaching Assistant for Computer Science modules at the NUS School of Computing, guiding students through programming concepts, grading assignments, and conducting lab sessions.",
+      "iconName": "FaChalkboardTeacher"
+    },
+    {
+      "id": "rc4-csc-tech",
+      "title": "Software Engineering Lead @ RC4 CSC Tech",
+      "description": "Leading the software engineering team at RC4 CSC Tech, building and maintaining applications for the residential college community.",
+      "iconName": "FaLaptopCode"
+    },
+    {
+      "id": "hackathons",
+      "title": "Avid Hackathon Participant",
+      "description": "Active participant in hackathons, consistently building innovative solutions under time constraints and collaborating with diverse teams to solve real-world problems.",
+      "iconName": "FaLightbulb"
+    }
+  ]
+}

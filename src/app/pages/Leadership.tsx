@@ -1,64 +1,16 @@
 import React from 'react';
 import { Typography, Row, Col, Flex, ConfigProvider, theme } from 'antd';
-import { FaMedal, FaLaptopCode, FaChartLine, FaHandshake, FaExternalLinkAlt, FaChalkboardTeacher, FaUsers, FaLightbulb } from 'react-icons/fa';
-import { SiNotion } from 'react-icons/si';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+import siteData from '../../data/siteData.json';
+import { iconMap } from '../../data/iconMap';
 
 const { Title, Text, Link } = Typography;
 
-const leadershipItems = [
-  {
-    id: "rc4-entre",
-    title: "President @ RC4 Entrepreneurship Club",
-    description: "Promoting entrepreneurship in Resident College 4. Organised events like the Startup Carnival, connecting RC4 residents with startups based in NUS, and a Pitching Clinic where over 40 participants gained valuable insights on crafting compelling pitches, capturing investor interest, and scaling big ideas. 🚀🌱",
-    icon: FaChartLine,
-    link: "https://www.linkedin.com/company/rc4-entre/",
-  },
-  {
-    id: "rc4-pitch",
-    title: "Top 4 @ RC4 Pitching Competition",
-    description: "Selected as one of the top 4 teams in the RC4 Pitching Competition, presenting an innovative startup idea to a panel of industry judges. Demonstrated strong communication, teamwork, and entrepreneurial skills while competing against talented peers from across the college.",
-    icon: FaMedal,
-  },
-  {
-    id: "csc-swe",
-    title: "Building a Startup",
-    description: "Mentored by Professors from NUS, UM, supported by RC4, NOC, NES. (see Startup?)",
-    icon: FaLaptopCode,
-  },
-  {
-    id: "startup-nes",
-    title: "Startup Member at NUS Entrepreneurship Society",
-    description: "Engages in a vibrant entrepreneurial community, leveraging mentorship, exclusive events, and resources to develop and scale Chimera. 💪🏼",
-    icon: FaHandshake,
-    link: "https://www.linkedin.com/posts/nusentresoc_nus-entrepreneurship-societys-nes-partnerships-activity-7299824429650382850-F90N?utm_source=share&utm_medium=member_desktop&rcm=ACoAADvJz1ABqDtwMiYc8SS8kXGVbDXhzvviY_A",
-    linktext: "Details"
-  },
-  {
-    id: "notion-leader",
-    title: "Notion Campus Leader",
-    description: "Selected by Notion as a Campus Leader to promote productivity and collaboration tools across campus, organising workshops and building a community of Notion users.",
-    icon: SiNotion,
-  },
-  {
-    id: "nus-ta",
-    title: "2x NUS SoC Teaching Assistant",
-    description: "Teaching Assistant for Computer Science modules at the NUS School of Computing, guiding students through programming concepts, grading assignments, and conducting lab sessions.",
-    icon: FaChalkboardTeacher,
-  },
-  {
-    id: "rc4-csc-tech",
-    title: "Software Engineering Lead @ RC4 CSC Tech",
-    description: "Leading the software engineering team at RC4 CSC Tech, building and maintaining applications for the residential college community.",
-    icon: FaLaptopCode,
-  },
-  {
-    id: "hackathons",
-    title: "Avid Hackathon Participant",
-    description: "Active participant in hackathons, consistently building innovative solutions under time constraints and collaborating with diverse teams to solve real-world problems.",
-    icon: FaLightbulb,
-  }
-];
+const leadershipItems = siteData.activities.map((item) => ({
+  ...item,
+  icon: iconMap[item.iconName] || iconMap.FaCode,
+}));
 
 const Leadership = () => {
   const cardBg = "rgba(255,255,255,0.1)";

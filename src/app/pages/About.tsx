@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { darkTheme, colors } from "../antd-theme";
+import siteData from "../../data/siteData.json";
 
 const { Title, Text, Link } = Typography;
 
@@ -17,51 +18,8 @@ const { Title, Text, Link } = Typography;
 const MotionDiv = motion.div;
 const MotionSpan = motion.span;
 
-// Tech stack data with logos
-const techStacks = {
-  languages: [
-    { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-    { name: "JavaScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-    { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-    { name: "Java", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
-    { name: "Swift", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" },
-    { name: "C/C++", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
-    { name: "PHP", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
-    { name: "SQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-    { name: "HTML", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
-    { name: "CSS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-  ],
-  frameworks: [
-    { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-    { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
-    { name: "Laravel", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/laravel.svg" },
-    { name: "Flask", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" },
-    { name: "Django", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
-    { name: "FastAPI", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
-    { name: "Vite", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" },
-    { name: "React Native", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-  ],
-  devops: [
-    { name: "MySQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-    { name: "MongoDB", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
-    { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
-    { name: "Docker", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-    { name: "AWS", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" },
-    { name: "GCP", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" },
-    { name: "Git", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-    { name: "Xcode", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xcode/xcode-original.svg" },
-  ],
-  libraries: [
-    { name: "Matplotlib", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" },
-    { name: "NumPy", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" },
-    { name: "pandas", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
-    { name: "Pygame", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-    { name: "SwiftUI", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" },
-    { name: "Three.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg" },
-    { name: "Inertia", logo: "https://cdn.jsdelivr.net/npm/simple-icons@14.11.0/icons/inertia.svg" },
-    { name: "p5.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/p5js/p5js-original.svg" },
-  ],
-};
+// Data from centralized source
+const { name, tagline, roleSkills, bio, techStacks } = siteData.about;
 
 // Continuous Streaming Logo Component
 const LogoStream = ({
@@ -169,11 +127,6 @@ const BioHeader = () => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [showTagline, setShowTagline] = useState(false);
 
-  const roleSkills = [
-    "Entrepreneur", "Software Engineer", "Leader", "Full Stack",
-    "Mobile Development", "Databases", "System Design", "Media Production",
-  ];
-
   useEffect(() => {
     const emojiTimer = setTimeout(() => setShowEmoji(true), 1500);
     const taglineTimer = setTimeout(() => setShowTagline(true), 2500);
@@ -267,7 +220,7 @@ const BioHeader = () => {
             position: 'absolute',
             top: '-31px'
           }}>
-            Javier
+            {name}
           </MotionSpan>
         </MotionDiv>
       </Flex>
@@ -291,7 +244,7 @@ const BioHeader = () => {
         transition={{ delay: 3, duration: 1 }}
       >
         <Text style={{ fontSize: '1rem', color: '#718096', maxWidth: '600px', margin: '0 auto', display: 'block' }}>
-          Building innovative digital solutions with purpose
+          {tagline}
         </Text>
       </MotionDiv>
     </div>
@@ -313,33 +266,13 @@ const About = () => {
                 transition={{ delay: 0.3, duration: 0.8 }}
               >
                 <Flex vertical gap={24}>
-                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.8 }}>
-                    <Text style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#a0aec0', display: 'block' }}>
-                      Welcome to my page! I am an entrepreneur & software engineer
-                      with expertise in building innovative digital solutions. I
-                      combine technical skills with product development to create
-                      solutions for real-world problems.
-                    </Text>
-                  </MotionDiv>
-
-                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }}>
-                    <Text style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#a0aec0', display: 'block' }}>
-                      With experience in both startups and established companies, I
-                      have developed a keen eye for identifying opportunities and
-                      turning them into successful ventures. My technical background
-                      allows me to understand the complexities of development, while
-                      my entrepreneurial mindset helps me see the bigger picture.
-                    </Text>
-                  </MotionDiv>
-
-                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 0.8 }}>
-                    <Text style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#a0aec0', display: 'block' }}>
-                      I am constantly learning and exploring new technologies to
-                      stay ahead of the curve. When I am not building and realising
-                      ideas, you will find me playing floorball, traveling, or
-                      trying something new and exciting.
-                    </Text>
-                  </MotionDiv>
+                  {bio.map((paragraph, index) => (
+                    <MotionDiv key={index} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 + index * 0.2, duration: 0.8 }}>
+                      <Text style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#a0aec0', display: 'block' }}>
+                        {paragraph}
+                      </Text>
+                    </MotionDiv>
+                  ))}
 
                   <MotionDiv initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.8 }}>
                     <Flex align="center" gap={16}>

@@ -14,6 +14,7 @@ import {
   FaSquare,
   FaRocket
 } from 'react-icons/fa';
+import { SiLeetcode } from 'react-icons/si';
 import { motion, AnimatePresence } from 'framer-motion';
 import About from './About';
 import { darkTheme, colors } from '../antd-theme';
@@ -41,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [showAboutModal, setShowAboutModal] = useState(false);
 
-  const sidebarWidth = collapsed ? 60 : 170;
+  const sidebarWidth = collapsed ? 60 : 190;
 
   return (
     <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
@@ -68,10 +69,24 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* Header */}
         <Flex 
           align="center" 
-          justify={collapsed ? 'center' : 'space-between'} 
-          style={{ padding: collapsed ? '16px 8px' : '16px' }}
+          style={{ padding: '12px 8px', height: 48 }}
         >
-          {!collapsed && (
+          <div style={{ width: 44, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
+            <Button
+              type="text"
+              size="small"
+              onClick={() => onCollapsedChange(!collapsed)}
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+            >
+              {collapsed ? <FaBars /> : <FaTimes size={12} />}
+            </Button>
+          </div>
+          <div style={{ 
+            overflow: 'hidden', 
+            opacity: collapsed ? 0 : 1, 
+            transition: 'opacity 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}>
             <Link 
               href="#" 
               onClick={(e) => {
@@ -93,157 +108,99 @@ const Sidebar: React.FC<SidebarProps> = ({
                 javier&apos;s website
               </Title>
             </Link>
-          )}
+          </div>
+        </Flex>
+
+        {/* 2D/3D Toggle */}
+        <Flex 
+          vertical
+          gap={4}
+          style={{ padding: '0 8px 8px', width: '100%' }}
+        >
           <Button
             type="text"
             size="small"
-            onClick={() => onCollapsedChange(!collapsed)}
-            style={{ color: 'rgba(255,255,255,0.6)' }}
-          >
-            {collapsed ? <FaBars /> : <FaTimes size={12} />}
-          </Button>
-        </Flex>
-
-        {/* Navigation */}
-        <Flex vertical style={{ padding: '16px 8px' }}>
-          {/* 2D/3D Toggle */}
-          <Flex 
-            vertical={collapsed}
-            gap={4}
+            onClick={() => onViewModeChange('2d')}
             style={{
-              marginBottom: 16,
-              width: '100%'
+              flex: 1,
+              padding: '10px 8px',
+              backgroundColor: viewMode === '2d' ? 'rgba(100, 255, 218, 0.15)' : 'rgba(255,255,255,0.05)',
+              border: viewMode === '2d' ? '1px solid #64ffda' : '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 8,
+              color: viewMode === '2d' ? '#64ffda' : 'rgba(255,255,255,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6
             }}
           >
-            {/* 2D button */}
-            <Button
-                type="text"
-                size="small"
-                onClick={() => onViewModeChange('2d')}
-                style={{
-                  flex: 1,
-                  padding: '10px 8px',
-                  backgroundColor: viewMode === '2d' ? 'rgba(100, 255, 218, 0.15)' : 'rgba(255,255,255,0.05)',
-                  border: viewMode === '2d' ? '1px solid #64ffda' : '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 8,
-                  color: viewMode === '2d' ? '#64ffda' : 'rgba(255,255,255,0.5)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6
-                }}
-              >
-                <FaSquare size={12} />
-                {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>2D</Text>}
-              </Button>
-            {/* 3D button */}
-            <Button
-                type="text"
-                size="small"
-                onClick={() => onViewModeChange('3d')}
-                style={{
-                  flex: 1,
-                  padding: '10px 8px',
-                  backgroundColor: viewMode === '3d' ? 'rgba(162, 89, 247, 0.15)' : 'rgba(255,255,255,0.05)',
-                  border: viewMode === '3d' ? '1px solid #a259f7' : '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 8,
-                  color: viewMode === '3d' ? '#a259f7' : 'rgba(255,255,255,0.5)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6
-                }}
-              >
-                <FaCube size={12} />
-                {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>3D</Text>}
-              </Button>
-          </Flex>
-
+            <FaSquare size={12} />
+            {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>2D</Text>}
+          </Button>
+          <Button
+            type="text"
+            size="small"
+            onClick={() => onViewModeChange('3d')}
+            style={{
+              flex: 1,
+              padding: '10px 8px',
+              backgroundColor: viewMode === '3d' ? 'rgba(162, 89, 247, 0.15)' : 'rgba(255,255,255,0.05)',
+              border: viewMode === '3d' ? '1px solid #a259f7' : '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 8,
+              color: viewMode === '3d' ? '#a259f7' : 'rgba(255,255,255,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6
+            }}
+          >
+            <FaCube size={12} />
+            {!collapsed && <Text style={{ fontSize: 13, color: 'inherit' }}>3D</Text>}
+          </Button>
         </Flex>
 
         {/* Footer Links */}
         <Flex 
           vertical 
-          gap={8} 
-          style={{ 
-            padding: collapsed ? '16px 8px' : '16px'
-          }}
+          gap={2} 
+          style={{ padding: '8px' }}
         >
-          {!collapsed ? (
-            <>
-              <Link href="https://path.javlim.dev" target="_blank" style={{ textDecoration: 'none' }}>
-                <Button 
-                  type="text"
-                  block
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    gap: 8,
-                    color: 'rgba(255,255,255,0.7)'
-                  }}
-                >
-                  <FaRocket /> My Roadmap
-                </Button>
-              </Link>
-              <Link href="/resume.pdf" target="_blank" style={{ textDecoration: 'none' }}>
-                <Button 
-                  type="text"
-                  block
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    gap: 8,
-                    color: 'rgba(255,255,255,0.7)'
-                  }}
-                >
-                  <FaFileAlt /> Resume
-                </Button>
-              </Link>
-              <Link href="/testimonials.pdf" target="_blank" style={{ textDecoration: 'none' }}>
-                <Button 
-                  type="text"
-                  block
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    gap: 8,
-                    color: 'rgba(255,255,255,0.7)'
-                  }}
-                >
-                  <FaQuoteLeft /> Testimonials
-                </Button>
-              </Link>
-              <Flex gap={16} justify="center" style={{ marginTop: 8 }}>
-                <Link href="https://linkedin.com/in/jav-lim" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <FaLinkedin size={18} />
-                </Link>
-                <Link href="https://github.com/javierlimt6" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <FaGithub size={18} />
-                </Link>
+          {[
+            { href: 'https://path.javlim.dev', icon: <FaRocket size={16} />, label: 'My Roadmap' },
+            { href: '/resume.pdf', icon: <FaFileAlt size={16} />, label: 'Resume' },
+            { href: '/testimonials.pdf', icon: <FaQuoteLeft size={16} />, label: 'Testimonials' },
+            { type: 'divider' as const },
+            { href: 'https://linkedin.com/in/jav-lim', icon: <FaLinkedin size={16} />, label: 'LinkedIn' },
+            { href: 'https://github.com/javierlimt6', icon: <FaGithub size={16} />, label: 'GitHub' },
+            { href: 'https://leetcode.com/u/rel1sh/', icon: <SiLeetcode size={16} />, label: 'LeetCode' },
+          ].map((item, index) => (
+            item.type === 'divider' ? (
+              <div key={`divider-${index}`} style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '4px 0' }} />
+            ) :
+            <Link key={item.label} href={item.href} target="_blank" style={{ textDecoration: 'none' }}>
+              <Flex 
+                align="center" 
+                style={{ 
+                  padding: '8px 0',
+                  color: 'rgba(255,255,255,0.6)',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s',
+                }}
+              >
+                <div style={{ width: 44, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
+                  {item.icon}
+                </div>
+                <div style={{ 
+                  overflow: 'hidden', 
+                  opacity: collapsed ? 0 : 1, 
+                  transition: 'opacity 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}>
+                  <Text style={{ fontSize: 13, color: 'inherit' }}>{item.label}</Text>
+                </div>
               </Flex>
-            </>
-          ) : (
-            <Flex vertical align="center" gap={12}>
-              <Link href="https://path.javlim.dev" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <FaRocket size={16} />
-              </Link>
-              <Link href="/resume.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <FaFileAlt size={16} />
-              </Link>
-              <Link href="/testimonials.pdf" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <FaQuoteLeft size={16} />
-              </Link>
-              <Link href="https://linkedin.com/in/jav-lim" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <FaLinkedin size={16} />
-              </Link>
-              <Link href="https://github.com/javierlimt6" target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <FaGithub size={16} />
-              </Link>
-            </Flex>
-          )}
+            </Link>
+          ))}
         </Flex>
       </div>
 

@@ -1,67 +1,14 @@
 import React from 'react';
 import { Typography, Row, Col, Tag, Flex, ConfigProvider, theme } from 'antd';
-import { FaGraduationCap, FaCode, FaTrophy, FaGlobe } from 'react-icons/fa';
+import { FaGraduationCap, FaGlobe } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
 import Image from 'next/image';
+import siteData from '../../data/siteData.json';
+import { iconMap } from '../../data/iconMap';
 
 const { Title, Text } = Typography;
 
-const detailCards = [
-  {
-    id: "coursework",
-    title: "Core Coursework",
-    items: [
-      "Data Structures & Algorithms",
-      "Software Engineering",
-      "Database Systems",
-      "Computer Organisation",
-      "Artificial Intelligence",
-      "Programming Methodology"
-    ],
-    icon: FaCode,
-    color: "#22c55e"
-  },
-  {
-    id: "achievements",
-    title: "Academic Achievements",
-    items: [
-      "Recipient of Kwan Im Thong Hood Cho Temple Scholarship Award",
-      "Testimonials from >5 NUS Professors"
-    ],
-    icon: FaTrophy,
-    color: "#f97316"
-  }
-];
-
-const otherUniversities = [
-  {
-    id: "korea",
-    name: "Korea University",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Korea_University_Global_Symbol.svg/1200px-Korea_University_Global_Symbol.svg.png",
-    program: "International Winter Campus",
-    period: "Dec 2024 – Jan 2025",
-    description: "IWC112: Linear Algebra",
-    color: "#dc2626"
-  },
-  {
-    id: "malaya",
-    name: "University of Malaya",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/8/87/University_of_Malaya_coat_of_arms.svg/1200px-University_of_Malaya_coat_of_arms.svg.png",
-    program: "Entrepreneurship / Entrepreneurial Studies",
-    period: "May 2025 – Jul 2025",
-    description: "Taken as part of the NOC Malaysia AY24/25 Programme",
-    color: "#7c3aed"
-  },
-  {
-    id: "nyjc",
-    name: "Nanyang Junior College",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Nanyang_Junior_College_logo.png/150px-Nanyang_Junior_College_logo.png",
-    program: "GCE 'A' Levels",
-    period: "Feb 2020 – Dec 2021",
-    description: "4 Distinctions in Physics, Computing, Mathematics, and Economics",
-    color: "#e11d48"
-  }
-];
+const { main: nusData, details: detailCards, otherInstitutions: otherUniversities } = siteData.education;
 
 const Education = () => {
   const cardBg = "rgba(255, 255, 255, 0.08)";
@@ -83,9 +30,6 @@ const Education = () => {
               }}>
                 🎓 Education
               </Title>
-              <Text style={{ fontSize: '1.125rem', color: '#a0aec0', maxWidth: 600, textAlign: 'center' }}>
-                My academic journey at one of Asia&apos;s leading universities
-              </Text>
             </Flex>
 
             {/* Main NUS Card */}
@@ -112,28 +56,25 @@ const Education = () => {
               <Flex vertical gap={20}>
                 <Flex align="center" gap={16}>
                   <Image
-                    src="/images/soc-logo.png"
-                    alt="NUS School of Computing"
+                    src={nusData.logo}
+                    alt={nusData.university}
                     width={56}
                     height={56}
                     style={{ borderRadius: 8, objectFit: 'contain' }}
                   />
                   <Flex vertical gap={4}>
                     <Title level={3} style={{ margin: 0, color: '#3b82f6' }}>
-                      Bachelor of Computer Science
+                      {nusData.degree}
                     </Title>
                     <Text style={{ fontSize: '1.125rem', color: '#a0aec0', fontWeight: 600 }}>
-                      National University of Singapore
+                      {nusData.university}
                     </Text>
-                    <Tag color="blue" style={{ width: 'fit-content' }}>Since 2024</Tag>
+                    <Tag color="blue" style={{ width: 'fit-content' }}>{nusData.period}</Tag>
                   </Flex>
                 </Flex>
                 
                 <Text style={{ color: '#a0aec0', lineHeight: 1.6 }}>
-                  Pursuing a comprehensive degree in Computer Science with focus on software engineering, 
-                  algorithms, and system design. Ranked #1 in Asia and #8 globally on the QS Rankings, 
-                  NUS provides world-class education, cutting-edge research opportunities, and a vibrant 
-                  tech ecosystem in Singapore.
+                  {nusData.description}
                 </Text>
               </Flex>
             </div>
@@ -141,7 +82,7 @@ const Education = () => {
             {/* Education Details Grid */}
             <Row gutter={[24, 24]}>
               {detailCards.map((detail) => {
-                const IconComponent = detail.icon;
+                const IconComponent = iconMap[detail.iconName] || iconMap.FaCode;
                 return (
                   <Col xs={24} md={12} key={detail.id}>
                     <div

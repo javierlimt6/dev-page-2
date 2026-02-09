@@ -2,103 +2,15 @@ import React from "react";
 import { Typography, Flex, Tag, ConfigProvider, theme } from "antd";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { darkTheme } from "../antd-theme";
+import siteData from "../../data/siteData.json";
 
 const { Title, Text, Link } = Typography;
 
-const experiences = [
-  {
-    id: 1,
-    title: "Full Stack Developer Intern",
-    company: "IBM",
-    period: "Sep 2025 - Dec 2025",
-    description:
-      "IBM is a global technology and innovation company that offers a wide range of products and services, including cloud computing, artificial intelligence, and enterprise solutions. As a Full Stack Developer Intern at IBM, I am involved in developing and maintaining web applications, collaborating with cross-functional teams to design scalable solutions, and utilizing modern frameworks and technologies to enhance user experiences.",
-    technologies: ["React", "Java", "Spring Boot", "AWS"],
-    photoUrl: "/images/ibm.png",
-    link: "https://www.ibm.com/",
-    linktext: "Website",
-  },
-  {
-    id: 2,
-    title: "Full Stack Software Engineering Intern",
-    company: "CloudJoi",
-    period: "May 2025 - Aug 2025",
-    description:
-      "Under the NUS Overseas College Malaysia program, CloudJoi is the largest ticketing platform for performing arts in Malaysia dedicated to making shows accessible for all.",
-    technologies: ["JavaScript", "PHP", "React", "Laravel"],
-    photoUrl: "/images/cloudjoi-logo.png",
-    link: "https://www.linkedin.com/company/cloudjoi/",
-    linktext: "Linkedin",
-  },
-  {
-    id: 3,
-    title: "Teaching Assistant for CS1010X: Programming Methodology",
-    company: "NUS School Of Computing",
-    period: "Jan 2025 - Jun 2025",
-    description:
-      "Given sole responsibility of rebuilding lesson materials and assignment files. Updated deprecated content from Python 3.7 to 3.13, improving GUI and translating code from Cocos to Pygame, utilising GIMPS to rectify faulty sRGB profiles, removing problematic metadata. 2D Runes Contest Head IC.",
-    technologies: ["Python", "Pygame", "Cocos", "GIMPS", "PIM"],
-    photoUrl: "/images/soc-logo.png",
-    link: "https://nusmods.com/courses/CS1010X/programming-methodology",
-    linktext: "Module",
-  },
-  {
-    id: 4,
-    title:
-      "Teaching Assistant for SWS3001: Solving Real World Problems with Computational Thinking",
-    company: "NUS School Of Computing",
-    period: "May 2024 - July 2024",
-    description:
-      "SWS3001 is a course under the NUS School of Computing Summer Workshop, an annual program designed for undergraduate students in fields like Computer Science. It is a project-based, hands-on course aimed at equipping participants with knowledge on how to solve problems computationally. Mentored a class of 20+ Y3 International students, conducted tutorials and graded projects and presentations.",
-    technologies: ["Teaching", "Graphs", "Computational Intelligence"],
-    photoUrl: "/images/soc-logo.png",
-    link: "https://sws.comp.nus.edu.sg/Solving-with-CT.html",
-    linktext: "Module",
-  },
-  {
-    id: 5,
-    title: "Software Engineering Intern",
-    company: "Strive Math (YC S21)",
-    period: "Jan 2024 - Jun 2024",
-    description:
-      "Worked with YC S21-backed, Forbes 30 Under 30 Asia 2024-recognised EdTech startup. Developed interactive simulations with p5.js illustrating Grade 8 math concepts for 10k students. Leveraged TinaCMS to integrate content management with modern development practices. Developed modular and reusable codebases for educational games, incorporating OOP, FP, event-driven programming, and real-time user interaction handling. Designed and executed structured Python programming workshops across multiple international schools",
-    technologies: [
-      "Python",
-      "JavaScript",
-      "p5",
-      "Game Development",
-      "Startup Development",
-      "OOP",
-      "CMS",
-      "FP",
-    ],
-    photoUrl: "/images/strive-logo.png",
-    link: "https://www.linkedin.com/company/strivemath",
-    linktext: "LinkedIn",
-  },
-  {
-    id: 7,
-    title: "AI Researcher",
-    company: "A*Star Institute for Infocomm Research",
-    period: "Nov 2020 - Jan 2021",
-    description:
-      "Research attachment at Singapore's leading research organisation to enhance PCR result detection Extracted and analysed datasets via Matplotlib, NumPy, & pandas, and used EMA to determine sigmoidal curves from plot points and establish thresholds. Produced numerous algorithms with 100% detection accuracy, tested with evaluation datasets.",
-    technologies: [
-      "Python",
-      "matplotlib",
-      "numPy",
-      "pandas",
-      "Jupyter Notebook",
-      "Artificial Intelligence Models",
-    ],
-    photoUrl: "/images/astar-logo.png",
-    link: "https://docs.google.com/document/d/1U8SppCYAukq6ENivelJUjRhaeYUOyQ706bFg3vP2BOA/edit?usp=sharing",
-    linktext: "Report",
-  },
-];
+const experiences = siteData.experience;
 
 const Experience = () => {
-  const cardBg = "rgba(255,255,255,0.1)";
+  const cardBg = "rgba(255,255,255,0.08)";
+  const cardBorder = "rgba(255,255,255,0.12)";
 
   return (
     <ConfigProvider theme={{ ...darkTheme, algorithm: theme.darkAlgorithm }}>
@@ -111,87 +23,82 @@ const Experience = () => {
             My Technical Roles
           </Text>
 
-          <Flex vertical gap={32}>
+          <Flex vertical gap={24}>
             {experiences.map((exp) => (
               <div
                 key={exp.id}
                 style={{
                   background: cardBg,
-                  backdropFilter: 'blur(10px)',
+                  backdropFilter: 'blur(20px)',
                   borderRadius: 16,
-                  overflow: 'hidden',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  display: 'flex',
-                  flexDirection: 'row',
+                  border: `1px solid ${cardBorder}`,
+                  padding: 24,
                   transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
                   e.currentTarget.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0,0,0,0.3)';
                   e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+                  e.currentTarget.style.borderColor = cardBorder;
                 }}
               >
-                <Flex
-                  vertical
-                  align="center"
-                  justify="center"
-                  style={{
-                    padding: 28,
-                    background: 'rgba(0,0,0,0.15)',
-                    borderRight: '1px solid rgba(255,255,255,0.1)',
-                    minWidth: 200,
-                    textAlign: 'center'
-                  }}
-                >
+                {/* Header: Logo + Company + Period + Link */}
+                <Flex align="center" gap={16} style={{ marginBottom: 16 }}>
                   <div
                     style={{
-                      width: 80,
-                      height: 80,
-                      marginBottom: 16,
-                      borderRadius: '50%',
+                      width: 52,
+                      height: 52,
+                      borderRadius: 12,
                       overflow: 'hidden',
                       background: 'rgba(255,255,255,0.06)',
                       padding: 4,
+                      flexShrink: 0,
                     }}
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={exp.photoUrl}
                       alt={`${exp.company} logo`}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />
                   </div>
-                  <Title level={4} style={{ margin: 0 }}>{exp.company}</Title>
-                  <Text style={{ color: '#a0aec0' }}>{exp.period}</Text>
+                  <Flex vertical gap={2} style={{ flex: 1 }}>
+                    <Flex justify="space-between" align="center">
+                      <Title level={4} style={{ margin: 0, fontSize: 16 }}>{exp.company}</Title>
+                      {exp.link && (
+                        <Link
+                          href={exp.link}
+                          target="_blank"
+                          style={{ color: '#3b82f6', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, flexShrink: 0 }}
+                        >
+                          {exp.linktext || "Visit"} <FaExternalLinkAlt size={11} />
+                        </Link>
+                      )}
+                    </Flex>
+                    <Text style={{ color: '#a0aec0', fontSize: 13 }}>{exp.period}</Text>
+                  </Flex>
                 </Flex>
 
-                <div style={{ padding: 24, flex: 1 }}>
-                  <Flex justify="space-between" align="center" style={{ marginBottom: 12 }}>
-                    <Title level={4} style={{ margin: 0 }}>{exp.title}</Title>
-                    {exp.link && (
-                      <Link
-                        href={exp.link}
-                        target="_blank"
-                        style={{ color: '#3b82f6', display: 'flex', alignItems: 'center', gap: 8 }}
-                      >
-                        {exp.linktext || "Visit"} <FaExternalLinkAlt />
-                      </Link>
-                    )}
-                  </Flex>
-                  <Text style={{ marginBottom: 16, display: 'block' }}>{exp.description}</Text>
+                {/* Title */}
+                <Title level={5} style={{ margin: '0 0 8px 0', color: '#e2e8f0' }}>{exp.title}</Title>
 
-                  <Flex gap={8} wrap="wrap">
-                    {exp.technologies.map((tech) => (
-                      <Tag key={tech} color="blue" style={{ borderRadius: 16, padding: '4px 12px' }}>
-                        {tech}
-                      </Tag>
-                    ))}
-                  </Flex>
-                </div>
+                {/* Description */}
+                <Text style={{ color: '#a0aec0', display: 'block', marginBottom: 16, lineHeight: 1.6, fontSize: 14 }}>
+                  {exp.description}
+                </Text>
+
+                {/* Technologies */}
+                <Flex gap={8} wrap="wrap">
+                  {exp.technologies.map((tech) => (
+                    <Tag key={tech} color="blue" style={{ borderRadius: 16, padding: '2px 10px', fontSize: 12 }}>
+                      {tech}
+                    </Tag>
+                  ))}
+                </Flex>
               </div>
             ))}
           </Flex>

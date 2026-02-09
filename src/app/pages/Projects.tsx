@@ -2,76 +2,11 @@ import React from 'react';
 import { Typography, Row, Col, Tag, Flex, ConfigProvider, theme } from 'antd';
 import { FaArrowRight, FaGithub } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+import siteData from '../../data/siteData.json';
 
 const { Title, Text, Link } = Typography;
 
-const lokodeDescription = "Scan the QR code to instantly lock yourself out of all your distracting apps, helping you focus. Unlock by scanning back, or let the timer run out.";
-
-const projects = [
-  {
-    id: 1,
-    title: "Lokode (iOS Scan to Focus App In Beta)",
-    description: lokodeDescription,
-    technologies: ["Swift", "TypeScript", "Next.js", "Supabase", "OAuth"],
-    demoLink: "https://lokode.chimera.sg",
-    githubLink: "#",
-    image: "/images/lokode-banner.png"
-  },
-  {
-    id: 2,
-    title: "DrawMyRoute | GPS Art Generator",
-    description: "AI-powered GPS Art Generator. Generate, preview, and export routes as GPX files for any shape, image, or prompt. Hackathon Winner.",
-    technologies: ["TypeScript", "Next.js", "FastAPI", "OSRM", "Gemini"],
-    demoLink: "https://drawmyroute.org",
-    githubLink: "https://github.com/javierlimt6/drawmyroute",
-    image: "/images/dmr-banner.png"
-  },
-  {
-    id: 3,
-    title: "CloudJoi Knowledgebase",
-    description: "Collaborative project to transform internal knowledge into an AI-powered RAG chatbot.",
-    technologies: ["TypeScript", "Next.js", "Laravel", "Pinecone", "AWS"],
-    demoLink: "https://knowledgebase.cloudjoi.com",
-    githubLink: "#",
-    image: "/images/knowledgebase.png"
-  },
-  {
-    id: 4,
-    title: "2048 AI Solver",
-    description: "An AI-powered solver for the popular 2048 game using expectimax algorithm.",
-    technologies: ["Python", "Pygame", "AI/ML"],
-    demoLink: "#",
-    githubLink: "https://github.com/javierlimt6/2048-AI",
-    image: "https://placehold.co/600x400/1f1f23/ffffff?text=2048+AI"
-  },
-  {
-    id: 5,
-    title: "Chimera",
-    description: "A community platform for event organization and group activities.",
-    technologies: ["React", "TypeScript", "Supabase", "Vercel"],
-    demoLink: "chimeraapp.net",
-    githubLink: "https://github.com/javierlimt6/chimera-gathering-grove",
-    image: "/images/chimera-banner.png"
-  },
-  {
-    id: 6,
-    title: "HalloweenBot",
-    description: "A fun Discord bot for Halloween-themed events and activities.",
-    technologies: ["React", "Supabase", "TypeScript"],
-    demoLink: "#",
-    githubLink: "https://github.com/javierlimt6/chimera-gathering-grove",
-    image: "/images/portfolio-banner.png"
-  },
-  {
-    id: 8,
-    title: "NYSecure | code4.ny",
-    description: "Security-focused application developed for the code4.ny hackathon.",
-    technologies: ["Python", "JavaScript", "Airtable", "Flask"],
-    demoLink: "#",
-    githubLink: "https://github.com/javierlimt6/NYSecure",
-    image: "https://placehold.co/600x400/1f1f23/ffffff?text=NYSecure"
-  },
-];
+const projects = siteData.projects;
 
 const Projects = () => {
   const cardBg = "rgba(255,255,255,0.08)";
