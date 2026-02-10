@@ -1,6 +1,6 @@
 {
   "about": {
-    "name": "About Me",
+    "name": "javier",
     "tagline": "building!",
     "roleSkills": [
       "Entrepreneur", "Software Engineer", "Leader", "Full Stack",
@@ -424,10 +424,10 @@
     ]
   },
   "profile": {
-    "fullName": "Javier Lim",
-    "tagline": "Crafting exceptional digital experiences and building innovative solutions to real-world problems.",
+    "fullName": "hello,",
+    "tagline": "welcome to my page!",
     "photo": "/javier.jpg",
-    "email": "javier.lim@u.nus.edu",
+    "email": "hello@javlim.dev",
     "socials": {
       "github": "https://github.com/javierlimt6",
       "linkedin": "https://linkedin.com/in/jav-lim",

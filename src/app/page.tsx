@@ -9,6 +9,7 @@ import { Spin, Typography, Button as AntButton, Flex } from 'antd';
 import ProjectModal from './components/ProjectModal';
 import Sidebar from './pages/Sidebar';
 import Page2D from './pages/Page2D';
+import HeroLanding from './components/HeroLanding';
 import { Project } from '../types';
 import { ErrorBoundary } from 'react-error-boundary';
 import * as THREE from 'three';
@@ -179,39 +180,10 @@ export default function Home() {
   const [showNavHelp, setShowNavHelp] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d');
-  // const [showMobileWarning, setShowMobileWarning] = useState(false);
-  // const [isMobile, setIsMobile] = useState(false);
-
+  const [showHero, setShowHero] = useState(true);
   useEffect(() => {
     document.body.setAttribute('data-theme', persona);
   }, [persona]);
-
-  // Mobile detection commented out for simplification
-  /*
-  useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      const mobileCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-      const screenCheck = window.innerWidth < 768;
-      
-      const isMobileDevice = mobileCheck || screenCheck;
-      setIsMobile(isMobileDevice);
-      
-      if (isMobileDevice) {
-        const hasSeenWarning = localStorage.getItem('mobile-warning-seen');
-        if (!hasSeenWarning) {
-          setShowMobileWarning(true);
-          localStorage.setItem('mobile-warning-seen', 'true');
-        }
-      }
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  */
 
   const handlePersonaChange = (newPersona: string) => {
     // For now, only allow developer persona
@@ -250,8 +222,15 @@ export default function Home() {
   // Sidebar width for content offset - dynamic based on collapsed state
   const sidebarWidth = sidebarCollapsed ? 60 : 240;
 
+  const handleHeroSelect = (mode: '2d' | '3d') => {
+    setViewMode(mode);
+    setShowHero(false);
+  };
+
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      {/* Hero Landing - first load */}
+      <HeroLanding visible={showHero} onSelect={handleHeroSelect} />
       {/* Loading overlay */}
       {isCanvasLoading && (
         <div style={{
@@ -275,15 +254,17 @@ export default function Home() {
         </div>
       )}
 
-      {/* Sidebar Navigation */}
-      <Sidebar
-        persona={persona}
-        onPersonaChange={handlePersonaChange}
-        collapsed={sidebarCollapsed}
-        onCollapsedChange={setSidebarCollapsed}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
+      {/* Sidebar Navigation - hidden during hero */}
+      {!showHero && (
+        <Sidebar
+          persona={persona}
+          onPersonaChange={handlePersonaChange}
+          collapsed={sidebarCollapsed}
+          onCollapsedChange={setSidebarCollapsed}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+      )}
 
       {/* Main Content Area - both views rendered, visibility toggled to prevent reload */}
       
@@ -302,7 +283,8 @@ export default function Home() {
         <Page2D />
       </div>
 
-      {/* 3D Scene - always rendered to prevent reload */}
+      {/* 3D Scene - only mount after hero is dismissed, then keep alive */}
+      {!showHero && (
       <div style={{ 
         position: 'absolute',
         top: 0,
@@ -401,28 +383,7 @@ export default function Home() {
           `}</style>
         </ErrorBoundary>
       </div>
-
-      {/* Mobile Warning Modal - commented out for simplification */}
-      {/*
-      {showMobileWarning && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 2000,
-          padding: '20px',
-          boxSizing: 'border-box'
-        }}>
-          ... modal content ...
-        </div>
       )}
-      */}
 
       {/* Project Modal */}
       {showProjectModal && activeProject && (
