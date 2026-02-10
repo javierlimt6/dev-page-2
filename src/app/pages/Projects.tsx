@@ -85,7 +85,7 @@ const Projects = () => {
                           target="_blank"
                           style={{ color: '#64ffda', display: 'flex', alignItems: 'center', gap: 4 }}
                         >
-                          Live Demo <FaArrowRight size={12} />
+                          See It <FaArrowRight size={12} />
                         </Link>
                       )}
                       {project.githubLink && project.githubLink !== "#" && (
