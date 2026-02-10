@@ -17,6 +17,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Mesh, Group, Vector3, ShaderMaterial, DoubleSide, VideoTexture, TextureLoader } from 'three';
 import InteractiveObject from './InteractiveObject';
+import siteData from '../../data/siteData.json';
 
 function SkyboxSphere() {
   const skyTexture = useLoader(TextureLoader, '/panoramic-sg.png'); // Put sky.jpg in your public folder
@@ -613,7 +614,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         Entrepreneur
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#0066cc">
-        Javier Lim
+        {siteData.profile.fullName}
       </Text>
       
       {/* Modern Business Floor */}
@@ -625,7 +626,7 @@ export default function EntrepreneurScene({ onProjectActivate, themeColors }: En
         scale={1}
         project={{
           id: "ent-about-me",
-          title: "About Javier",
+          title: `About ${siteData.about.name}`,
           description: "Aspiring Entrepreneur",
           imageUrl: "/man.glb",
           geometryType: "dodecahedron",

@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import { Text } from '@react-three/drei';
 import InteractiveObject from './InteractiveObject';
 import { Project } from '../../types';
+import siteData from '../../data/siteData.json';
 
 // Re-export for backwards compatibility
 export { FORCE_SUNSET } from './scene/config';
@@ -94,10 +95,10 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
       
       {/* Scene Title */}
       <Text position={[0, 4, 0]} fontSize={0.6} color="#7dd3fc" fontWeight="bold">
-        About
+        {siteData.about.name}
       </Text>
       <Text position={[0, 3.5, 0]} fontSize={0.3} color="#c4b5fd">
-        building!
+        {siteData.about.tagline}
       </Text>
       
       {/* Core Tech Objects */}
@@ -108,8 +109,8 @@ export default function DeveloperScene({ onProjectActivate, themeColors }: Devel
         noSpin
         project={{
           id: "dev-about-me",
-          title: "About Javier",
-          description: "Full-stack developer passionate about creating innovative solutions with modern technologies.",
+          title: `About ${siteData.about.name}`,
+          description: siteData.about.bio[0],
           imageUrl: "/man.glb",
           geometryType: "sphere",
           componentType: "about" // This will render the About component in the modal

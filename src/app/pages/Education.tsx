@@ -190,7 +190,7 @@ const Education = () => {
                           <Title level={5} style={{ margin: 0, color: 'white' }}>
                             {uni.name}
                           </Title>
-                          <Text style={{ color: uni.color, fontSize: 13, fontWeight: 500 }}>
+                          <Text style={{ color: uni.color, fontSize: 13, fontWeight: 500, whiteSpace: 'pre-line' }}>
                             {uni.program}
                           </Text>
                           <Tag style={{ width: 'fit-content', fontSize: 11 }}>{uni.period}</Tag>

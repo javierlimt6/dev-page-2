@@ -11,6 +11,7 @@ import {
   FaGlobe,
 } from 'react-icons/fa';
 import { SiNotion } from 'react-icons/si';
+import { MdSportsHockey } from 'react-icons/md';
 
 export const iconMap: Record<string, IconType> = {
   FaCode,
@@ -23,4 +24,5 @@ export const iconMap: Record<string, IconType> = {
   FaLightbulb,
   FaGlobe,
   SiNotion,
+  MdSportsHockey,
 };

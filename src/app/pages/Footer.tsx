@@ -2,8 +2,11 @@ import React from 'react';
 import { Typography, Flex, ConfigProvider, theme } from 'antd';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+import siteData from '../../data/siteData.json';
 
 const { Text, Link } = Typography;
+
+const profile = siteData.profile;
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,7 +23,7 @@ const Footer = () => {
         >
           <Flex vertical gap={4}>
             <Text style={{ color: '#718096' }}>
-              © {currentYear} Javier Lim Jun Yi. All rights reserved.
+              © {currentYear} {profile.fullName}. All rights reserved.
             </Text>
             <Text style={{ color: '#4a5568', fontSize: 11 }}>
               3D Models:{' '}
@@ -38,14 +41,14 @@ const Footer = () => {
           
           <Flex gap={24}>
             <Link 
-              href="https://linkedin.com/in/javierlimjuyi"
+              href={profile.socials.linkedin}
               target="_blank"
               style={{ color: '#718096', transition: 'color 0.2s' }}
             >
               <FaLinkedin size={20} />
             </Link>
             <Link 
-              href="https://github.com/javierlimt6"
+              href={profile.socials.github}
               target="_blank"
               style={{ color: '#718096', transition: 'color 0.2s' }}
             >

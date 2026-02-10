@@ -2,29 +2,11 @@ import React from 'react';
 import { Typography, Row, Col, ConfigProvider, theme } from 'antd';
 import Image from 'next/image';
 import { darkTheme } from '../antd-theme';
+import siteData from '../../data/siteData.json';
 
 const { Title, Text } = Typography;
 
-const lifeCategories = [
-  {
-    id: "floorball",
-    title: "Floorball",
-    description: "I play floorball, and have been participating in local leagues and tournaments since 2020.",
-    image: "/images/flb.jpg"
-  },
-  {
-    id: "travel",
-    title: "Travelling",
-    description: "An avid traveler! Visited over 20 countries, spent 6 months in the past 2 years overseas, always seeking new cultures and experiences",
-    image: "/images/travel.png"
-  },
-  {
-    id: "new-stuff",
-    title: "Trying New Things",
-    description: "Constantly exploring new hobbies, skills, and experiences to broaden my horizons and perspective!",
-    image: "/images/guitar.png"
-  }
-];
+const lifeCategories = siteData.life;
 
 const Life = () => {
   const cardBg = "rgba(255,255,255,0.1)";

@@ -3,10 +3,14 @@ import { Typography, ConfigProvider, theme } from 'antd';
 import { motion } from 'framer-motion';
 import { FaArrowDown } from 'react-icons/fa';
 import { darkTheme } from '../antd-theme';
+import siteData from '../../data/siteData.json';
 
 const { Title, Text } = Typography;
 
 const MotionDiv = motion.div;
+
+const { name } = siteData.about;
+const { tagline } = siteData.profile;
 
 const Name: React.FC = () => {
   const textColor = '#718096';
@@ -38,7 +42,7 @@ const Name: React.FC = () => {
                 WebkitTextFillColor: 'transparent'
               }}
             >
-              Javier
+              {name}
             </span>
           </Title>
         </MotionDiv>
@@ -57,7 +61,7 @@ const Name: React.FC = () => {
               display: 'block'
             }}
           >
-            Crafting exceptional digital experiences and building innovative solutions to real-world problems.
+            {tagline}
           </Text>
         </MotionDiv>
 

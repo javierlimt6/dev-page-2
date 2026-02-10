@@ -54,7 +54,7 @@ const Experience = () => {
                       height: 52,
                       borderRadius: 12,
                       overflow: 'hidden',
-                      background: 'rgba(255,255,255,0.06)',
+                      background: '#ffffff',
                       padding: 4,
                       flexShrink: 0,
                     }}
