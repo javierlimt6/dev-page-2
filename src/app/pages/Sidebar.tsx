@@ -12,7 +12,8 @@ import {
   FaTimes,
   FaCube,
   FaSquare,
-  FaRocket
+  FaRocket,
+  FaEnvelope
 } from 'react-icons/fa';
 import { SiLeetcode } from 'react-icons/si';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -170,6 +171,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             { href: '/resume.pdf', icon: <FaFileAlt size={16} />, label: 'Resume' },
             { href: '/testimonials.pdf', icon: <FaQuoteLeft size={16} />, label: 'Testimonials' },
             { type: 'divider' as const },
+            { href: 'mailto:hello@javlim.dev', icon: <FaEnvelope size={16} />, label: 'Email' },
             { href: 'https://linkedin.com/in/jav-lim', icon: <FaLinkedin size={16} />, label: 'LinkedIn' },
             { href: 'https://github.com/javierlimt6', icon: <FaGithub size={16} />, label: 'GitHub' },
             { href: 'https://leetcode.com/u/rel1sh/', icon: <SiLeetcode size={16} />, label: 'LeetCode' },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Flex, Collapse, ConfigProvider, theme } from 'antd';
-import { FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import { darkTheme } from '../antd-theme';
 import siteData from '../../data/siteData.json';
@@ -205,18 +205,7 @@ const Page2D = () => {
           <Text style={{ fontSize: 18, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: 24, lineHeight: 1.6 }}>
             {siteData.about.bio[0]}
           </Text>
-          
-          <Flex gap={20}>
-            <Link href={profile.socials.github} target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              <FaGithub size={20} />
-            </Link>
-            <Link href={profile.socials.linkedin} target="_blank" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              <FaLinkedin size={20} />
-            </Link>
-            <Link href={`mailto:${profile.email}`} style={{ color: 'rgba(255,255,255,0.5)' }}>
-              <FaEnvelope size={20} />
-            </Link>
-          </Flex>
+
         </div>
 
         <Collapse 

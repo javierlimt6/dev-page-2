@@ -181,6 +181,7 @@ export default function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d');
   const [showHero, setShowHero] = useState(true);
+  const [has3DLoaded, setHas3DLoaded] = useState(false);
   useEffect(() => {
     document.body.setAttribute('data-theme', persona);
   }, [persona]);
@@ -224,15 +225,21 @@ export default function Home() {
 
   const handleHeroSelect = (mode: '2d' | '3d') => {
     setViewMode(mode);
+    if (mode === '3d') setHas3DLoaded(true);
     setShowHero(false);
+  };
+
+  const handleViewModeChange = (mode: '2d' | '3d') => {
+    setViewMode(mode);
+    if (mode === '3d') setHas3DLoaded(true);
   };
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       {/* Hero Landing - first load */}
       <HeroLanding visible={showHero} onSelect={handleHeroSelect} />
-      {/* Loading overlay */}
-      {isCanvasLoading && (
+      {/* Loading overlay - only for 3D mode */}
+      {isCanvasLoading && has3DLoaded && viewMode === '3d' && (
         <div style={{
           position: 'absolute',
           top: 0,
@@ -262,7 +269,7 @@ export default function Home() {
           collapsed={sidebarCollapsed}
           onCollapsedChange={setSidebarCollapsed}
           viewMode={viewMode}
-          onViewModeChange={setViewMode}
+          onViewModeChange={handleViewModeChange}
         />
       )}
 
@@ -283,8 +290,8 @@ export default function Home() {
         <Page2D />
       </div>
 
-      {/* 3D Scene - only mount after hero is dismissed, then keep alive */}
-      {!showHero && (
+      {/* 3D Scene - only mount when 3D has been explicitly requested */}
+      {has3DLoaded && (
       <div style={{ 
         position: 'absolute',
         top: 0,

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import { Mesh, VideoTexture } from 'three';
@@ -7,18 +7,6 @@ import { Mesh, VideoTexture } from 'three';
 export function LaptopEnvironment() {
   const keyboardRef = useRef<Mesh>(null!);
   const screenRef = useRef<Mesh>(null!);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
   
   // Create a looping HTML5 video element + three.js VideoTexture
   const videoTexture = useMemo(() => {
@@ -32,15 +20,8 @@ export function LaptopEnvironment() {
     return new VideoTexture(vid);
   }, []);
 
-  // Scale laptop based on screen size
-  const laptopScale = isMobile ? 0.7 : 1.0;
-  const keyboardWidth = isMobile ? 12 : 18;
-  const keyboardHeight = isMobile ? 8 : 12;
-  const screenWidth = isMobile ? 10 : 16;
-  const screenHeight = isMobile ? 6 : 10;
-  
   return (
-    <group scale={laptopScale}>
+    <group>
       {/* Laptop Keyboard as Floor */}
       <mesh 
         ref={keyboardRef}
@@ -49,7 +30,7 @@ export function LaptopEnvironment() {
         receiveShadow
         castShadow
       >
-        <planeGeometry args={[keyboardWidth, keyboardHeight]} />
+        <planeGeometry args={[18, 12]} />
         <meshStandardMaterial 
           color="#1a1a1a" 
           emissive="#0f172a"
@@ -63,7 +44,7 @@ export function LaptopEnvironment() {
       <mesh 
         ref={screenRef}
         position={[0, 5, -6]} 
-        scale={[screenWidth, screenHeight, 1]}
+        scale={[16, 10, 1]}
         receiveShadow
         castShadow
       >
@@ -76,7 +57,7 @@ export function LaptopEnvironment() {
       </mesh>
       
       {/* Laptop Screen Bezel */}
-      <mesh position={[0, 5, -6.1]} scale={[screenWidth * 1.1, screenHeight * 1.1, 1]}>
+      <mesh position={[0, 5, -6.1]} scale={[16 * 1.1, 10 * 1.1, 1]}>
         <planeGeometry args={[1, 1]} />
         <meshStandardMaterial 
           color="#2c3e50" 
@@ -88,19 +69,7 @@ export function LaptopEnvironment() {
       </mesh>
       
       {/* Keyboard Keys */}
-      <KeyboardKeys isMobile={isMobile} />
-      
-      {/* Laptop Base/Hinge - commented out */}
-      {/* <mesh position={[0, 0, -4]} rotation={[-Math.PI / 8, 0, 0]}>
-        <boxGeometry args={[keyboardWidth * 0.9, 0.3, 1]} />
-        <meshStandardMaterial 
-          color="#2c3e50" 
-          emissive="#0f172a"
-          emissiveIntensity={0.05}
-          roughness={0.1}
-          metalness={0.8}
-        />
-      </mesh> */}
+      <KeyboardKeys />
     </group>
   );
 }
@@ -109,7 +78,7 @@ export function LaptopEnvironment() {
 // Attribution (CC-BY License - required):
 // "Keyboard" by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/)
 // via Poly Pizza (https://poly.pizza/m/3oFfQCSsUmQ)
-function KeyboardKeys({ isMobile }: { isMobile: boolean }) {
+function KeyboardKeys() {
   const { scene } = useGLTF('/keyboard.glb');
   
   // Scale down for mobile
