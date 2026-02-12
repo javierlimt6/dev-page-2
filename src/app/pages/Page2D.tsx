@@ -23,11 +23,13 @@ const experience = siteData.experience.map(exp => ({
 
 const education = [
   {
+    id: 'nus-main',
     institution: siteData.education.main.university,
     degree: siteData.education.main.degree,
     period: siteData.education.main.period,
   },
   ...siteData.education.otherInstitutions.map(inst => ({
+    id: inst.id,
     institution: inst.name,
     degree: inst.program,
     period: inst.period,
@@ -121,7 +123,7 @@ const Page2D = () => {
       children: (
         <Flex vertical gap={16}>
           {education.map((edu) => (
-            <Flex key={edu.institution} justify="space-between" align="center" gap={8}>
+            <Flex key={edu.id} justify="space-between" align="center" gap={8}>
               <Flex vertical style={{ minWidth: 0 }}>
                 <Text style={{ color: '#e2e8f0', fontWeight: 500 }}>{edu.institution}</Text>
                 <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>{edu.degree}</Text>
@@ -173,7 +175,7 @@ const Page2D = () => {
       <div style={{ 
         minHeight: '100vh', 
         backgroundColor: '#0a0a0a',
-        padding: '64px 32px',
+        padding: '64px 32px 64px 80px',
         maxWidth: 700,
         margin: '0 auto'
       }}>
