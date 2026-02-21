@@ -216,15 +216,6 @@
       "image": "https://placehold.co/600x400/1f1f23/ffffff?text=2048+AI"
     },
     {
-      "id": 6,
-      "title": "HalloweenBot",
-      "description": "A fun Discord bot for Halloween-themed events and activities.",
-      "technologies": ["React", "Supabase", "TypeScript"],
-      "demoLink": "#",
-      "githubLink": "https://github.com/javierlimt6/chimera-gathering-grove",
-      "image": "/images/portfolio-banner.png"
-    },
-    {
       "id": 8,
       "title": "NYSecure | code4.ny",
       "description": "Security-focused application developed for the code4.ny hackathon.",
