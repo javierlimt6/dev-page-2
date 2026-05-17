@@ -167,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           style={{ padding: '8px' }}
         >
           {[
-            { href: 'https://path.javlim.dev', icon: <FaRocket size={16} />, label: 'My Roadmap' },
+            { href: 'https://blog.javlim.dev', icon: <FaRocket size={16} />, label: 'Blog' },
             { href: '/resume.pdf', icon: <FaFileAlt size={16} />, label: 'Resume' },
             { href: '/testimonials.pdf', icon: <FaQuoteLeft size={16} />, label: 'Testimonials' },
             { type: 'divider' as const },
