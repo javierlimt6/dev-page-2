@@ -74,7 +74,7 @@ const Contact = () => {
                       Interested in working together or have a question? Send me a message and I&apos;ll get back to you as soon as possible.
                     </Text>
                     <Text style={{ color: '#718096' }}>
-                      Alternatively, you can contact me directly at{' '}
+                      Alternatively, you can contact me directly @ {' '}
                       <Link href="mailto:javier.lim@u.nus.edu" style={{ color: '#3b82f6' }}>
                         javier.lim@u.nus.edu
                       </Link>
