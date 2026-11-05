@@ -175,20 +175,22 @@ const response = await aiService.generateResponse(prompt, context);
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-```bash
-# Deploy to Vercel
-npm run build
-vercel --prod
-```
+javlim.dev is served by Cloudflare Pages (project `dev-page-2`), which builds
+every push to `main`. The site is a static export (`output: "export"` in
+`next.config.ts`), so the Pages build settings are:
 
-### Manual Deployment
-```bash
-# Build static files
-npm run build
-npm run export
+- Framework preset: Next.js (Static HTML Export)
+- Build command: `npx next build`
+- Build output directory: `out`
 
-# Upload dist/ to your hosting provider
+Redirects go in `public/_redirects`, not `next.config.ts`.
+
+```bash
+# Build static files into out/
+npm run build
+
+# Preview the build the way Cloudflare Pages serves it
+npx wrangler pages dev out
 ```
 
 ## 📊 Performance Optimization
